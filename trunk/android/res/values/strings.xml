@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, RockPaperScissors!</string>
     <string name="app_name">Rock Paper Scissors</string>
+<string name="menu_newGame">New Game</string>
 </resources>
