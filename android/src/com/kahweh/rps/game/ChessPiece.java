@@ -3,37 +3,65 @@
  */
 package com.kahweh.rps.game;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
+ * If the 8th bit of type is 1, then the chess is open.
+ * 
  * @author Michael
  *
  */
-public class ChessPiece {
-	public static final byte BLACK_ROCK = 0;
-	public static final byte BLACK_PAPER = 1;
-	public static final byte BLACK_SCISSORS = 2;
-	public static final byte RED_ROCK = 3;
-	public static final byte RED_PAPER = 4;
-	public static final byte RED_SCISSORS = 5;
-	public static final byte BLACK_TRAP = 6;
-	public static final byte BLACK_FLAG = 7;
-	public static final byte RED_TRAP = 8;
-	public static final byte RED_FLAG = 9;
+public class ChessPiece implements Comparable<ChessPiece> {
+	public static final byte BLANK = 0;
+	public static final byte BLACK_ROCK = 9; //1001
+	public static final byte BLACK_PAPER = 10; //1010
+	public static final byte BLACK_SCISSORS = 11; //1011
+	public static final byte BLACK_TRAP = 12; //1100
+	public static final byte BLACK_FLAG = 13; //1101
+	public static final byte RED_ROCK = 1; //0001
+	public static final byte RED_PAPER = 2; //0010
+	public static final byte RED_SCISSORS = 3; //0011
+	public static final byte RED_TRAP = 4; //0100
+	public static final byte RED_FLAG = 5; //0101
 
-	private int type;
+	public static Set<Byte> PIECE_SET = new HashSet<Byte>(){{
+		add(BLANK);
+		add(BLACK_ROCK);
+		add(BLACK_PAPER);
+		add(BLACK_SCISSORS);
+		add(BLACK_TRAP);
+		add(BLACK_FLAG);
+		add(RED_ROCK);
+		add(RED_PAPER);
+		add(RED_SCISSORS);
+		add(RED_TRAP);
+		add(RED_FLAG);
+		add((byte)(BLACK_ROCK | 128));
+		add((byte)(BLACK_PAPER | 128));
+		add((byte)(BLACK_SCISSORS | 128));
+		add((byte)(RED_ROCK | 128));
+		add((byte)(RED_PAPER | 128));
+		add((byte)(RED_SCISSORS | 128));
+		add((byte)(BLACK_TRAP | 128));
+		add((byte)(RED_TRAP | 128));
+	}};
+
+	private byte type;
 	private int row;
 	private int column;
 	
-	public ChessPiece(int type, int row, int column) {
+	public ChessPiece(byte type, int row, int column) {
 		this.type = type;
 		this.row = row;
 		this.column = column;
 	}
 
-	public int getType() {
+	public byte getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(byte type) {
 		this.type = type;
 	}
 
@@ -51,5 +79,105 @@ public class ChessPiece {
 
 	public void setColumn(int column) {
 		this.column = column;
+	}
+
+	public static boolean sameColor(ChessPiece p1, ChessPiece p2) {
+		if (p1.getType() == p2.getType()) return true;
+		if (p1.getType() == ChessPiece.BLANK || p2.getType() == ChessPiece.BLANK) return false;
+		return  ((p1.getType() & 8) == (p2.getType() & 8)); 
+	}
+	
+	@Override
+	public int compareTo(ChessPiece p) {
+		byte thisPiece = (byte) (type & 7);
+		byte thatPiece = (byte) (p.getType() & 7);
+		if (thisPiece == thatPiece) return 0;
+
+		switch (thisPiece) {
+		case 0:
+			//Blank
+			if (thatPiece == 1) return -1;
+			if (thatPiece == 2) return -1;
+			if (thatPiece == 3) return -1;
+		case 1:
+			//Rock
+			if (thatPiece == 0) return 1;
+			if (thatPiece == 2) return -1;
+			if (thatPiece == 3) return 1;
+			if (thatPiece == 4) return -1;
+			if (thatPiece == 5) return 1;
+			break;
+		case 2:
+			//Paper
+			if (thatPiece == 0) return 1;
+			if (thatPiece == 1) return 1;
+			if (thatPiece == 3) return -1;
+			if (thatPiece == 4) return -1;
+			if (thatPiece == 5) return 1;
+			break;
+		case 3:
+			//Scissors
+			if (thatPiece == 0) return 1;
+			if (thatPiece == 1) return -1;
+			if (thatPiece == 2) return 1;
+			if (thatPiece == 4) return -1;
+			if (thatPiece == 5) return 1;
+			break;
+		case 4:
+			//Trap
+			if (thatPiece == 1) return 1;
+			if (thatPiece == 2) return 1;
+			if (thatPiece == 3) return 1;
+			break;
+		case 5:
+			//Flag
+			if (thatPiece == 1) return -1;
+			if (thatPiece == 2) return -1;
+			if (thatPiece == 3) return -1;
+			break;
+		}
+
+		return -1;
+	}
+	
+	public boolean isMovable() {
+		int i = type & 7;
+		return (i > 0 && i < 4);
+	}
+	
+	public boolean isOpen() {
+		int i = type & 128;
+		return (i > 0);
+	}
+	
+	/**
+	 * Make this chesspiece open.
+	 */
+	public ChessPiece open() {
+		return new ChessPiece((byte)(type | 128), row, column);
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof ChessPiece)) {
+			return false;
+		}
+		
+		ChessPiece p = (ChessPiece)o;
+		return (this.getType() == p.getType());
+	}
+	
+	public boolean isRed() {
+		return ((type & 8) == 0);
+	}
+	
+	public boolean isBlack() {
+		return ((type & 8) > 0);
+	}
+
+	public static boolean verifyPiece(ChessPiece p) {
+		if (!PIECE_SET.contains(p.getType())) return false;
+		if (p.getRow() < 0 || p.getRow() >= Board.BOARD_HEIGHT) return false;
+		if (p.getColumn() < 0 || p.getColumn() >=  Board.BOARD_WIDTH) return false;
+		return true;
 	}
 }

@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
  *
  */
 public interface IPlayer {
+	public static final int IDLE = -1;
 	public static final int BLACK = 0;
 	public static final int RED = 1;
 	
@@ -24,4 +25,12 @@ public interface IPlayer {
 	public void setColor(int color);
 
 	public void setGame(Game game);
+	
+	public void metConflict();
+
+	public void chooseFlagAndTrap();
+	
+	public void play();
+
+	public void notifyQuit();
 }
