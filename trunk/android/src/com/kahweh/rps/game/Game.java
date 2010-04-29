@@ -228,4 +228,16 @@ public class Game {
 	public synchronized void quitGame(IPlayer badGuy) throws IllegalGameStateException {
 		state.quitGame(badGuy);
 	}
+
+	public Board getBoard(IPlayer p) {
+		if (p == red) {
+			return board.cloneBoard(IPlayer.RED);
+		}
+
+		if (p == black) {
+			return board.cloneBoard(IPlayer.BLACK);
+		}
+
+		return null;
+	}
 }

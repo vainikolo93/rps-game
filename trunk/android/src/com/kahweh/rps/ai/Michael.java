@@ -8,6 +8,7 @@ import java.util.Random;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IPlayer;
@@ -102,7 +103,13 @@ class Michael implements IPlayer {
 
 	@Override
 	public void play() {
+		Board board = game.getBoard(this);
 		// TODO Auto-generated method stub
+		try {
+			game.move(null, null);
+		} catch (IllegalGameStateException e) {
+			Log.w("AI Michael", e);
+		}
 	}
 
 	@Override

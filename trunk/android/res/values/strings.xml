@@ -3,4 +3,9 @@
     <string name="hello">Hello World, RockPaperScissors!</string>
     <string name="app_name">Rock Paper Scissors</string>
 <string name="menu_newGame">New Game</string>
+<string name="dialog_select_color_title">Please select color:</string>
+<string-array name="color_select_strings"><item>Red</item>
+<item>Black</item>
+</string-array>
+<string name="button_ok">OK</string>
 </resources>
