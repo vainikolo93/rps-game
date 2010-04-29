@@ -19,11 +19,13 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	public static final byte BLACK_SCISSORS = 11; //1011
 	public static final byte BLACK_TRAP = 12; //1100
 	public static final byte BLACK_FLAG = 13; //1101
+	public static final byte BLACK_UNKNOW = 14; //1110
 	public static final byte RED_ROCK = 1; //0001
 	public static final byte RED_PAPER = 2; //0010
 	public static final byte RED_SCISSORS = 3; //0011
 	public static final byte RED_TRAP = 4; //0100
 	public static final byte RED_FLAG = 5; //0101
+	public static final byte RED_UNKNOW = 6; //0110
 
 	public static Set<Byte> PIECE_SET = new HashSet<Byte>(){{
 		add(BLANK);
@@ -37,6 +39,8 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		add(RED_SCISSORS);
 		add(RED_TRAP);
 		add(RED_FLAG);
+		add(BLACK_UNKNOW);
+		add(RED_UNKNOW);
 		add((byte)(BLACK_ROCK | 128));
 		add((byte)(BLACK_PAPER | 128));
 		add((byte)(BLACK_SCISSORS | 128));

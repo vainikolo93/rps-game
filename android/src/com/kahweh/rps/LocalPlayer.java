@@ -17,7 +17,12 @@ public class LocalPlayer implements IPlayer {
 
 	private int color;
 	private Game game;
+	private RockPaperScissors rps;
 	
+	public LocalPlayer(RockPaperScissors rps) {
+		this.rps = rps;
+	}
+
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IPlayer#getEmail()
 	 */
@@ -96,13 +101,11 @@ public class LocalPlayer implements IPlayer {
 	@Override
 	public void play() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void chooseFlagAndTrap() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

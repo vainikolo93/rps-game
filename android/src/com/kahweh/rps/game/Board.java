@@ -162,4 +162,45 @@ public class Board {
 				+ Math.abs(s.getColumn() - d.getColumn()) != 1) return false;
 		return true;
 	}
+
+	public Board cloneBoard(int color) {
+		Board b = (Board)this.clone();
+		if (color == IPlayer.RED) {
+			for (int i = 0; i < BOARD_HEIGHT; i++) {
+				for (int j = 0; j < BOARD_WIDTH; j++) {
+					ChessPiece p = new ChessPiece(board[i][j], i, j);
+					if (p.isBlack() && !p.isOpen()) {
+						p.setType(ChessPiece.BLACK_UNKNOW);
+						b.setChessPiece(p);
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < BOARD_HEIGHT; i++) {
+				for (int j = 0; j < BOARD_WIDTH; j++) {
+					ChessPiece p = new ChessPiece(board[i][j], i, j);
+					if (p.isRed() && !p.isOpen()) {
+						p.setType(ChessPiece.RED_UNKNOW);
+						b.setChessPiece(p);
+					}
+				}
+			}
+		}
+		return b;
+	}
+
+	@Override
+	public Object clone() {
+		Board c = new Board();
+		for (int i = 0; i < BOARD_HEIGHT; i++) {
+			for (int j = 0; j < BOARD_WIDTH; j++) {
+				c.board[i][j] = board[i][j];
+			}
+		}
+		c.black_count = black_count;
+		c.red_count = red_count;
+
+		return c;
+	}
+	
 }
