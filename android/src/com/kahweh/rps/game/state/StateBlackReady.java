@@ -41,9 +41,11 @@ public class StateBlackReady extends AbstractState {
 		Board b = game.getBoard();
 		b.setChessPiece(f);
 		b.setChessPiece(t);
+		b.initBoard();
+		game.getRed().boardUpdated();
+		game.getBlack().boardUpdated();
 		game.setState(game.getStateRedTurn());
-
+		game.getRed().play();
 		return true;
 	}
-
 }

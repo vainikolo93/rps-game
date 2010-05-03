@@ -174,4 +174,10 @@ class Michael implements IPlayer {
 		return color == IPlayer.RED;
 	}
 
+	@Override
+	public void boardUpdated() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

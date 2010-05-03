@@ -5,6 +5,7 @@ package com.kahweh.rps.game.player;
 
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IllegalGameStateException;
 
 import android.graphics.Bitmap;
 
@@ -43,9 +44,11 @@ public interface IPlayer {
 	
 	public boolean setFlag(ChessPiece p) throws IllegalPlayerStateException;
 
-	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException;
+	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException;
 	
 	public boolean isBlack();
 	
 	public boolean isRed();
+	
+	public void boardUpdated();
 }

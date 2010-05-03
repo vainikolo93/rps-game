@@ -10,6 +10,7 @@ import com.kahweh.rps.RockPaperScissors;
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IllegalGameStateException;
 
 /**
  * @author Michael
@@ -201,7 +202,7 @@ public class LocalPlayer implements IPlayer {
 	}
 
 	@Override
-	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException {
+	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException {
 		if (color == IPlayer.RED) {
 			p.setType(ChessPiece.RED_TRAP);
 		} else {
@@ -212,10 +213,10 @@ public class LocalPlayer implements IPlayer {
 			return false;
 		}
 
-		trap = p;
 		state.setTrap(p);
 		game.getBoard().setChessPiece(p);
 		rps.getBoardView().invalidate();
+		game.placeFlagAndTrap(flag, p);
 		Toast.makeText(rps, "Flag and Trap OKay", Toast.LENGTH_SHORT).show();
 		return true;
 	}
@@ -240,6 +241,11 @@ public class LocalPlayer implements IPlayer {
 	@Override
 	public boolean isRed() {
 		return color == IPlayer.RED;
+	}
+
+	@Override
+	public void boardUpdated() {
+		rps.getBoardView().invalidate();
 	}
 
 }
