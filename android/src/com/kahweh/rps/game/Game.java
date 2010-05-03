@@ -3,6 +3,7 @@
  */
 package com.kahweh.rps.game;
 
+import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.state.IGameState;
 import com.kahweh.rps.game.state.StateBlackConfBlackReady;
 import com.kahweh.rps.game.state.StateBlackConfRedReady;
@@ -26,7 +27,7 @@ import com.kahweh.rps.game.state.StateRedTurnConflict;
 public class Game {
 	private IPlayer black;
 	private IPlayer red;
-	
+
 	private Board board;
 
 	private IGameState stateIdle;
@@ -76,6 +77,8 @@ public class Game {
 	}
 
 	public Game() {
+		board = new  Board();
+
 		stateNewCreate = new StateNewCreate(this);
 		stateRedReady = new StateRedReady(this);
 		stateBlackReady = new StateBlackReady(this);
@@ -90,7 +93,7 @@ public class Game {
 		stateBlackConfRedReady = new StateBlackConfRedReady(this);
 		stateRedConfRedReady = new StateRedConfRedReady(this);
 		stateRedConfBlackReady = new StateRedConfBlackReady(this);
-		
+
 		state = stateIdle;
 	}
 	
@@ -186,7 +189,7 @@ public class Game {
 		state.newGame(red, black);
 		return true;
 	}
-	
+
 	public void noticeConflict(ChessPiece r, ChessPiece b) {
 		setRedConfPiece(r);
 		setBlackConfPiece(b);
@@ -217,6 +220,13 @@ public class Game {
 		return state instanceof StateBlackTurn;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param f
+	 * @param t
+	 * @throws IllegalGameStateException
+	 */
 	public synchronized void placeFlagAndTrap(ChessPiece f, ChessPiece t) throws IllegalGameStateException {
 		state.placeTrapAndFlag(f, t);
 	}

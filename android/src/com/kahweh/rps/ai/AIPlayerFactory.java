@@ -3,7 +3,7 @@
  */
 package com.kahweh.rps.ai;
 
-import com.kahweh.rps.game.IPlayer;
+import com.kahweh.rps.game.player.IPlayer;
 
 /**
  * @author Michael

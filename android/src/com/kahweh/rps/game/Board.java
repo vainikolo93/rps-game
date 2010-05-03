@@ -2,9 +2,16 @@ package com.kahweh.rps.game;
 
 import java.util.Random;
 
+import com.kahweh.rps.game.player.IPlayer;
+
 public class Board {
+	public static final int GRID_WIDTH = 44;
+	public static final int GRID_HEIGHT = 50;
+	public static final int BOARD_MARGIN = 3;
 	public static final int BOARD_HEIGHT = 6;
 	public static final int BOARD_WIDTH = 7;
+	public static final int BOARD_ABS_HEIGHT = 306;
+	public static final int BOARD_ABS_WIDTH = 314;
 	private byte[][] board = new byte[BOARD_HEIGHT][BOARD_WIDTH];
 	private Random rand = new Random(System.currentTimeMillis());
 
@@ -38,7 +45,13 @@ public class Board {
 	public void cleanBoard() {
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
-				board[i][j] = ChessPiece.BLANK;
+				if (i == 0 || i == 1) {
+					board[i][j] = ChessPiece.BLACK_UNKNOW;
+				} else if (i == BOARD_HEIGHT - 1 || i == BOARD_HEIGHT -2) {
+					board[i][j] = ChessPiece.RED_UNKNOW;
+				} else {
+					board[i][j] = ChessPiece.BLANK;
+				}
 			}
 		}
 	}
@@ -49,7 +62,7 @@ public class Board {
 		//init the red pieces
 		for (int i = 4; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
-				if (board[i][j] == ChessPiece.BLANK) {
+				if (board[i][j] == ChessPiece.RED_UNKNOW) {
 					while (true) {
 						int r = rand.nextInt(3);
 						if (r == 0) {
@@ -80,7 +93,7 @@ public class Board {
 		scissors = 4;
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
-				if (board[i][j] == ChessPiece.BLANK) {
+				if (board[i][j] == ChessPiece.BLACK_UNKNOW) {
 					while (true) {
 						int r = rand.nextInt(3);
 						if (r == 0) {
@@ -108,7 +121,37 @@ public class Board {
 		
 		return true;
 	}
+
+	public static boolean verifyFlag(ChessPiece f) {
+		if (f.isBlack()) {
+			if (f.getType() != ChessPiece.BLACK_FLAG ||
+					f.getRow() > 1 || f.getRow() < 0 || f.getColumn() < 0 || f.getColumn() > 6) {
+				return false;
+			}
+		} else {
+			if (f.getType() != ChessPiece.RED_FLAG ||
+					f.getRow() > 5 || f.getRow() < 4 || f.getColumn() < 0 || f.getColumn() > 6) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
+	public static boolean verifyTrap(ChessPiece t) {
+		if (t.isBlack()) {
+			if (t.getType() != ChessPiece.BLACK_TRAP ||
+					t.getRow() > 1 || t.getRow() < 0 || t.getColumn() < 0 || t.getColumn() > 6) {
+				return false;
+			}
+		} else {
+			if (t.getType() != ChessPiece.RED_TRAP ||
+					t.getRow() > 5 || t.getRow() < 4 || t.getColumn() < 0 || t.getColumn() > 6) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static boolean verifyFlagAndTrap(ChessPiece f, ChessPiece t) {
 		if (f.isBlack()) {
 			if (t.getType() != ChessPiece.BLACK_TRAP ||
@@ -202,5 +245,24 @@ public class Board {
 
 		return c;
 	}
-	
+
+	public static ChessPiece translatePosition(int color, float x, float y) {
+		if (x > BOARD_ABS_WIDTH || x < 0) return null;
+		if (y > BOARD_ABS_HEIGHT || y < 0) return null;
+
+		int ix = (int)x;
+		int iy = (int)y;
+		ix = (ix - BOARD_MARGIN) / GRID_WIDTH;
+		iy = (iy - BOARD_MARGIN) / GRID_HEIGHT;
+		if (ix >= BOARD_WIDTH) ix = BOARD_WIDTH - 1;
+		if (iy >= BOARD_HEIGHT) iy = BOARD_HEIGHT - 1;
+
+		if (color == IPlayer.BLACK) {
+			ix = BOARD_WIDTH - ix - 1;
+			iy = BOARD_HEIGHT - iy - 1;
+		}
+
+		ChessPiece p = new ChessPiece(ChessPiece.BLANK, iy, ix);
+		return p;
+	}
 }

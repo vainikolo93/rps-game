@@ -154,6 +154,11 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		return (i > 0);
 	}
 	
+	public static boolean isOpen(int p) {
+		p = p & 128;
+		return (p > 0);
+	}
+
 	/**
 	 * Make this chesspiece open.
 	 */
@@ -183,5 +188,9 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		if (p.getRow() < 0 || p.getRow() >= Board.BOARD_HEIGHT) return false;
 		if (p.getColumn() < 0 || p.getColumn() >=  Board.BOARD_WIDTH) return false;
 		return true;
+	}
+	
+	public static int toClosePiece(int p) {
+		return p & 15;
 	}
 }
