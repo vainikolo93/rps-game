@@ -11,8 +11,8 @@ import android.util.Log;
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
-import com.kahweh.rps.game.IPlayer;
 import com.kahweh.rps.game.IllegalGameStateException;
+import com.kahweh.rps.game.player.IPlayer;
 
 /**
  * @author Michael
@@ -61,6 +61,12 @@ class Michael implements IPlayer {
 	@Override
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	@Override
+	public Game getGame() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -138,6 +144,34 @@ class Michael implements IPlayer {
 	public void notifyQuit() {
 		this.game = null;
 		this.color = IDLE;
+	}
+
+	@Override
+	public int getColor() {
+		// TODO Auto-generated method stub
+		return this.color;
+	}
+
+	@Override
+	public boolean setFlag(ChessPiece p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setTrap(ChessPiece p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isBlack() {
+		return color == IPlayer.BLACK;
+	}
+
+	@Override
+	public boolean isRed() {
+		return color == IPlayer.RED;
 	}
 
 }

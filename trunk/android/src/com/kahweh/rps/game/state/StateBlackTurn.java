@@ -6,8 +6,8 @@ package com.kahweh.rps.game.state;
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
-import com.kahweh.rps.game.IPlayer;
 import com.kahweh.rps.game.IllegalGameStateException;
+import com.kahweh.rps.game.player.IPlayer;
 
 /**
  * @author Michael

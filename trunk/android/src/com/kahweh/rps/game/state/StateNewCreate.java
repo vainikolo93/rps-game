@@ -25,12 +25,10 @@ public class StateNewCreate extends AbstractState {
 			throw new IllegalArgumentException();
 		}
 
-		Board b = new Board();
-		b.cleanBoard();
+		Board b = game.getBoard();
 		b.setChessPiece(f);
 		b.setChessPiece(t);
 		game.setWinner(null);
-		game.setBoard(b);
 		if (f.isBlack()) {
 			game.setState(game.getStateBlackReady());
 		} else {

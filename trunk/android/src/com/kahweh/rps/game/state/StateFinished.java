@@ -4,7 +4,9 @@
 package com.kahweh.rps.game.state;
 
 import com.kahweh.rps.game.Game;
-import com.kahweh.rps.game.IPlayer;
+import com.kahweh.rps.game.IllegalGameStateException;
+import com.kahweh.rps.game.player.IPlayer;
+import com.kahweh.rps.game.player.IllegalPlayerStateException;
 
 /**
  * @author Michael
@@ -17,17 +19,25 @@ public class StateFinished extends AbstractState {
 	}
 
 	@Override
-	public boolean newGame(IPlayer red, IPlayer black) {
-		red.setColor(IPlayer.RED);
-		black.setColor(IPlayer.BLACK);
+	public boolean newGame(IPlayer red, IPlayer black) throws IllegalGameStateException {
+		try {
+			red.setColor(IPlayer.RED);
+			black.setColor(IPlayer.BLACK);
+		} catch (IllegalPlayerStateException e) {
+			throw new IllegalGameStateException("Wrong player state..", e);
+		}
 		red.setGame(game);
 		black.setGame(game);
 
 		game.setRed(red);
 		game.setBlack(black);
 		game.setState(game.getStateNewCreate());
-		red.chooseFlagAndTrap();
-		black.chooseFlagAndTrap();
+		try {
+			red.chooseFlagAndTrap();
+			black.chooseFlagAndTrap();
+		} catch (IllegalPlayerStateException e) {
+			throw new IllegalGameStateException("Wrong player state..", e);
+		}
 		return true;
 	}
 

@@ -8,4 +8,11 @@
 <item>Black</item>
 </string-array>
 <string name="button_ok">OK</string>
+<string name="menu_about">About</string>
+<string name="dialog_about_title">About Rock-Paper-Scissors</string>
+<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href='mailto:kahweh@gmail.com'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href='http://www.kahweh.com'&gt;http://www.kahweh.com&lt;/a&gt;</string>
+<string name="dialog_select_flag_prompt">Please tap on the board to set the position of Flag.</string>
+<string name="dialog_select_flag_title">Place Flag</string>
+<string name="dialog_select_trap_title">Place Trap</string>
+<string name="dialog_select_trap_prompt">Please tap on the board to set the position of Trap.</string>
 </resources>
