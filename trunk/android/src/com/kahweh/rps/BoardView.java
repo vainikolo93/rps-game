@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
+import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.player.StateColorSet;
@@ -106,6 +107,8 @@ public class BoardView extends View {
 							player.setTrap(p);
 						} catch (IllegalPlayerStateException e1) {
 							Log.w(BoardView.class.getSimpleName(), "Wrong player state..", e1);
+						} catch (IllegalGameStateException e1) {
+							Log.w(BoardView.class.getSimpleName(), "Wrong game state..", e1);
 						}
 					}
 
