@@ -23,5 +23,5 @@ public class StateMyTurn extends AbstractPlayerState {
 	@Override
 	public void giveUp() throws IllegalPlayerStateException {
 		//TODO
-	} 
+	}
 }

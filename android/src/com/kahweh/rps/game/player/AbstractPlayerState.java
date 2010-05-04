@@ -49,4 +49,8 @@ public abstract class AbstractPlayerState implements IPlayerState {
 		throw new IllegalPlayerStateException();
 	}
 
+	@Override
+	public void boardInitialized() throws IllegalPlayerStateException {
+		throw new IllegalPlayerStateException();
+	}
 }

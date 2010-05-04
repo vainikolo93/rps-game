@@ -19,17 +19,18 @@ import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.player.StateColorSet;
 import com.kahweh.rps.game.player.StateFlagSet;
+import com.kahweh.rps.game.player.StateMyTurn;
 
 /**
  * @author Michael
  *
  */
 public class BoardView extends View {
-
 	private RockPaperScissors rps;
 	private LocalPlayer player;
 	
 	private Board board;
+	private ChessPiece activePiece;
 	
 	private final Bitmap bbe;
 	private final Bitmap bbpc;
@@ -96,13 +97,16 @@ public class BoardView extends View {
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
 					ChessPiece p = Board.translatePosition(player.getColor(), e.getX(), e.getY());
+
 					if (player.getState() instanceof StateColorSet) {
+						//Set Flag
 						try {
 							player.setFlag(p);
 						} catch (IllegalPlayerStateException e1) {
 							Log.w(BoardView.class.getSimpleName(), "Wrong player state..", e1);
 						}
 					} else if (player.getState() instanceof StateFlagSet) {
+						//Set Trap
 						try {
 							player.setTrap(p);
 						} catch (IllegalPlayerStateException e1) {
@@ -110,10 +114,52 @@ public class BoardView extends View {
 						} catch (IllegalGameStateException e1) {
 							Log.w(BoardView.class.getSimpleName(), "Wrong game state..", e1);
 						}
+					} else if (player.getState() instanceof StateMyTurn) {
+						//Move chesspiece
+						p = board.getChessPiece(p.getRow(), p.getColumn());
+						if (activePiece == null) {
+							if (player.isBlack()) {
+								if (p.isBlack() && p.isMovable()) {
+									activePiece = p;
+									BoardView.this.invalidate();
+								} else {
+									Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_black_piece), Toast.LENGTH_SHORT).show();
+								}
+							} else {
+								if (p.isRed() && p.isMovable()) {
+									activePiece = p;
+									BoardView.this.invalidate();
+								} else {
+									Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_red_piece), Toast.LENGTH_SHORT).show();
+								}
+							}
+						} else {
+							//ActivePiece is not null
+							if (player.isBlack()) {
+								if (p.isBlack()) {
+									if (p.isMovable()) {
+										activePiece = p;
+									}
+								} else {
+									if ((Math.abs(p.getRow() - activePiece.getRow()) 
+										+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
+										player.move(activePiece, p);
+									}
+								}
+							} else {
+								if (p.isRed()) {
+									if (p.isMovable()) {
+										activePiece = p;
+									}
+								} else {
+									
+								}
+							}
+						}
 					}
 
 					BoardView.this.invalidate();
-					Toast.makeText(rps, "Test" + p.getRow() + " " + p.getColumn(), Toast.LENGTH_SHORT).show();
+//					Toast.makeText(rps, "Test" + p.getRow() + " " + p.getColumn(), Toast.LENGTH_SHORT).show();
 					return true;
 				}
 				
