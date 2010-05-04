@@ -29,6 +29,7 @@ public class LocalPlayer implements IPlayer {
 	private IPlayerState stateFlagSet;
 	private IPlayerState stateTrapSet;
 	private IPlayerState stateMyTurn;
+	private IPlayerState stateOpponentTurn;
 	private IPlayerState stateGameOver;
 	
 	private IPlayerState state;
@@ -39,8 +40,9 @@ public class LocalPlayer implements IPlayer {
 		this.stateNewCreate = new StateNewCreate(this);
 		this.stateColorSet = new StateColorSet(this);
 		this.stateFlagSet = new StateFlagSet(this);
-		this.stateTrapSet = new StateTrapSet();
+		this.stateTrapSet = new StateTrapSet(this);
 		this.stateMyTurn = new StateMyTurn();
+		this.setStateOpponentTurn(new StateOpponentTurn());
 		this.stateGameOver = new StateGameOver();
 
 		this.state = this.stateNewCreate;
@@ -214,10 +216,7 @@ public class LocalPlayer implements IPlayer {
 		}
 
 		state.setTrap(p);
-		game.getBoard().setChessPiece(p);
-		rps.getBoardView().invalidate();
 		game.placeFlagAndTrap(flag, p);
-		Toast.makeText(rps, "Flag and Trap OKay", Toast.LENGTH_SHORT).show();
 		return true;
 	}
 
@@ -248,4 +247,37 @@ public class LocalPlayer implements IPlayer {
 		rps.getBoardView().invalidate();
 	}
 
+	@Override
+	public void boardInitialized() throws IllegalPlayerStateException {
+		state.boardInitialized();
+		rps.getBoardView().invalidate();
+		Toast.makeText(rps, "Board Initialized..", Toast.LENGTH_SHORT).show();
+	}
+
+	public void setStateOpponentTurn(IPlayerState stateOpponentTurn) {
+		this.stateOpponentTurn = stateOpponentTurn;
+	}
+
+	public IPlayerState getStateOpponentTurn() {
+		return stateOpponentTurn;
+	}
+
+	public boolean move(ChessPiece start, ChessPiece dest) {
+		// TODO Auto-generated method stub
+		try {
+			game.move(start, dest);
+		} catch (IllegalGameStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			state.move(start, dest);
+		} catch (IllegalPlayerStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
 }

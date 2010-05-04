@@ -51,4 +51,6 @@ public interface IPlayer {
 	public boolean isRed();
 	
 	public void boardUpdated();
+	
+	public void boardInitialized() throws IllegalPlayerStateException;
 }

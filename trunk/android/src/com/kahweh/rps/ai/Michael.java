@@ -13,6 +13,7 @@ import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
+import com.kahweh.rps.game.player.IllegalPlayerStateException;
 
 /**
  * @author Michael
@@ -176,6 +177,12 @@ class Michael implements IPlayer {
 
 	@Override
 	public void boardUpdated() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void boardInitialized() throws IllegalPlayerStateException {
 		// TODO Auto-generated method stub
 		
 	}

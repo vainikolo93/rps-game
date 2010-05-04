@@ -15,4 +15,6 @@
 <string name="dialog_select_flag_title">Place Flag</string>
 <string name="dialog_select_trap_title">Place Trap</string>
 <string name="dialog_select_trap_prompt">Please tap on the board to set the position of Trap.</string>
+<string name="toast_prompt_choose_black_piece">Please select a movable BLUE piece..</string>
+<string name="toast_prompt_choose_red_piece">Please select a movable RED piece..</string>
 </resources>
