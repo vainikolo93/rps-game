@@ -5,6 +5,11 @@ import java.util.Random;
 import com.kahweh.rps.game.player.IPlayer;
 
 public class Board {
+	public static final int UP = 0;
+	public static final int DOWN = 1;
+	public static final int LEFT = 2;
+	public static final int RIGHT = 3;
+
 	public static final int GRID_WIDTH = 44;
 	public static final int GRID_HEIGHT = 50;
 	public static final int BOARD_MARGIN = 3;
@@ -232,6 +237,30 @@ public class Board {
 		return b;
 	}
 
+	public ChessPiece getNeighborChessPiece(ChessPiece p, int pos) {
+		ChessPiece n = null;
+		switch (pos) {
+		case Board.UP:
+			if (p.getRow() - 1 < 0) return null;
+			n = getChessPiece(p.getRow() - 1, p.getColumn());
+			break;
+		case Board.DOWN:
+			if (p.getRow() + 1 >= Board.BOARD_HEIGHT) return null;
+			n = getChessPiece(p.getRow() + 1, p.getColumn());
+			break;
+		case Board.LEFT:
+			if (p.getColumn() - 1 < 0) return null;
+			n = getChessPiece(p.getRow(), p.getColumn() - 1);
+			break;
+		case Board.RIGHT:
+			if (p.getRow() - 1 >= Board.BOARD_WIDTH) return null;
+			n = getChessPiece(p.getRow(), p.getColumn() + 1);
+			break;
+		}
+
+		return n;
+	}
+	
 	@Override
 	public Object clone() {
 		Board c = new Board();

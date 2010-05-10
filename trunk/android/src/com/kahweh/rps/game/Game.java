@@ -209,6 +209,9 @@ public class Game {
 	}
 
 	public synchronized void move(ChessPiece start, ChessPiece dest) throws IllegalGameStateException {
+		if (start == null || dest == null) {
+			
+		}
 		state.move(start, dest);
 	}
 	

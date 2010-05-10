@@ -277,7 +277,7 @@ public class LocalPlayer implements IPlayer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return true;
 	}
 }
