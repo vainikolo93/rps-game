@@ -57,11 +57,19 @@ public class BoardView extends View {
 	private final Bitmap rfso;
 	private final Bitmap rFlag;
 	private final Bitmap trap;
+	private final Bitmap arrow_up;
+	private final Bitmap arrow_down;
+	private final Bitmap arrow_left;
+	private final Bitmap arrow_right;
 
 	public BoardView(RockPaperScissors context) {
 		super(context);
 		this.rps = context;
 
+		arrow_up = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_up);
+		arrow_down = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_down);
+		arrow_left = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_left);
+		arrow_right = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_right);
 		bbe = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_e);
 		bbpc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_c);
 		bbpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_o);
@@ -139,6 +147,7 @@ public class BoardView extends View {
 								if (p.isBlack()) {
 									if (p.isMovable()) {
 										activePiece = p;
+										BoardView.this.invalidate();
 									}
 								} else {
 									if ((Math.abs(p.getRow() - activePiece.getRow()) 
@@ -147,12 +156,17 @@ public class BoardView extends View {
 									}
 								}
 							} else {
+								//Red player
 								if (p.isRed()) {
 									if (p.isMovable()) {
 										activePiece = p;
+										BoardView.this.invalidate();
 									}
 								} else {
-									
+									if ((Math.abs(p.getRow() - activePiece.getRow()) 
+											+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
+											player.move(activePiece, p);
+										}
 								}
 							}
 						}
@@ -322,6 +336,35 @@ public class BoardView extends View {
 						canv.drawBitmap(rfe, x, y, paint);
 					} else {
 						canv.drawBitmap(rbe, x, y, paint);
+					}
+					break;
+				case ChessPiece.BLANK:
+					if (activePiece != null) {
+						// Print the arrow prompt
+						if (Math.abs(activePiece.getRow() - i) 
+							+ Math.abs(activePiece.getColumn() - j) == 1) {
+							if (player.isBlack()) {
+								if (activePiece.getRow() < i) {
+									canv.drawBitmap(arrow_up, x+8, y+8, paint);
+								} else if (activePiece.getRow() > i) {
+									canv.drawBitmap(arrow_down, x+8, y+8, paint);
+								} else if (activePiece.getColumn() < j) {
+									canv.drawBitmap(arrow_left, x+5, y+12, paint);
+								} else if (activePiece.getColumn() > j) {
+									canv.drawBitmap(arrow_right, x+5, y+8, paint);
+								}
+							} else {
+								if (activePiece.getRow() < i) {
+									canv.drawBitmap(arrow_down, x+8, y+8, paint);
+								} else if (activePiece.getRow() > i) {
+									canv.drawBitmap(arrow_left, x+8, y+8, paint);
+								} else if (activePiece.getColumn() < j) {
+									canv.drawBitmap(arrow_right, x+5, y+8, paint);
+								} else if (activePiece.getColumn() > j) {
+									canv.drawBitmap(arrow_left, x+5, y+12, paint);
+								}
+							}
+						}
 					}
 					break;
 				}

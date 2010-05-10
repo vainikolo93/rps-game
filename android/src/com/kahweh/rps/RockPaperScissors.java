@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -48,14 +49,46 @@ public class RockPaperScissors extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.main);
-        dm = this.getApplicationContext().getResources().getDisplayMetrics();
 
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        	Toast.makeText(RockPaperScissors.this, "TEST in land", Toast.LENGTH_SHORT).show();
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        	Toast.makeText(RockPaperScissors.this, "TEST in port", Toast.LENGTH_SHORT).show();
+        }
+        
         //create boardView
-        boardView = new BoardView(this);
+        if (boardView == null) {
+        	boardView = new BoardView(this);
+        }
         ((LinearLayout)findViewById(R.id.root)).addView(boardView);
 
     }
 
+    @Override
+    public void onStart() {
+    	super.onStart();
+    }
+    
+    @Override
+    public void onStop() {
+    	super.onStop();
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    }
+    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    }
+    
+    @Override
+    public void onRestart() {
+    	super.onRestart();
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);

@@ -112,8 +112,38 @@ class Michael implements IPlayer {
 	public void play() {
 		Board board = game.getBoard(this);
 		// TODO Auto-generated method stub
+		ChessPiece p = null, n = null;
+
+		for (int i = 0; i < Board.BOARD_HEIGHT; i++) {
+			for (int j = 0; j < Board.BOARD_WIDTH; j++) {
+				p = board.getChessPiece(i, j);
+				if (getColor() == IPlayer.BLACK && p.isBlack() && p.isMovable()) {
+					//TODO
+					for (int k = 0; k < 4; k++) {
+						n = board.getNeighborChessPiece(p, k);
+						if (n != null && (n.isBlank() || n.isRed())) {
+							j = Board.BOARD_WIDTH;
+							i = Board.BOARD_HEIGHT;
+							break;
+						}
+					}
+				} else if (getColor() == IPlayer.RED && p.isRed() && p.isMovable()){
+					//Red player
+					//TODO
+					for (int k = 0; k < 4; k++) {
+						n = board.getNeighborChessPiece(p, k);
+						if (n != null && (n.isBlank() || n.isBlack())) {
+							j = Board.BOARD_WIDTH;
+							i = Board.BOARD_HEIGHT;
+							break;
+						}
+					}
+				}
+			}
+		}
+		
 		try {
-			game.move(null, null);
+			game.move(p, n);
 		} catch (IllegalGameStateException e) {
 			Log.w("AI Michael", e);
 		}

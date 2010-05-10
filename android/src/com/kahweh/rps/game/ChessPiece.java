@@ -183,6 +183,10 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		return ((type & 8) > 0);
 	}
 
+	public boolean isBlank() {
+		return (type == ChessPiece.BLANK);
+	}
+	
 	public static boolean verifyPiece(ChessPiece p) {
 		if (!PIECE_SET.contains(p.getType())) return false;
 		if (p.getRow() < 0 || p.getRow() >= Board.BOARD_HEIGHT) return false;
