@@ -4,6 +4,7 @@
 package com.kahweh.rps.game.player;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.kahweh.rps.RockPaperScissors;
@@ -14,7 +15,7 @@ import com.kahweh.rps.game.IllegalGameStateException;
 
 /**
  * @author Michael
- *
+ * 
  */
 public class LocalPlayer implements IPlayer {
 
@@ -31,18 +32,18 @@ public class LocalPlayer implements IPlayer {
 	private IPlayerState stateMyTurn;
 	private IPlayerState stateOpponentTurn;
 	private IPlayerState stateGameOver;
-	
+
 	private IPlayerState state;
-	
+
 	public LocalPlayer(RockPaperScissors rps) {
 		this.setRps(rps);
-		
+
 		this.stateNewCreate = new StateNewCreate(this);
 		this.stateColorSet = new StateColorSet(this);
 		this.stateFlagSet = new StateFlagSet(this);
 		this.stateTrapSet = new StateTrapSet(this);
-		this.stateMyTurn = new StateMyTurn();
-		this.setStateOpponentTurn(new StateOpponentTurn());
+		this.stateMyTurn = new StateMyTurn(this);
+		this.stateOpponentTurn = new StateOpponentTurn(this);
 		this.stateGameOver = new StateGameOver();
 
 		this.state = this.stateNewCreate;
@@ -80,7 +81,9 @@ public class LocalPlayer implements IPlayer {
 		return stateGameOver;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getEmail()
 	 */
 	@Override
@@ -89,7 +92,9 @@ public class LocalPlayer implements IPlayer {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getGameNumbers()
 	 */
 	@Override
@@ -98,7 +103,9 @@ public class LocalPlayer implements IPlayer {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getIcon()
 	 */
 	@Override
@@ -107,7 +114,9 @@ public class LocalPlayer implements IPlayer {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getLoseNumbers()
 	 */
 	@Override
@@ -116,7 +125,9 @@ public class LocalPlayer implements IPlayer {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getName()
 	 */
 	@Override
@@ -125,7 +136,9 @@ public class LocalPlayer implements IPlayer {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#getWinNumbers()
 	 */
 	@Override
@@ -134,7 +147,9 @@ public class LocalPlayer implements IPlayer {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#setGame(com.kahweh.rps.game.Game)
 	 */
 	@Override
@@ -144,18 +159,23 @@ public class LocalPlayer implements IPlayer {
 
 	@Override
 	public Game getGame() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.game;
 	}
 
 	@Override
 	public void metConflict() {
 		// TODO Auto-generated method stub
+		Toast.makeText(rps, "Conflict...", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void play() {
-		Toast.makeText(rps, "Play.....", Toast.LENGTH_SHORT).show();
+		try {
+			state.play();
+		} catch (IllegalPlayerStateException e) {
+			Log.e(LocalPlayer.class.getSimpleName(), "Wrong..", e);
+		}
+		Toast.makeText(rps, "Your Turn...", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -166,10 +186,12 @@ public class LocalPlayer implements IPlayer {
 	@Override
 	public void notifyQuit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.kahweh.rps.game.IPlayer#setColor(int)
 	 */
 	@Override
@@ -204,7 +226,8 @@ public class LocalPlayer implements IPlayer {
 	}
 
 	@Override
-	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException {
+	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException,
+			IllegalGameStateException {
 		if (color == IPlayer.RED) {
 			p.setType(ChessPiece.RED_TRAP);
 		} else {
@@ -263,21 +286,16 @@ public class LocalPlayer implements IPlayer {
 	}
 
 	public boolean move(ChessPiece start, ChessPiece dest) {
-		// TODO Auto-generated method stub
-		try {
-			game.move(start, dest);
-		} catch (IllegalGameStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		try {
 			state.move(start, dest);
+			rps.getBoardView().setActivePiece(null);
+			rps.getBoardView().invalidate();
 		} catch (IllegalPlayerStateException e) {
-			// TODO Auto-generated catch block
+			Toast.makeText(rps, "Wrong Player State...", Toast.LENGTH_LONG)
+					.show();
 			e.printStackTrace();
 		}
 
 		return true;
 	}
-}
+};

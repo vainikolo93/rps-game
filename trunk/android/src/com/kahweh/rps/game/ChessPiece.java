@@ -176,7 +176,7 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	}
 	
 	public boolean isRed() {
-		return ((type & 8) == 0);
+		return (type != BLANK && (type & 8) == 0);
 	}
 	
 	public boolean isBlack() {
@@ -196,5 +196,18 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	
 	public static int toClosePiece(int p) {
 		return p & 15;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		if (isBlank()) {
+			sb.append("Blank ");
+		} else {
+			sb.append(isRed()?"Red ":"Black ");
+		}
+		sb.append(type + ": ");
+		sb.append(row + " " + column);
+		return sb.toString();
 	}
 }

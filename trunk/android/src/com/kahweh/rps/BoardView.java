@@ -30,6 +30,14 @@ public class BoardView extends View {
 	private LocalPlayer player;
 	
 	private Board board;
+	public ChessPiece getActivePiece() {
+		return activePiece;
+	}
+
+	public void setActivePiece(ChessPiece activePiece) {
+		this.activePiece = activePiece;
+	}
+
 	private ChessPiece activePiece;
 	
 	private final Bitmap bbe;
@@ -126,6 +134,7 @@ public class BoardView extends View {
 						//Move chesspiece
 						p = board.getChessPiece(p.getRow(), p.getColumn());
 						if (activePiece == null) {
+							//If activePiece is not not set, then try to set
 							if (player.isBlack()) {
 								if (p.isBlack() && p.isMovable()) {
 									activePiece = p;
@@ -142,7 +151,8 @@ public class BoardView extends View {
 								}
 							}
 						} else {
-							//ActivePiece is not null
+							//ActivePiece is set then do MOVE
+							Log.i("BoardView", activePiece.toString() + " " + p.toString());
 							if (player.isBlack()) {
 								if (p.isBlack()) {
 									if (p.isMovable()) {
@@ -165,6 +175,7 @@ public class BoardView extends View {
 								} else {
 									if ((Math.abs(p.getRow() - activePiece.getRow()) 
 											+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
+											Log.i("BoardView", "Localplayer Move.. ");
 											player.move(activePiece, p);
 										}
 								}
@@ -357,7 +368,7 @@ public class BoardView extends View {
 								if (activePiece.getRow() < i) {
 									canv.drawBitmap(arrow_down, x+8, y+8, paint);
 								} else if (activePiece.getRow() > i) {
-									canv.drawBitmap(arrow_left, x+8, y+8, paint);
+									canv.drawBitmap(arrow_up, x+8, y+8, paint);
 								} else if (activePiece.getColumn() < j) {
 									canv.drawBitmap(arrow_right, x+5, y+8, paint);
 								} else if (activePiece.getColumn() > j) {
