@@ -253,7 +253,7 @@ public class Board {
 			n = getChessPiece(p.getRow(), p.getColumn() - 1);
 			break;
 		case Board.RIGHT:
-			if (p.getRow() - 1 >= Board.BOARD_WIDTH) return null;
+			if (p.getColumn() + 1 >= Board.BOARD_WIDTH) return null;
 			n = getChessPiece(p.getRow(), p.getColumn() + 1);
 			break;
 		}

@@ -213,8 +213,10 @@ public class Game {
 			
 		}
 		state.move(start, dest);
+		getRed().boardUpdated();
+		getBlack().boardUpdated();
 	}
-	
+
 	public boolean isRedTurn() {
 		return state instanceof StateRedTurn;
 	}

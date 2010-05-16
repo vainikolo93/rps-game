@@ -27,4 +27,6 @@ public interface IPlayerState {
 	public void queryColor() throws IllegalPlayerStateException;
 
 	public void boardInitialized() throws IllegalPlayerStateException;
+	
+	public void play() throws  IllegalPlayerStateException;
 }
