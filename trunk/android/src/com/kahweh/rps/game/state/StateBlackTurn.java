@@ -3,6 +3,9 @@
  */
 package com.kahweh.rps.game.state;
 
+import android.util.Config;
+import android.util.Log;
+
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
@@ -54,6 +57,9 @@ public class StateBlackTurn extends AbstractState {
 		board.move(start, dest);
 		
 		game.setState(game.getStateRedTurn());
+		if (Config.DEBUG) {
+			Log.i("StateBlackTurn", "convert to StateRedTurn");
+		}
 		game.getRed().play();
 		return true;
 	}

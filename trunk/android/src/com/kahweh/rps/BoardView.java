@@ -113,7 +113,7 @@ public class BoardView extends View {
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
 					ChessPiece p = Board.translatePosition(player.getColor(), e.getX(), e.getY());
-
+					Log.i("BoardView", p.toString());					
 					if (player.getState() instanceof StateColorSet) {
 						//Set Flag
 						try {
