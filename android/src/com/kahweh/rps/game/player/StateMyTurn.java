@@ -3,6 +3,9 @@
  */
 package com.kahweh.rps.game.player;
 
+import android.util.Config;
+import android.util.Log;
+
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.IllegalGameStateException;
 
@@ -18,20 +21,27 @@ public class StateMyTurn extends AbstractPlayerState {
 	
 	@Override
 	public void move(ChessPiece start, ChessPiece dest) throws IllegalPlayerStateException {
+		player.setState(player.getStateOpponentTurn());
+		if (Config.DEBUG) {
+			Log.d("StateMyTurn", "convert to StateOpponentTurn");
+		}
+
 		try {
 			player.getGame().move(start, dest);
 		} catch (IllegalGameStateException e) {
 			throw new IllegalPlayerStateException(e);
 		}
 
-		player.setState(player.getStateOpponentTurn());
 	}
+
+	@Override
+	public void play() throws  IllegalPlayerStateException {}
 	
 	@Override
 	public void timeOut() throws IllegalPlayerStateException {
 		//TODO
 	}
-	
+
 	@Override
 	public void giveUp() throws IllegalPlayerStateException {
 		//TODO
