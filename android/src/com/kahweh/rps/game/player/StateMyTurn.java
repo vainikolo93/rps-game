@@ -3,9 +3,9 @@
  */
 package com.kahweh.rps.game.player;
 
-import android.util.Config;
 import android.util.Log;
 
+import com.kahweh.rps.Config;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.IllegalGameStateException;
 

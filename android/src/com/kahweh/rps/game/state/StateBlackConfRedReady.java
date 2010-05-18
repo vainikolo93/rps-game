@@ -1,5 +1,8 @@
 package com.kahweh.rps.game.state;
 
+import android.util.Log;
+
+import com.kahweh.rps.Config;
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
@@ -25,6 +28,9 @@ public class StateBlackConfRedReady extends AbstractState {
 			if (b.compareTo(r) == 0) {
 				game.noticeConflict(r, b);
 				game.setState(game.getStateBlackTurnConflict());
+				if (Config.DEBUG) {
+					Log.d("StateBlackConfRedReady", "convert to StateBlackTurnConflict");
+				}
 				return true;
 			}
 
@@ -32,6 +38,9 @@ public class StateBlackConfRedReady extends AbstractState {
 			board.move(b, r);
 
 			game.setState(game.getStateRedTurn());
+			if (Config.DEBUG) {
+				Log.d("StateBlackConfRedReady", "convert to StateRedTurn");
+			}
 			game.getRed().play();
 		}
 		return true;
