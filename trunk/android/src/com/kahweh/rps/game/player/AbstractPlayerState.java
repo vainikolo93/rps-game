@@ -49,4 +49,8 @@ public abstract class AbstractPlayerState implements IPlayerState {
 	public void play() throws  IllegalPlayerStateException {
 		throw new IllegalPlayerStateException();
 	}
+	
+	public void metConflict() throws  IllegalPlayerStateException {
+		throw new IllegalPlayerStateException();
+	}
 }

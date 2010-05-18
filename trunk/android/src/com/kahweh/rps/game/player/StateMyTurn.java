@@ -14,11 +14,11 @@ import com.kahweh.rps.game.IllegalGameStateException;
  *
  */
 public class StateMyTurn extends AbstractPlayerState {
-	
+
 	public StateMyTurn(LocalPlayer localPlayer) {
 		this.player = localPlayer;
 	}
-	
+
 	@Override
 	public void move(ChessPiece start, ChessPiece dest) throws IllegalPlayerStateException {
 		player.setState(player.getStateOpponentTurn());
@@ -36,7 +36,7 @@ public class StateMyTurn extends AbstractPlayerState {
 
 	@Override
 	public void play() throws  IllegalPlayerStateException {}
-	
+
 	@Override
 	public void timeOut() throws IllegalPlayerStateException {
 		//TODO

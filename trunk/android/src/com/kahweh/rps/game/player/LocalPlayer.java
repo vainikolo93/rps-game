@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.kahweh.rps.Config;
 import com.kahweh.rps.RockPaperScissors;
 import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.ChessPiece;
@@ -163,9 +164,12 @@ public class LocalPlayer implements IPlayer {
 	}
 
 	@Override
-	public void metConflict() {
+	public void metConflict() throws IllegalPlayerStateException {
 		// TODO Auto-generated method stub
-		Toast.makeText(rps, "Conflict...", Toast.LENGTH_SHORT).show();
+		if (Config.DEBUG) {
+			Log.d("LocalPlayer", "Met confilct...");
+		}
+		state.metConflict();
 	}
 
 	@Override
@@ -175,7 +179,6 @@ public class LocalPlayer implements IPlayer {
 		} catch (IllegalPlayerStateException e) {
 			Log.e(LocalPlayer.class.getSimpleName(), "Wrong..", e);
 		}
-		Toast.makeText(rps, "Your Turn...", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override

@@ -29,4 +29,6 @@ public interface IPlayerState {
 	public void boardInitialized() throws IllegalPlayerStateException;
 	
 	public void play() throws  IllegalPlayerStateException;
+
+	public void metConflict() throws  IllegalPlayerStateException;
 }

@@ -165,7 +165,7 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	public ChessPiece open() {
 		return new ChessPiece((byte)(type | 128), row, column);
 	}
-	
+
 	public boolean equals(Object o) {
 		if (!(o instanceof ChessPiece)) {
 			return false;
