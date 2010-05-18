@@ -182,10 +182,12 @@ public class Board {
 		if (start.compareTo(dest) > 0) {
 			if (dest.isBlack()) {
 				black_count--;
-			} else {
+			} else if (dest.isRed()) {
 				red_count--;
 			}
-			start = start.open();
+			if (!dest.isBlank()) {
+				start = start.open();
+			}
 			dest.setType(start.getType());
 			start.setType(ChessPiece.BLANK);
 			setChessPiece(dest);

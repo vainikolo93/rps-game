@@ -32,7 +32,7 @@ public interface IPlayer {
 	
 	public Game getGame();
 	
-	public void metConflict();
+	public void metConflict() throws IllegalPlayerStateException;
 
 	public void chooseFlagAndTrap() throws IllegalPlayerStateException;
 	

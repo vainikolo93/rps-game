@@ -3,7 +3,10 @@
  */
 package com.kahweh.rps.game;
 
+import android.util.Log;
+
 import com.kahweh.rps.game.player.IPlayer;
+import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.state.IGameState;
 import com.kahweh.rps.game.state.StateBlackConfBlackReady;
 import com.kahweh.rps.game.state.StateBlackConfRedReady;
@@ -193,8 +196,12 @@ public class Game {
 	public void noticeConflict(ChessPiece r, ChessPiece b) {
 		setRedConfPiece(r);
 		setBlackConfPiece(b);
-		red.metConflict();
-		black.metConflict();
+		try {
+			red.metConflict();
+			black.metConflict();
+		} catch (IllegalPlayerStateException e) {
+			Log.e("Game", "Wrong player state...", e);
+		}
 	}
 
 	/**
