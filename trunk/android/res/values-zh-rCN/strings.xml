@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, RockPaperScissors!</string>
+    <string name="app_name">石头剪子布</string>
+<string name="menu_newGame">新建游戏</string>
+<string name="dialog_select_color_title">选择颜色：</string>
+<string-array name="color_select_strings"><item>红方</item>
+<item>蓝方</item>
+</string-array>
+<string name="button_ok">确定</string>
+<string name="menu_about">关于</string>
+<string name="dialog_about_title">关于”石头剪子布“</string>
+<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href='mailto:kahweh@gmail.com'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href='http://www.kahweh.com'&gt;http://www.kahweh.com&lt;/a&gt;</string>
+<string name="dialog_select_flag_prompt">Please tap on the board to set the position of Flag.</string>
+<string name="dialog_select_flag_title">设定旗子位置</string>
+<string name="dialog_select_trap_title">设定陷阱位置</string>
+<string name="dialog_select_trap_prompt">Please tap on the board to set the position of Trap.</string>
+<string name="toast_prompt_choose_black_piece">请选择一个可移动的蓝色棋子</string>
+<string name="toast_prompt_choose_red_piece">请选择一个可移动的红色棋子</string>
+</resources>
