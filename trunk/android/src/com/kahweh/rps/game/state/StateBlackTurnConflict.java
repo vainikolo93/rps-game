@@ -3,6 +3,9 @@
  */
 package com.kahweh.rps.game.state;
 
+import android.util.Log;
+
+import com.kahweh.rps.Config;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
@@ -22,9 +25,15 @@ public class StateBlackTurnConflict extends AbstractState {
 		if (p.isBlack()) {
 			game.setBlackConfPiece(p);
 			game.setState(game.getStateBlackConfBlackReady());
+			if (Config.DEBUG) {
+				Log.d("StateBlackTurnConflict", "convert to StateBlackConfBlackReady");
+			}
 		} else {
 			game.setRedConfPiece(p);
 			game.setState(game.getStateBlackConfRedReady());
+			if (Config.DEBUG) {
+				Log.d("StateBlackTurnConflict", "convert to StateBlackConfBlackReady");
+			}
 		}
 		return true;
 	}

@@ -3,8 +3,9 @@
  */
 package com.kahweh.rps.game.player;
 
-import android.util.Config;
 import android.util.Log;
+
+import com.kahweh.rps.Config;
 
 /**
  * @author Michael
