@@ -17,4 +17,9 @@
 <string name="dialog_select_trap_prompt">Please tap on the board to set the position of Trap.</string>
 <string name="toast_prompt_choose_black_piece">请选择一个可移动的蓝色棋子</string>
 <string name="toast_prompt_choose_red_piece">请选择一个可移动的红色棋子</string>
+<string name="dialog_conflict_select_title">和对手一样，请重新选择手势：</string>
+<string-array name="gesture_select_strings"><item>石头</item>
+<item>布</item>
+<item>剪子</item>
+</string-array>
 </resources>

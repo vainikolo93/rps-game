@@ -18,11 +18,20 @@ public class StateOpponentTurn extends AbstractPlayerState {
 	}
 
 	@Override
-	public void play() throws  IllegalPlayerStateException {
+	public void play() throws IllegalPlayerStateException {
 		player.setState(player.getStateMyTurn());
 
 		if (Config.DEBUG) {
 			Log.d("StateOpponentTurn", "convert to StateMyTurn");
+		}
+	}
+	
+	@Override
+	public void metConflict() throws IllegalPlayerStateException {
+		player.setState(player.getStateConflict());
+
+		if (Config.DEBUG) {
+			Log.d("StateOpponentTurn", "convert to StateConflict");
 		}
 	}
 }

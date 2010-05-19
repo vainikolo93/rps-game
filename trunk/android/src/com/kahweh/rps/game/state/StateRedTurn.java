@@ -47,9 +47,12 @@ public class StateRedTurn extends AbstractState {
 		}
 		//If the chesspiece is the same type
 		if (start.compareTo(dest) == 0) {
-			//TODO
 			game.setState(game.getStateRedTurnConflict());
 			game.noticeConflict(start, dest);
+			if (Config.DEBUG) {
+				Log.d("StateRedTurn", "convert to StateRedTurnConflict");
+			}
+			return true;
 		}
 
 		//Move Piece
