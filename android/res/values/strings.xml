@@ -17,4 +17,9 @@
 <string name="dialog_select_trap_prompt">Please tap on the board to set the position of Trap.</string>
 <string name="toast_prompt_choose_black_piece">Please select a movable BLUE piece..</string>
 <string name="toast_prompt_choose_red_piece">Please select a movable RED piece..</string>
+<string name="dialog_conflict_select_title">Please select a gesture:</string>
+<string-array name="gesture_select_strings"><item>Rock</item>
+<item>Paper</item>
+<item>Scissors</item>
+</string-array>
 </resources>

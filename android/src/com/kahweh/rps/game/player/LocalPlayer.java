@@ -33,6 +33,11 @@ public class LocalPlayer implements IPlayer {
 	private IPlayerState stateMyTurn;
 	private IPlayerState stateOpponentTurn;
 	private IPlayerState stateGameOver;
+	private IPlayerState stateConflict;
+
+	public IPlayerState getStateConflict() {
+		return stateConflict;
+	}
 
 	private IPlayerState state;
 
@@ -46,6 +51,7 @@ public class LocalPlayer implements IPlayer {
 		this.stateMyTurn = new StateMyTurn(this);
 		this.stateOpponentTurn = new StateOpponentTurn(this);
 		this.stateGameOver = new StateGameOver();
+		this.stateConflict = new StateConflict(this);
 
 		this.state = this.stateNewCreate;
 	}

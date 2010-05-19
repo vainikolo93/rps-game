@@ -30,6 +30,7 @@ public class RockPaperScissors extends Activity {
 	public static final int DIALOG_COLOR_SELECT = 1;
 	public static final int DIALOG_FLAG_SELECT = 2;
 	public static final int DIALOG_TRAP_SELECT = 3;
+	public static final int DIALOG_CONFLICT_SELECT = 4;
 	public static final int DIALOG_ABOUT = 1000;
 
 	private static final int MENU_NEWGAME_ID = 0;
@@ -136,6 +137,28 @@ public class RockPaperScissors extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch (id) {
+    	case DIALOG_CONFLICT_SELECT:
+    		return new AlertDialog.Builder(RockPaperScissors.this)
+    		.setIcon(R.drawable.dialog_icon_question)
+    		.setTitle(R.string.dialog_conflict_select_title)
+    		.setSingleChoiceItems(R.array.gesture_select_strings, 0, new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int btn) {
+    				if (btn == 0) {
+    					//Rock selected
+    					//TODO
+    				} else if (btn == 1) {
+    					//Paper
+    				} else if (btn == 2) {
+    					//Scissors
+    				}
+    			}
+    		}).setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					//TODO
+				}
+			}).create();
     	case DIALOG_COLOR_SELECT:
     		return new AlertDialog.Builder(RockPaperScissors.this)
     		.setIcon(R.drawable.dialog_icon_question)
