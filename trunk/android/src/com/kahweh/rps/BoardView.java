@@ -352,7 +352,7 @@ public class BoardView extends View {
 				case ChessPiece.BLANK:
 					if (activePiece != null) {
 						// Print the arrow prompt
-						if (Math.abs(activePiece.getRow() - i) 
+						if (Math.abs(activePiece.getRow() - i)
 							+ Math.abs(activePiece.getColumn() - j) == 1) {
 							if (player.isBlack()) {
 								if (activePiece.getRow() < i) {
@@ -365,6 +365,7 @@ public class BoardView extends View {
 									canv.drawBitmap(arrow_right, x+5, y+8, paint);
 								}
 							} else {
+								//Red Player
 								if (activePiece.getRow() < i) {
 									canv.drawBitmap(arrow_down, x+8, y+8, paint);
 								} else if (activePiece.getRow() > i) {

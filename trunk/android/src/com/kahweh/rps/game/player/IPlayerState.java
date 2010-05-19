@@ -31,4 +31,6 @@ public interface IPlayerState {
 	public void play() throws  IllegalPlayerStateException;
 
 	public void metConflict() throws  IllegalPlayerStateException;
+
+	public void drawChoiceMade(ChessPiece draw) throws  IllegalPlayerStateException;
 }

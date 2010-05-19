@@ -194,6 +194,12 @@ public class Game {
 	}
 
 	public void noticeConflict(ChessPiece r, ChessPiece b) {
+		if (!r.isOpen()) board.setChessPiece(r.open());
+		if (!b.isOpen()) board.setChessPiece(b.open());
+
+		red.boardUpdated();
+		black.boardUpdated();
+
 		setRedConfPiece(r);
 		setBlackConfPiece(b);
 		try {

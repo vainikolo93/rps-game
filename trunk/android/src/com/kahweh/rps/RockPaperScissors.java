@@ -146,17 +146,24 @@ public class RockPaperScissors extends Activity {
     			public void onClick(DialogInterface dialog, int btn) {
     				if (btn == 0) {
     					//Rock selected
-    					//TODO
+    					player.setDrawChoice(0);
     				} else if (btn == 1) {
     					//Paper
+    					player.setDrawChoice(1);
     				} else if (btn == 2) {
     					//Scissors
+    					player.setDrawChoice(2);
     				}
     			}
     		}).setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					//TODO
+					try {
+						player.drawChoiceMade();
+					} catch (IllegalGameStateException e) {
+	    				game = null;
+	    				Log.e(RockPaperScissors.class.getName(), "LocalPlayer State Error..",e);
+					}
 				}
 			}).create();
     	case DIALOG_COLOR_SELECT:

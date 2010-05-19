@@ -53,4 +53,8 @@ public abstract class AbstractPlayerState implements IPlayerState {
 	public void metConflict() throws  IllegalPlayerStateException {
 		throw new IllegalPlayerStateException();
 	}
+	
+	public void drawChoiceMade(ChessPiece draw) throws  IllegalPlayerStateException {
+		throw new IllegalPlayerStateException();
+	}
 }
