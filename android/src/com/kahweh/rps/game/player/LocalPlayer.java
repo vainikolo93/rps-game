@@ -307,4 +307,50 @@ public class LocalPlayer implements IPlayer {
 
 		return true;
 	}
-};
+	
+	/**
+	 * The Game obj use this function to set the localplayer's choice of gesture.
+	 * the values of pieceType: 
+	 *    0 for Rock
+	 *    1 for Paper
+	 *    2 for Scissors
+	 * 
+	 * @param pieceType
+	 */
+	public void setDrawChoice(int pieceType) {
+		switch (pieceType) {
+		case 0:
+			//Rock
+			if (isRed()) {
+				game.getRedConfPiece().setType(ChessPiece.RED_ROCK);
+			} else {
+				game.getBlackConfPiece().setType(ChessPiece.BLACK_ROCK);
+			}
+			break;
+		case 1:
+			//Paper
+			if (isRed()) {
+				game.getRedConfPiece().setType(ChessPiece.RED_PAPER);
+			} else {
+				game.getBlackConfPiece().setType(ChessPiece.BLACK_PAPER);
+			}
+			break;
+		case 2:
+			//Scissors
+			if (isRed()) {
+				game.getRedConfPiece().setType(ChessPiece.RED_SCISSORS);
+			} else {
+				game.getBlackConfPiece().setType(ChessPiece.BLACK_SCISSORS);
+			}
+			break;
+		}
+	}
+
+	public void drawChoiceMade() throws IllegalGameStateException {
+		if (isRed()) {
+			game.makeChoice(game.getRedConfPiece().open());
+		} else {
+			game.makeChoice(game.getBlackConfPiece().open());
+		}
+	}
+}
