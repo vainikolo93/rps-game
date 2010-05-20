@@ -5,6 +5,7 @@ package com.kahweh.rps.game;
 
 import android.util.Log;
 
+import com.kahweh.rps.Config;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.state.IGameState;
@@ -197,8 +198,7 @@ public class Game {
 		if (!r.isOpen()) board.setChessPiece(r.open());
 		if (!b.isOpen()) board.setChessPiece(b.open());
 
-		red.boardUpdated();
-		black.boardUpdated();
+		notifyBoardUpdate();
 
 		setRedConfPiece(r);
 		setBlackConfPiece(b);
@@ -210,6 +210,11 @@ public class Game {
 		}
 	}
 
+	public void notifyBoardUpdate() {
+		red.boardUpdated();
+		black.boardUpdated();
+	}
+	
 	/**
 	 * When two pieces are the same type, the game come to Conflict state, each player
 	 * should invoke this function to choose a new gesture.
@@ -223,7 +228,15 @@ public class Game {
 
 	public synchronized void move(ChessPiece start, ChessPiece dest) throws IllegalGameStateException {
 		if (start == null || dest == null) {
-			
+			throw new IllegalGameStateException();
+		}
+		
+		if (dest.isUnknow()) {
+			dest = board.getChessPiece(dest.getRow(), dest.getColumn());
+		}
+
+		if (Config.DEBUG) {
+			Log.d("Game", "Moving from '" + start.toString() + "' to '" + dest.toString() + "'");
 		}
 		state.move(start, dest);
 		getRed().boardUpdated();

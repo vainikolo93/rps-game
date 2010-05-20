@@ -201,7 +201,7 @@ public class BoardView extends View {
 	@Override
 	protected void onDraw(Canvas canv) {
 		if (board == null) return;
-		byte[][] b = board.getBoard();
+		int[][] b = board.getBoard();
 		float x, y;
 		int ii, jj;
 		Paint paint = new Paint();

@@ -6,6 +6,7 @@ package com.kahweh.rps.game.player;
 import android.util.Log;
 
 import com.kahweh.rps.Config;
+import com.kahweh.rps.RockPaperScissors;
 
 /**
  * @author b448
@@ -31,5 +32,6 @@ public class StateConflict extends AbstractPlayerState {
 		if (Config.DEBUG) {
 			Log.d("StateConflict", "still is StateConflict..");
 		}
+		player.getRps().showConfSelectDialog();
 	}
 }

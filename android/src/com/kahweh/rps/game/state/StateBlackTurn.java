@@ -47,11 +47,11 @@ public class StateBlackTurn extends AbstractState {
 		}
 		//If the chesspiece is the same type
 		if (start.compareTo(dest) == 0) {
-			game.noticeConflict(dest, start); //noticeConflict(red, black)
 			game.setState(game.getStateBlackTurnConflict());
 			if (Config.DEBUG) {
 				Log.d("StateBlackTurn", "convert to StateBlackTurnConflict");
 			}
+			game.noticeConflict(dest, start); //noticeConflict(red, black)
 			return true;
 		}
 

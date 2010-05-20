@@ -102,7 +102,7 @@ class Michael implements IPlayer {
 		}
 
 		try {
-			game.makeChoice(p);
+			game.makeChoice(p.open());
 		} catch (IllegalGameStateException e) {
 			Log.e("Michael", "Game state error..", e);
 		}

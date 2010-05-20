@@ -17,7 +17,7 @@ public class Board {
 	public static final int BOARD_WIDTH = 7;
 	public static final int BOARD_ABS_HEIGHT = 306;
 	public static final int BOARD_ABS_WIDTH = 314;
-	private byte[][] board = new byte[BOARD_HEIGHT][BOARD_WIDTH];
+	private int[][] board = new int[BOARD_HEIGHT][BOARD_WIDTH];
 	private Random rand = new Random(System.currentTimeMillis());
 
 	private int black_count;
@@ -33,7 +33,7 @@ public class Board {
 
 	public Board() {}
 
-	public byte[][] getBoard() {
+	public int[][] getBoard() {
 		return board;
 	}
 	

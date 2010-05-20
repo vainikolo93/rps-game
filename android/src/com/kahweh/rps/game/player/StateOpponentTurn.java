@@ -6,6 +6,7 @@ package com.kahweh.rps.game.player;
 import android.util.Log;
 
 import com.kahweh.rps.Config;
+import com.kahweh.rps.RockPaperScissors;
 
 /**
  * @author Michael
@@ -33,5 +34,7 @@ public class StateOpponentTurn extends AbstractPlayerState {
 		if (Config.DEBUG) {
 			Log.d("StateOpponentTurn", "convert to StateConflict");
 		}
+
+		player.getRps().showConfSelectDialog();
 	}
 }
