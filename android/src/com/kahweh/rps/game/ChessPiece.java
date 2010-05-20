@@ -198,6 +198,13 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		return ((type | 6) == 6);
 	}
 	
+	/**
+	 * This function is used to convert a piece type to close status. If 
+	 * a Piece is already a close piece, then do nothing.
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public static int toClosePiece(int p) {
 		return p & 15;
 	}

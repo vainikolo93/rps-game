@@ -141,9 +141,13 @@ class Michael implements IPlayer {
 				}
 			}
 		}
-		
+
 		try {
-			game.move(p, n);
+			if (p == null || n == null) {
+				game.concede(this);
+			} else {
+				game.move(p, n);
+			}
 		} catch (IllegalGameStateException e) {
 			Log.w("AI Michael", e);
 		}
@@ -217,4 +221,6 @@ class Michael implements IPlayer {
 		
 	}
 
+	@Override
+	public void notifyFinish(IPlayer winner) throws IllegalPlayerStateException {}
 }

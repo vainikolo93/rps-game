@@ -53,4 +53,6 @@ public interface IPlayer {
 	public void boardUpdated();
 	
 	public void boardInitialized() throws IllegalPlayerStateException;
+	
+	public void notifyFinish(IPlayer winner) throws IllegalPlayerStateException;
 }

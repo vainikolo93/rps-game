@@ -22,4 +22,8 @@
 <item>布</item>
 <item>剪子</item>
 </string-array>
+<string name="dialog_win_prompt">你赢了！！</string>
+<string name="dialog_lose_prompt">你输了！！</string>
+<string name="dialog_gameover_renew">再来一盘</string>
+<string name="dialog_gameover_return">返回</string>
 </resources>

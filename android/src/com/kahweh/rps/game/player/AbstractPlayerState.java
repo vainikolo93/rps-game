@@ -57,4 +57,8 @@ public abstract class AbstractPlayerState implements IPlayerState {
 	public void drawChoiceMade(ChessPiece draw) throws  IllegalPlayerStateException {
 		throw new IllegalPlayerStateException();
 	}
+	
+	public void finish(IPlayer winner) throws IllegalPlayerStateException {
+		player.setState(player.getStateGameOver());
+	}
 }

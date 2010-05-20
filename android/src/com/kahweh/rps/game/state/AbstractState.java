@@ -3,10 +3,13 @@
  */
 package com.kahweh.rps.game.state;
 
+import android.util.Log;
+
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
+import com.kahweh.rps.game.player.IllegalPlayerStateException;
 
 /**
  * @author Michael
@@ -40,9 +43,23 @@ public abstract class AbstractState implements IGameState {
 
 	@Override
 	public void concede(IPlayer loser) throws IllegalGameStateException {
-		throw new IllegalGameStateException();
+		IPlayer winner;
+		if (loser.isBlack()) {
+			winner = game.getRed();
+		} else {
+			winner = game.getBlack();
+		}
+		game.setWinner(winner);
+
+		game.setState(game.getStateFinished());
+		try {
+			game.getRed().notifyFinish(winner);
+			game.getBlack().notifyFinish(winner);
+		} catch (IllegalPlayerStateException e) {
+			Log.e("AbstractState", "Wrong game state..", e);
+		}
 	}
-	
+
 	@Override
 	public void quitGame(IPlayer badGuy) {
 		game.setState(game.getStateIdle());

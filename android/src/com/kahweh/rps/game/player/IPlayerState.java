@@ -28,9 +28,11 @@ public interface IPlayerState {
 
 	public void boardInitialized() throws IllegalPlayerStateException;
 	
-	public void play() throws  IllegalPlayerStateException;
+	public void play() throws IllegalPlayerStateException;
 
-	public void metConflict() throws  IllegalPlayerStateException;
+	public void metConflict() throws IllegalPlayerStateException;
 
-	public void drawChoiceMade(ChessPiece draw) throws  IllegalPlayerStateException;
+	public void drawChoiceMade(ChessPiece draw) throws IllegalPlayerStateException;
+
+	public void finish(IPlayer winner) throws IllegalPlayerStateException;
 }

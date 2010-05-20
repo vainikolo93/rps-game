@@ -32,6 +32,8 @@ public class RockPaperScissors extends Activity {
 	public static final int DIALOG_TRAP_SELECT = 3;
 	private static final int DIALOG_CONFLICT_SELECT1 = 4;
 	private static final int DIALOG_CONFLICT_SELECT2 = 5;
+	public static final int DIALOG_WIN = 6;
+	public static final int DIALOG_LOSE = 7;
 	public static final int DIALOG_ABOUT = 1000;
 
 	private static final int MENU_NEWGAME_ID = 0;
@@ -242,7 +244,7 @@ public class RockPaperScissors extends Activity {
 			}).create();
     	case DIALOG_FLAG_SELECT:
     		return new AlertDialog.Builder(RockPaperScissors.this)
-    		.setIcon(R.drawable.dialog_icon_info)
+    		.setIcon(R.drawable.app)
     		.setTitle(R.string.dialog_select_flag_title)
     		.setMessage(R.string.dialog_select_flag_prompt)
     		.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
@@ -255,6 +257,28 @@ public class RockPaperScissors extends Activity {
     		.setTitle(R.string.dialog_select_trap_title)
     		.setMessage(R.string.dialog_select_trap_prompt)
     		.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {}
+			}).create();
+    	case DIALOG_WIN:
+    		return new AlertDialog.Builder(RockPaperScissors.this)
+    		.setIcon(R.drawable.app)
+    		.setMessage(R.string.dialog_win_prompt)
+    		.setPositiveButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {}
+			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {}
+			}).create();
+    	case DIALOG_LOSE:
+    		return new AlertDialog.Builder(RockPaperScissors.this)
+    		.setIcon(R.drawable.app)
+    		.setMessage(R.string.dialog_win_prompt)
+    		.setPositiveButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {}
+			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {}
 			}).create();
@@ -303,4 +327,12 @@ public class RockPaperScissors extends Activity {
     	}
     	nextConfDialog = !nextConfDialog;
     }
+
+	public void showFinishDialog(boolean b) {
+		if (b) {
+			showDialog(DIALOG_WIN);
+		} else {
+			showDialog(DIALOG_LOSE);
+		}
+	}
 }
