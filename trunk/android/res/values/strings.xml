@@ -22,4 +22,8 @@
 <item>Paper</item>
 <item>Scissors</item>
 </string-array>
+<string name="dialog_win_prompt">You WIN!!</string>
+<string name="dialog_lose_prompt">You LOSE!!</string>
+<string name="dialog_gameover_renew">Play Again</string>
+<string name="dialog_gameover_return">Return</string>
 </resources>

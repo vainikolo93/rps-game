@@ -50,7 +50,7 @@ public class LocalPlayer implements IPlayer {
 		this.stateTrapSet = new StateTrapSet(this);
 		this.stateMyTurn = new StateMyTurn(this);
 		this.stateOpponentTurn = new StateOpponentTurn(this);
-		this.stateGameOver = new StateGameOver();
+		this.stateGameOver = new StateGameOver(this);
 		this.stateConflict = new StateConflict(this);
 
 		this.state = this.stateNewCreate;
@@ -352,5 +352,11 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			game.makeChoice(game.getBlackConfPiece().open());
 		}
+	}
+
+	@Override
+	public void notifyFinish(IPlayer winner) throws IllegalPlayerStateException {
+		state.finish(winner);
+		rps.showFinishDialog(this == winner?true:false);
 	}
 }

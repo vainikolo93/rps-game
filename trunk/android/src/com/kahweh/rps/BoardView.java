@@ -113,7 +113,9 @@ public class BoardView extends View {
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
 					ChessPiece p = Board.translatePosition(player.getColor(), e.getX(), e.getY());
-					Log.i("BoardView", p.toString());					
+					if (Config.DEBUG) {
+						Log.d("BoardView", p.toString());
+					}
 					if (player.getState() instanceof StateColorSet) {
 						//Set Flag
 						try {
@@ -152,7 +154,6 @@ public class BoardView extends View {
 							}
 						} else {
 							//ActivePiece is set then do MOVE
-							Log.i("BoardView", activePiece.toString() + " " + p.toString());
 							if (player.isBlack()) {
 								if (p.isBlack()) {
 									if (p.isMovable()) {
@@ -175,7 +176,6 @@ public class BoardView extends View {
 								} else {
 									if ((Math.abs(p.getRow() - activePiece.getRow()) 
 											+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
-											Log.i("BoardView", "Localplayer Move.. ");
 											player.move(activePiece, p);
 										}
 								}
@@ -352,27 +352,32 @@ public class BoardView extends View {
 				case ChessPiece.BLANK:
 					if (activePiece != null) {
 						// Print the arrow prompt
-						if (Math.abs(activePiece.getRow() - i)
-							+ Math.abs(activePiece.getColumn() - j) == 1) {
+						int row = player.isBlack()?(Board.BOARD_HEIGHT - activePiece.getRow() - 1)
+								:activePiece.getRow();
+						int column = player.isBlack()?(Board.BOARD_WIDTH - activePiece.getColumn() - 1)
+								:activePiece.getColumn();
+
+						if (Math.abs(row - i)
+							+ Math.abs(column - j) == 1) {
 							if (player.isBlack()) {
-								if (activePiece.getRow() < i) {
-									canv.drawBitmap(arrow_up, x+8, y+8, paint);
-								} else if (activePiece.getRow() > i) {
+								if (row < i) {
 									canv.drawBitmap(arrow_down, x+8, y+8, paint);
-								} else if (activePiece.getColumn() < j) {
-									canv.drawBitmap(arrow_left, x+5, y+12, paint);
-								} else if (activePiece.getColumn() > j) {
-									canv.drawBitmap(arrow_right, x+5, y+8, paint);
+								} else if (row > i) {
+									canv.drawBitmap(arrow_up, x+8, y+8, paint);
+								} else if (column < j) {
+									canv.drawBitmap(arrow_right, x+5, y+12, paint);
+								} else if (column > j) {
+									canv.drawBitmap(arrow_left, x+5, y+8, paint);
 								}
 							} else {
 								//Red Player
-								if (activePiece.getRow() < i) {
+								if (row < i) {
 									canv.drawBitmap(arrow_down, x+8, y+8, paint);
-								} else if (activePiece.getRow() > i) {
+								} else if (row > i) {
 									canv.drawBitmap(arrow_up, x+8, y+8, paint);
-								} else if (activePiece.getColumn() < j) {
+								} else if (column < j) {
 									canv.drawBitmap(arrow_right, x+5, y+8, paint);
-								} else if (activePiece.getColumn() > j) {
+								} else if (column > j) {
 									canv.drawBitmap(arrow_left, x+5, y+12, paint);
 								}
 							}

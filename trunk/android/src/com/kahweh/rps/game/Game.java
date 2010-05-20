@@ -88,7 +88,7 @@ public class Game {
 		stateBlackReady = new StateBlackReady(this);
 		stateRedTurn = new StateRedTurn(this);
 		stateBlackTurn = new StateBlackTurn(this);
-		stateBlocked = new StateBlocked();
+		stateBlocked = new StateBlocked(this);
 		stateFinished = new StateFinished(this);
 		stateIdle = new StateIdle(this);
 		stateBlackTurnConflict = new StateBlackTurnConflict(this);
