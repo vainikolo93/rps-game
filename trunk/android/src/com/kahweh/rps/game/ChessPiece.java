@@ -13,21 +13,21 @@ import java.util.Set;
  *
  */
 public class ChessPiece implements Comparable<ChessPiece> {
-	public static final byte BLANK = 0;
-	public static final byte BLACK_ROCK = 9; //1001
-	public static final byte BLACK_PAPER = 10; //1010
-	public static final byte BLACK_SCISSORS = 11; //1011
-	public static final byte BLACK_TRAP = 12; //1100
-	public static final byte BLACK_FLAG = 13; //1101
-	public static final byte BLACK_UNKNOW = 14; //1110
-	public static final byte RED_ROCK = 1; //0001
-	public static final byte RED_PAPER = 2; //0010
-	public static final byte RED_SCISSORS = 3; //0011
-	public static final byte RED_TRAP = 4; //0100
-	public static final byte RED_FLAG = 5; //0101
-	public static final byte RED_UNKNOW = 6; //0110
+	public static final int BLANK = 0;
+	public static final int BLACK_ROCK = 9; //1001
+	public static final int BLACK_PAPER = 10; //1010
+	public static final int BLACK_SCISSORS = 11; //1011
+	public static final int BLACK_TRAP = 12; //1100
+	public static final int BLACK_FLAG = 13; //1101
+	public static final int BLACK_UNKNOW = 14; //1110
+	public static final int RED_ROCK = 1; //0001
+	public static final int RED_PAPER = 2; //0010
+	public static final int RED_SCISSORS = 3; //0011
+	public static final int RED_TRAP = 4; //0100
+	public static final int RED_FLAG = 5; //0101
+	public static final int RED_UNKNOW = 6; //0110
 
-	public static Set<Byte> PIECE_SET = new HashSet<Byte>(){{
+	public static Set<Integer> PIECE_SET = new HashSet<Integer>(){{
 		add(BLANK);
 		add(BLACK_ROCK);
 		add(BLACK_PAPER);
@@ -41,31 +41,31 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		add(RED_FLAG);
 		add(BLACK_UNKNOW);
 		add(RED_UNKNOW);
-		add((byte)(BLACK_ROCK | 128));
-		add((byte)(BLACK_PAPER | 128));
-		add((byte)(BLACK_SCISSORS | 128));
-		add((byte)(RED_ROCK | 128));
-		add((byte)(RED_PAPER | 128));
-		add((byte)(RED_SCISSORS | 128));
-		add((byte)(BLACK_TRAP | 128));
-		add((byte)(RED_TRAP | 128));
+		add((int)(BLACK_ROCK | 128));
+		add((int)(BLACK_PAPER | 128));
+		add((int)(BLACK_SCISSORS | 128));
+		add((int)(RED_ROCK | 128));
+		add((int)(RED_PAPER | 128));
+		add((int)(RED_SCISSORS | 128));
+		add((int)(BLACK_TRAP | 128));
+		add((int)(RED_TRAP | 128));
 	}};
 
-	private byte type;
+	private int type;
 	private int row;
 	private int column;
 	
-	public ChessPiece(byte type, int row, int column) {
+	public ChessPiece(int type, int row, int column) {
 		this.type = type;
 		this.row = row;
 		this.column = column;
 	}
 
-	public byte getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(byte type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
@@ -93,8 +93,8 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	
 	@Override
 	public int compareTo(ChessPiece p) {
-		byte thisPiece = (byte) (type & 7);
-		byte thatPiece = (byte) (p.getType() & 7);
+		int thisPiece = type & 7;
+		int thatPiece = p.getType() & 7;
 		if (thisPiece == thatPiece) return 0;
 
 		switch (thisPiece) {
@@ -163,7 +163,7 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	 * Make this chesspiece open.
 	 */
 	public ChessPiece open() {
-		return new ChessPiece((byte)(type | 128), row, column);
+		return new ChessPiece(type | 128, row, column);
 	}
 
 	public boolean equals(Object o) {
@@ -192,6 +192,10 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		if (p.getRow() < 0 || p.getRow() >= Board.BOARD_HEIGHT) return false;
 		if (p.getColumn() < 0 || p.getColumn() >=  Board.BOARD_WIDTH) return false;
 		return true;
+	}
+	
+	public boolean isUnknow() {
+		return ((type | 6) == 6);
 	}
 	
 	public static int toClosePiece(int p) {

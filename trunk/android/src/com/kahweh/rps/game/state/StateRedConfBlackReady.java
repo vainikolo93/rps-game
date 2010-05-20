@@ -24,27 +24,41 @@ public class StateRedConfBlackReady extends AbstractState {
 	@Override
 	public boolean makeChoice(ChessPiece r) throws IllegalGameStateException {
 		if (r.isBlack()) {
+			Log.e("StateRedConfBlackReady", "Game State Error, shold be a red piece..");
 			throw new IllegalGameStateException("Now..  in Red Turn Conflict Black Ready..");
 		} else {
 			game.setRedConfPiece(r);
 			ChessPiece b = game.getBlackConfPiece();
-			if (r.compareTo(b) == 0) {
-				game.noticeConflict(r, b);
-				game.setState(game.getStateRedTurnConflict());
-				if (Config.DEBUG) {
-					Log.d("StateRedConfBlackReady", "convert to StateRedTurnConflict");
-				}
-				return true;
-			}
+			
+			game.getBoard().setChessPiece(r);
+			game.getBoard().setChessPiece(b);
 
-			Board board = game.getBoard();
-			board.move(r, b);
-
-			game.setState(game.getStateBlackTurn());
+			game.notifyBoardUpdate();
+			
+			game.setState(game.getStateRedTurn());
 			if (Config.DEBUG) {
-				Log.d("StateRedConfBlackReady", "convert to StateBlackTurn");
+				Log.d("StateRedConfBlackReady", "convert to StateRedTurn again...");
 			}
-			game.getBlack().play();
+
+			game.move(r, b);
+
+//			if (r.compareTo(b) == 0) {
+//				game.setState(game.getStateRedTurnConflict());
+//				if (Config.DEBUG) {
+//					Log.d("StateRedConfBlackReady", "convert to StateRedTurnConflict");
+//				}
+//				game.noticeConflict(r, b);
+//				return true;
+//			}
+//
+//			Board board = game.getBoard();
+//			board.move(r, b);
+//
+//			game.setState(game.getStateBlackTurn());
+//			if (Config.DEBUG) {
+//				Log.d("StateRedConfBlackReady", "convert to StateBlackTurn");
+//			}
+//			game.getBlack().play();
 		}
 		return true;
 	}

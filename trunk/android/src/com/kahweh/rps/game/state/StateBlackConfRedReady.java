@@ -26,11 +26,11 @@ public class StateBlackConfRedReady extends AbstractState {
 			game.setBlackConfPiece(b);
 			ChessPiece r = game.getRedConfPiece();
 			if (b.compareTo(r) == 0) {
-				game.noticeConflict(r, b);
 				game.setState(game.getStateBlackTurnConflict());
 				if (Config.DEBUG) {
 					Log.d("StateBlackConfRedReady", "convert to StateBlackTurnConflict");
 				}
+				game.noticeConflict(r, b);
 				return true;
 			}
 

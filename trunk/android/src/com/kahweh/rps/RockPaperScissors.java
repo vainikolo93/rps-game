@@ -30,7 +30,8 @@ public class RockPaperScissors extends Activity {
 	public static final int DIALOG_COLOR_SELECT = 1;
 	public static final int DIALOG_FLAG_SELECT = 2;
 	public static final int DIALOG_TRAP_SELECT = 3;
-	public static final int DIALOG_CONFLICT_SELECT = 4;
+	private static final int DIALOG_CONFLICT_SELECT1 = 4;
+	private static final int DIALOG_CONFLICT_SELECT2 = 5;
 	public static final int DIALOG_ABOUT = 1000;
 
 	private static final int MENU_NEWGAME_ID = 0;
@@ -137,7 +138,36 @@ public class RockPaperScissors extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch (id) {
-    	case DIALOG_CONFLICT_SELECT:
+    	case DIALOG_CONFLICT_SELECT1:
+    		return new AlertDialog.Builder(RockPaperScissors.this)
+    		.setIcon(R.drawable.dialog_icon_question)
+    		.setTitle(R.string.dialog_conflict_select_title)
+    		.setSingleChoiceItems(R.array.gesture_select_strings, 0, new DialogInterface.OnClickListener() {
+    			@Override
+    			public void onClick(DialogInterface dialog, int btn) {
+    				if (btn == 0) {
+    					//Rock selected
+    					player.setDrawChoice(0);
+    				} else if (btn == 1) {
+    					//Paper
+    					player.setDrawChoice(1);
+    				} else if (btn == 2) {
+    					//Scissors
+    					player.setDrawChoice(2);
+    				}
+    			}
+    		}).setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					try {
+						player.drawChoiceMade();
+					} catch (IllegalGameStateException e) {
+	    				game = null;
+	    				Log.e(RockPaperScissors.class.getName(), "LocalPlayer State Error..",e);
+					}
+				}
+			}).create();
+    	case DIALOG_CONFLICT_SELECT2:
     		return new AlertDialog.Builder(RockPaperScissors.this)
     		.setIcon(R.drawable.dialog_icon_question)
     		.setTitle(R.string.dialog_conflict_select_title)
@@ -257,5 +287,20 @@ public class RockPaperScissors extends Activity {
     	case DIALOG_ABOUT:
     		break;
     	}
+    }
+
+    private boolean nextConfDialog = true;
+    /**
+     * When met continuous conflict, the one thread mode will cause the second dialog cannot show off.
+     * Because the invoke of second dialog is in the onClick function of first one.
+     * This function solved this problem with two polling dialogs, these two dialogs have same definition. 
+     */
+    public void showConfSelectDialog() {
+    	if (nextConfDialog) {
+        	showDialog(DIALOG_CONFLICT_SELECT1);
+    	} else {
+        	showDialog(DIALOG_CONFLICT_SELECT2);
+    	}
+    	nextConfDialog = !nextConfDialog;
     }
 }
