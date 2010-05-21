@@ -69,4 +69,18 @@ public abstract class AbstractState implements IGameState {
 			game.getRed().notifyQuit();
 		}
 	}
+	
+	@Override
+	public void gameOver(IPlayer winner) {
+		game.setState(game.getStateFinished());
+		game.setWinner(winner);
+		game.getBoard().openAll();
+		
+		try {
+			game.getRed().notifyFinish(winner);
+			game.getBlack().notifyFinish(winner);
+		} catch (IllegalPlayerStateException e) {
+			Log.e("AbstractState", "Wrong player state..", e);
+		}
+	}
 }

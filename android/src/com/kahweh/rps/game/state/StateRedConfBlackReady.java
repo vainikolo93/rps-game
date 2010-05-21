@@ -41,24 +41,6 @@ public class StateRedConfBlackReady extends AbstractState {
 			}
 
 			game.move(r, b);
-
-//			if (r.compareTo(b) == 0) {
-//				game.setState(game.getStateRedTurnConflict());
-//				if (Config.DEBUG) {
-//					Log.d("StateRedConfBlackReady", "convert to StateRedTurnConflict");
-//				}
-//				game.noticeConflict(r, b);
-//				return true;
-//			}
-//
-//			Board board = game.getBoard();
-//			board.move(r, b);
-//
-//			game.setState(game.getStateBlackTurn());
-//			if (Config.DEBUG) {
-//				Log.d("StateRedConfBlackReady", "convert to StateBlackTurn");
-//			}
-//			game.getBlack().play();
 		}
 		return true;
 	}

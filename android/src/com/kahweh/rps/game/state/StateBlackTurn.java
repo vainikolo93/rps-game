@@ -44,7 +44,9 @@ public class StateBlackTurn extends AbstractState {
 		if (dest.getType() == ChessPiece.RED_FLAG) {
 			game.setWinner(game.getBlack());
 			game.setState(game.getStateFinished());
+			return true;
 		}
+
 		//If the chesspiece is the same type
 		if (start.compareTo(dest) == 0) {
 			game.setState(game.getStateBlackTurnConflict());

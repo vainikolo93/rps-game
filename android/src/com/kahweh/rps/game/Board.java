@@ -296,4 +296,16 @@ public class Board {
 		ChessPiece p = new ChessPiece(ChessPiece.BLANK, iy, ix);
 		return p;
 	}
+
+	/**
+	 * This function used to open all the closed pieces when game was over..  
+	 */
+	public void openAll() {
+		for (int i=0; i<Board.BOARD_HEIGHT; i++)
+			for (int j=0; j<Board.BOARD_WIDTH; j++) {
+				if (!ChessPiece.isBlank(board[i][j])) {
+					board[i][j] = ChessPiece.open(board[i][j]);
+				}
+			}
+	}
 }
