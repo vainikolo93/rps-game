@@ -195,7 +195,7 @@ public class ChessPiece implements Comparable<ChessPiece> {
 	}
 	
 	public boolean isUnknow() {
-		return ((type | 6) == 6);
+		return ((type & 7) == 6);
 	}
 	
 	/**
@@ -220,5 +220,17 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		sb.append(type + ": ");
 		sb.append(row + " " + column);
 		return sb.toString();
+	}
+
+	public static boolean isBlack(int i) {
+		i = i & 15;
+		if (i >= 9 && i <= 14) return true;
+		return false;
+	}
+
+	public static boolean isRed(int i) {
+		i = i & 15;
+		if (i >= 1 && i <= 6) return true;
+		return false;
 	}
 }
