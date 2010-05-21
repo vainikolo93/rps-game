@@ -350,40 +350,42 @@ public class BoardView extends View {
 					}
 					break;
 				case ChessPiece.BLANK:
-					if (activePiece != null) {
-						// Print the arrow prompt
-						int row = player.isBlack()?(Board.BOARD_HEIGHT - activePiece.getRow() - 1)
-								:activePiece.getRow();
-						int column = player.isBlack()?(Board.BOARD_WIDTH - activePiece.getColumn() - 1)
-								:activePiece.getColumn();
+					break;
+				}
+				if (activePiece != null && 
+						(player.isBlack() && !ChessPiece.isBlack(b[ii][jj]) 
+						 || player.isRed() && !ChessPiece.isRed(b[ii][jj]))) {
+					// Print the arrow prompt
+					int row = player.isBlack()?(Board.BOARD_HEIGHT - activePiece.getRow() - 1)
+							:activePiece.getRow();
+					int column = player.isBlack()?(Board.BOARD_WIDTH - activePiece.getColumn() - 1)
+							:activePiece.getColumn();
 
-						if (Math.abs(row - i)
-							+ Math.abs(column - j) == 1) {
-							if (player.isBlack()) {
-								if (row < i) {
-									canv.drawBitmap(arrow_down, x+8, y+8, paint);
-								} else if (row > i) {
-									canv.drawBitmap(arrow_up, x+8, y+8, paint);
-								} else if (column < j) {
-									canv.drawBitmap(arrow_right, x+5, y+12, paint);
-								} else if (column > j) {
-									canv.drawBitmap(arrow_left, x+5, y+8, paint);
-								}
-							} else {
-								//Red Player
-								if (row < i) {
-									canv.drawBitmap(arrow_down, x+8, y+8, paint);
-								} else if (row > i) {
-									canv.drawBitmap(arrow_up, x+8, y+8, paint);
-								} else if (column < j) {
-									canv.drawBitmap(arrow_right, x+5, y+8, paint);
-								} else if (column > j) {
-									canv.drawBitmap(arrow_left, x+5, y+12, paint);
-								}
+					if (Math.abs(row - i)
+						+ Math.abs(column - j) == 1) {
+						if (player.isBlack()) {
+							if (row < i) {
+								canv.drawBitmap(arrow_down, x+8, y+8, paint);
+							} else if (row > i) {
+								canv.drawBitmap(arrow_up, x+8, y+8, paint);
+							} else if (column < j) {
+								canv.drawBitmap(arrow_right, x+5, y+12, paint);
+							} else if (column > j) {
+								canv.drawBitmap(arrow_left, x+5, y+8, paint);
+							}
+						} else {
+							//Red Player
+							if (row < i) {
+								canv.drawBitmap(arrow_down, x+8, y+8, paint);
+							} else if (row > i) {
+								canv.drawBitmap(arrow_up, x+8, y+8, paint);
+							} else if (column < j) {
+								canv.drawBitmap(arrow_right, x+5, y+8, paint);
+							} else if (column > j) {
+								canv.drawBitmap(arrow_left, x+5, y+12, paint);
 							}
 						}
 					}
-					break;
 				}
 			}
 		}
