@@ -23,4 +23,6 @@ public interface IGameState {
 	public void concede(IPlayer loser) throws IllegalGameStateException;
 
 	public void quitGame(IPlayer badGuy);
+	
+	public void gameOver(IPlayer winner);
 }

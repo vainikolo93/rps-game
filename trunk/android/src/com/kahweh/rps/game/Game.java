@@ -241,6 +241,12 @@ public class Game {
 		state.move(start, dest);
 		getRed().boardUpdated();
 		getBlack().boardUpdated();
+
+		if (board.getBlack_count() == 2) {
+			state.gameOver(getRed());
+		} else if (board.getRed_count() == 2) {
+			state.gameOver(getBlack());
+		}
 	}
 
 	public boolean isRedTurn() {

@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kahweh.rps.ai.AIPlayerFactory;
 import com.kahweh.rps.game.Game;
@@ -54,12 +53,6 @@ public class RockPaperScissors extends Activity {
 
         setContentView(R.layout.main);
 
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        	Toast.makeText(RockPaperScissors.this, "TEST in land", Toast.LENGTH_SHORT).show();
-        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-        	Toast.makeText(RockPaperScissors.this, "TEST in port", Toast.LENGTH_SHORT).show();
-        }
-        
         //create boardView
         if (boardView == null) {
         	boardView = new BoardView(this);
@@ -120,7 +113,6 @@ public class RockPaperScissors extends Activity {
     			player = new LocalPlayer(this);
     			boardView.setPlayer(player);
     			showDialog(DIALOG_COLOR_SELECT);
-//    			Toast.makeText(RockPaperScissors.this, "Test", Toast.LENGTH_LONG).show();
     		} else {
     			//TODO: renew game
     		}

@@ -233,4 +233,12 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		if (i >= 1 && i <= 6) return true;
 		return false;
 	}
+
+	public static boolean isBlank(int i) {
+		return BLANK == i;
+	}
+
+	public static int open(int i) {
+		return i | 128;
+	}
 }

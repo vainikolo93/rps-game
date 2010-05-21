@@ -221,7 +221,11 @@ public class BoardView extends View {
 					if (player.isBlack()) {
 						canv.drawBitmap(bFlag, x, y, paint);
 					} else {
-						canv.drawBitmap(bfe, x, y, paint);
+						if (ChessPiece.isOpen(b[ii][jj])) {
+							canv.drawBitmap(bFlag, x, y, paint);
+						} else {
+							canv.drawBitmap(bfe, x, y, paint);
+						}
 					}
 					break;
 				case ChessPiece.BLACK_PAPER:
@@ -273,12 +277,20 @@ public class BoardView extends View {
 					if (player.isBlack()) {
 						canv.drawBitmap(trap, x, y, paint);
 					} else {
-						canv.drawBitmap(bfe, x, y, paint);
+						if (ChessPiece.isOpen(b[ii][jj])) {
+							canv.drawBitmap(trap, x, y, paint);
+						} else {
+							canv.drawBitmap(bfe, x, y, paint);
+						}
 					}
 					break;
 				case ChessPiece.RED_TRAP:
 					if (player.isBlack()) {
-						canv.drawBitmap(rfe, x, y, paint);
+						if (ChessPiece.isOpen(b[ii][jj])) {
+							canv.drawBitmap(trap, x, y, paint);
+						} else {
+							canv.drawBitmap(rfe, x, y, paint);
+						}
 					} else {
 						canv.drawBitmap(trap, x, y, paint);
 					}
@@ -292,7 +304,11 @@ public class BoardView extends View {
 					break;
 				case ChessPiece.RED_FLAG:
 					if (player.isBlack()) {
-						canv.drawBitmap(rfe, x, y, paint);
+						if (ChessPiece.isOpen(b[ii][jj])) {
+							canv.drawBitmap(rFlag, x, y, paint);
+						} else {
+							canv.drawBitmap(rfe, x, y, paint);
+						}
 					} else {
 						canv.drawBitmap(rFlag, x, y, paint);
 					}
