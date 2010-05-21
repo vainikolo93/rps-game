@@ -42,8 +42,7 @@ public class StateRedTurn extends AbstractState {
 		}
 		//If the dest piece is Black Flag the the red WIN...
 		if (dest.getType() == ChessPiece.BLACK_FLAG) {
-			game.setWinner(game.getRed());
-			game.setState(game.getStateFinished());
+			gameOver(game.getRed());
 			return true;
 		}
 
