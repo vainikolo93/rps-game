@@ -255,24 +255,34 @@ public class RockPaperScissors extends Activity {
     	case DIALOG_WIN:
     		return new AlertDialog.Builder(RockPaperScissors.this)
     		.setIcon(R.drawable.app)
+    		.setTitle(R.string.dialog_gameover)
     		.setMessage(R.string.dialog_win_prompt)
-    		.setPositiveButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
+    		.setNeutralButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {}
+				public void onClick(DialogInterface dialog, int which) {
+					//TODO
+				}
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {}
+				public void onClick(DialogInterface dialog, int which) {
+					//TODO
+				}
 			}).create();
     	case DIALOG_LOSE:
     		return new AlertDialog.Builder(RockPaperScissors.this)
     		.setIcon(R.drawable.app)
-    		.setMessage(R.string.dialog_win_prompt)
-    		.setPositiveButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
+    		.setTitle(R.string.dialog_gameover)
+    		.setMessage(R.string.dialog_lose_prompt)
+    		.setNeutralButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {}
+				public void onClick(DialogInterface dialog, int which) {
+					//TODO
+				}
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int which) {}
+				public void onClick(DialogInterface dialog, int which) {
+					//TODO
+				}
 			}).create();
     	case DIALOG_ABOUT:
     		TextView view = new TextView(RockPaperScissors.this);
