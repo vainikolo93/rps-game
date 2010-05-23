@@ -26,4 +26,5 @@
 <string name="dialog_lose_prompt">你输了！！</string>
 <string name="dialog_gameover_renew">再来一盘</string>
 <string name="dialog_gameover_return">返回</string>
+<string name="dialog_gameover">游戏结束</string>
 </resources>

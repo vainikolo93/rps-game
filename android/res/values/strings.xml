@@ -26,4 +26,5 @@
 <string name="dialog_lose_prompt">You LOSE!!</string>
 <string name="dialog_gameover_renew">Play Again</string>
 <string name="dialog_gameover_return">Return</string>
+<string name="dialog_gameover">Game Over</string>
 </resources>
