@@ -6,7 +6,7 @@ package com.kahweh.rps.game.state;
 import android.util.Log;
 
 import com.kahweh.rps.Config;
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;

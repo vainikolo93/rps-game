@@ -8,9 +8,10 @@ import java.util.Random;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
@@ -110,20 +111,20 @@ class Michael implements IPlayer {
 
 	@Override
 	public void play() {
-		Board board = game.getBoard(this);
+		IBoard board = game.getBoard(this);
 		// TODO Auto-generated method stub
 		ChessPiece p = null, n = null;
 
-		for (int i = 0; i < Board.BOARD_HEIGHT; i++) {
-			for (int j = 0; j < Board.BOARD_WIDTH; j++) {
+		for (int i = 0; i < Board67.BOARD_HEIGHT; i++) {
+			for (int j = 0; j < Board67.BOARD_WIDTH; j++) {
 				p = board.getChessPiece(i, j);
 				if (getColor() == IPlayer.BLACK && p.isBlack() && p.isMovable()) {
 					//TODO
 					for (int k = 0; k < 4; k++) {
 						n = board.getNeighborChessPiece(p, k);
 						if (n != null && (n.isBlank() || n.isRed())) {
-							j = Board.BOARD_WIDTH;
-							i = Board.BOARD_HEIGHT;
+							j = Board67.BOARD_WIDTH;
+							i = Board67.BOARD_HEIGHT;
 							break;
 						}
 					}
@@ -133,8 +134,8 @@ class Michael implements IPlayer {
 					for (int k = 0; k < 4; k++) {
 						n = board.getNeighborChessPiece(p, k);
 						if (n != null && (n.isBlank() || n.isBlack())) {
-							j = Board.BOARD_WIDTH;
-							i = Board.BOARD_HEIGHT;
+							j = Board67.BOARD_WIDTH;
+							i = Board67.BOARD_HEIGHT;
 							break;
 						}
 					}

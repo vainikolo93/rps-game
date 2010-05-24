@@ -4,49 +4,63 @@ import java.util.Random;
 
 import com.kahweh.rps.game.player.IPlayer;
 
-public class Board {
-	public static final int UP = 0;
-	public static final int DOWN = 1;
-	public static final int LEFT = 2;
-	public static final int RIGHT = 3;
+public class Board67 implements IBoard {
+	private static final int GRID_WIDTH = 44;
+	private static final int GRID_HEIGHT = 50;
+	private static final int BOARD_MARGIN = 3;
+	private static final int BOARD_HEIGHT = 6;
+	private static final int BOARD_WIDTH = 7;
+	private static final int BOARD_ABS_HEIGHT = 306;
+	private static final int BOARD_ABS_WIDTH = 314;
 
-	public static final int GRID_WIDTH = 44;
-	public static final int GRID_HEIGHT = 50;
-	public static final int BOARD_MARGIN = 3;
-	public static final int BOARD_HEIGHT = 6;
-	public static final int BOARD_WIDTH = 7;
-	public static final int BOARD_ABS_HEIGHT = 306;
-	public static final int BOARD_ABS_WIDTH = 314;
 	private int[][] board = new int[BOARD_HEIGHT][BOARD_WIDTH];
 	private Random rand = new Random(System.currentTimeMillis());
 
 	private int black_count;
 	private int red_count;
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#getBlack_count()
+	 */
 	public int getBlack_count() {
 		return black_count;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#getRed_count()
+	 */
 	public int getRed_count() {
 		return red_count;
 	}
 
-	public Board() {}
+	public Board67() {}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#getBoard()
+	 */
 	public int[][] getBoard() {
 		return board;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#setChessPiece(com.kahweh.rps.game.ChessPiece)
+	 */
 	public boolean setChessPiece(ChessPiece p) {
 		if (p == null) return false;
 		board[p.getRow()][p.getColumn()] = p.getType();
 		return true;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#getChessPiece(int, int)
+	 */
 	public ChessPiece getChessPiece(int row, int column) {
 		return new ChessPiece(board[row][column], row, column);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
+	 */
 	public void cleanBoard() {
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -61,6 +75,9 @@ public class Board {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#initBoard()
+	 */
 	public boolean initBoard() {
 		int rock = 4, paper = 4, scissors = 4;
 		black_count = red_count = 14;
@@ -178,6 +195,9 @@ public class Board {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#move(com.kahweh.rps.game.ChessPiece, com.kahweh.rps.game.ChessPiece)
+	 */
 	public void move(ChessPiece start, ChessPiece dest) {
 		if (start.compareTo(dest) > 0) {
 			if (dest.isBlack()) {
@@ -213,8 +233,11 @@ public class Board {
 		return true;
 	}
 
-	public Board cloneBoard(int color) {
-		Board b = (Board)this.clone();
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#cloneBoard(int)
+	 */
+	public IBoard cloneBoard(int color) {
+		IBoard b = (IBoard)this.clone();
 		if (color == IPlayer.RED) {
 			for (int i = 0; i < BOARD_HEIGHT; i++) {
 				for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -239,23 +262,26 @@ public class Board {
 		return b;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#getNeighborChessPiece(com.kahweh.rps.game.ChessPiece, int)
+	 */
 	public ChessPiece getNeighborChessPiece(ChessPiece p, int pos) {
 		ChessPiece n = null;
 		switch (pos) {
-		case Board.UP:
+		case IBoard.UP:
 			if (p.getRow() - 1 < 0) return null;
 			n = getChessPiece(p.getRow() - 1, p.getColumn());
 			break;
-		case Board.DOWN:
-			if (p.getRow() + 1 >= Board.BOARD_HEIGHT) return null;
+		case IBoard.DOWN:
+			if (p.getRow() + 1 >= Board67.BOARD_HEIGHT) return null;
 			n = getChessPiece(p.getRow() + 1, p.getColumn());
 			break;
-		case Board.LEFT:
+		case IBoard.LEFT:
 			if (p.getColumn() - 1 < 0) return null;
 			n = getChessPiece(p.getRow(), p.getColumn() - 1);
 			break;
-		case Board.RIGHT:
-			if (p.getColumn() + 1 >= Board.BOARD_WIDTH) return null;
+		case IBoard.RIGHT:
+			if (p.getColumn() + 1 >= Board67.BOARD_WIDTH) return null;
 			n = getChessPiece(p.getRow(), p.getColumn() + 1);
 			break;
 		}
@@ -263,9 +289,12 @@ public class Board {
 		return n;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#clone()
+	 */
 	@Override
 	public Object clone() {
-		Board c = new Board();
+		Board67 c = new Board67();
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
 				c.board[i][j] = board[i][j];
@@ -297,15 +326,50 @@ public class Board {
 		return p;
 	}
 
-	/**
-	 * This function used to open all the closed pieces when game was over..  
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#openAll()
 	 */
 	public void openAll() {
-		for (int i=0; i<Board.BOARD_HEIGHT; i++)
-			for (int j=0; j<Board.BOARD_WIDTH; j++) {
+		for (int i=0; i<Board67.BOARD_HEIGHT; i++)
+			for (int j=0; j<Board67.BOARD_WIDTH; j++) {
 				if (!ChessPiece.isBlank(board[i][j])) {
 					board[i][j] = ChessPiece.open(board[i][j]);
 				}
 			}
+	}
+
+	@Override
+	public int getBoardAbsHeight() {
+		return BOARD_ABS_HEIGHT;
+	}
+
+	@Override
+	public int getBoardAbsWidth() {
+		return BOARD_ABS_WIDTH;
+	}
+
+	@Override
+	public int getBoardHeight() {
+		return BOARD_HEIGHT;
+	}
+
+	@Override
+	public int getBoardMargin() {
+		return BOARD_MARGIN;
+	}
+
+	@Override
+	public int getBoardWidth() {
+		return BOARD_WIDTH;
+	}
+
+	@Override
+	public int getGridHeight() {
+		return GRID_HEIGHT;
+	}
+
+	@Override
+	public int getGridWidth() {
+		return GRID_WIDTH;
 	}
 }

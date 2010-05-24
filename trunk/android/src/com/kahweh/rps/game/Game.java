@@ -32,7 +32,7 @@ public class Game {
 	private IPlayer black;
 	private IPlayer red;
 
-	private Board board;
+	private IBoard board;
 
 	private IGameState stateIdle;
 	private IGameState stateNewCreate;
@@ -81,7 +81,7 @@ public class Game {
 	}
 
 	public Game() {
-		board = new  Board();
+		board = new  Board67();
 
 		stateNewCreate = new StateNewCreate(this);
 		stateRedReady = new StateRedReady(this);
@@ -181,11 +181,11 @@ public class Game {
 		this.red = red;
 	}
 
-	public Board getBoard() {
+	public IBoard getBoard() {
 		return board;
 	}
 
-	public void setBoard(Board board) {
+	public void setBoard(IBoard board) {
 		this.board = board;
 	}
 
@@ -276,7 +276,7 @@ public class Game {
 		state.quitGame(badGuy);
 	}
 
-	public Board getBoard(IPlayer p) {
+	public IBoard getBoard(IPlayer p) {
 		if (p == red) {
 			return board.cloneBoard(IPlayer.RED);
 		}

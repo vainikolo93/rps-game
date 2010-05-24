@@ -187,10 +187,10 @@ public class ChessPiece implements Comparable<ChessPiece> {
 		return (type == ChessPiece.BLANK);
 	}
 	
-	public static boolean verifyPiece(ChessPiece p) {
+	public static boolean verifyPiece(ChessPiece p, IBoard board) {
 		if (!PIECE_SET.contains(p.getType())) return false;
-		if (p.getRow() < 0 || p.getRow() >= Board.BOARD_HEIGHT) return false;
-		if (p.getColumn() < 0 || p.getColumn() >=  Board.BOARD_WIDTH) return false;
+		if (p.getRow() < 0 || p.getRow() >= board.getBoardHeight()) return false;
+		if (p.getColumn() < 0 || p.getColumn() >=  board.getBoardWidth()) return false;
 		return true;
 	}
 	

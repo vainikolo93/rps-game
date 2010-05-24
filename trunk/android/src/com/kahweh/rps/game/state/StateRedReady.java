@@ -5,9 +5,10 @@ package com.kahweh.rps.game.state;
 
 import android.util.Log;
 
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 
@@ -27,11 +28,11 @@ public class StateRedReady extends AbstractState {
 		if (f.isRed() || t.isRed()) {
 			throw new IllegalArgumentException("Now.. Red is ready..");
 		}
-		if (!Board.verifyFlagAndTrap(f, t)) {
+		if (!Board67.verifyFlagAndTrap(f, t)) {
 			throw new IllegalArgumentException();
 		}
 
-		Board b = game.getBoard();
+		IBoard b = game.getBoard();
 		b.setChessPiece(f);
 		b.setChessPiece(t);
 		b.initBoard();
