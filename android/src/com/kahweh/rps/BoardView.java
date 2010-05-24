@@ -211,8 +211,8 @@ public class BoardView extends View {
 			for (int j=0; j < b[i].length; j++) {
 				x = j * 44 + 3;
 				if (player.isBlack()) {
-					ii = Board67.BOARD_HEIGHT - i - 1;
-					jj = Board67.BOARD_WIDTH - j - 1;
+					ii = board.getBoardHeight() - i - 1;
+					jj = board.getBoardWidth() - j - 1;
 				} else {
 					ii = i;
 					jj = j;
@@ -373,9 +373,9 @@ public class BoardView extends View {
 						(player.isBlack() && !ChessPiece.isBlack(b[ii][jj]) 
 						 || player.isRed() && !ChessPiece.isRed(b[ii][jj]))) {
 					// Print the arrow prompt
-					int row = player.isBlack()?(Board67.BOARD_HEIGHT - activePiece.getRow() - 1)
+					int row = player.isBlack()?(board.getBoardHeight() - activePiece.getRow() - 1)
 							:activePiece.getRow();
-					int column = player.isBlack()?(Board67.BOARD_WIDTH - activePiece.getColumn() - 1)
+					int column = player.isBlack()?(board.getBoardWidth() - activePiece.getColumn() - 1)
 							:activePiece.getColumn();
 
 					if (Math.abs(row - i)

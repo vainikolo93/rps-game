@@ -27,8 +27,6 @@ public interface IBoard {
 
 	public abstract ChessPiece getNeighborChessPiece(ChessPiece p, int pos);
 
-	public abstract Object clone();
-
 	/**
 	 * This function used to open all the closed pieces when game was over..  
 	 */
