@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.kahweh.rps.Config;
 import com.kahweh.rps.RockPaperScissors;
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
@@ -221,7 +221,7 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			p.setType(ChessPiece.BLACK_FLAG);
 		}
-		if (!Board.verifyFlag(p)) {
+		if (!Board67.verifyFlag(p)) {
 			rps.showDialog(RockPaperScissors.DIALOG_FLAG_SELECT);
 			return false;
 		}
@@ -242,7 +242,7 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			p.setType(ChessPiece.BLACK_TRAP);
 		}
-		if (!Board.verifyFlagAndTrap(flag, p)) {
+		if (!Board67.verifyFlagAndTrap(flag, p)) {
 			rps.showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
 			return false;
 		}

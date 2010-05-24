@@ -12,8 +12,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
@@ -29,7 +30,7 @@ public class BoardView extends View {
 	private RockPaperScissors rps;
 	private LocalPlayer player;
 	
-	private Board board;
+	private IBoard board;
 	public ChessPiece getActivePiece() {
 		return activePiece;
 	}
@@ -112,7 +113,7 @@ public class BoardView extends View {
 				if (player == null) return false;
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
-					ChessPiece p = Board.translatePosition(player.getColor(), e.getX(), e.getY());
+					ChessPiece p = Board67.translatePosition(player.getColor(), e.getX(), e.getY());
 					if (Config.DEBUG) {
 						Log.d("BoardView", p.toString());
 					}
@@ -210,8 +211,8 @@ public class BoardView extends View {
 			for (int j=0; j < b[i].length; j++) {
 				x = j * 44 + 3;
 				if (player.isBlack()) {
-					ii = Board.BOARD_HEIGHT - i - 1;
-					jj = Board.BOARD_WIDTH - j - 1;
+					ii = Board67.BOARD_HEIGHT - i - 1;
+					jj = Board67.BOARD_WIDTH - j - 1;
 				} else {
 					ii = i;
 					jj = j;
@@ -372,9 +373,9 @@ public class BoardView extends View {
 						(player.isBlack() && !ChessPiece.isBlack(b[ii][jj]) 
 						 || player.isRed() && !ChessPiece.isRed(b[ii][jj]))) {
 					// Print the arrow prompt
-					int row = player.isBlack()?(Board.BOARD_HEIGHT - activePiece.getRow() - 1)
+					int row = player.isBlack()?(Board67.BOARD_HEIGHT - activePiece.getRow() - 1)
 							:activePiece.getRow();
-					int column = player.isBlack()?(Board.BOARD_WIDTH - activePiece.getColumn() - 1)
+					int column = player.isBlack()?(Board67.BOARD_WIDTH - activePiece.getColumn() - 1)
 							:activePiece.getColumn();
 
 					if (Math.abs(row - i)
@@ -415,11 +416,11 @@ public class BoardView extends View {
 		this.player = player;
 	}
 
-	public void setBoard(Board board) {
+	public void setBoard(IBoard board) {
 		this.board = board;
 	}
 
-	public Board getBoard() {
+	public IBoard getBoard() {
 		return board;
 	}
 

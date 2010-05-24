@@ -3,9 +3,10 @@
  */
 package com.kahweh.rps.game.state;
 
-import com.kahweh.rps.game.Board;
+import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 
 /**
@@ -21,11 +22,11 @@ public class StateNewCreate extends AbstractState {
 	@Override
 	public boolean placeTrapAndFlag(ChessPiece f, ChessPiece t)
 			throws IllegalGameStateException {
-		if (!Board.verifyFlagAndTrap(f, t)) {
+		if (!Board67.verifyFlagAndTrap(f, t)) {
 			throw new IllegalArgumentException();
 		}
 
-		Board b = game.getBoard();
+		IBoard b = game.getBoard();
 		b.setChessPiece(f);
 		b.setChessPiece(t);
 		game.setWinner(null);

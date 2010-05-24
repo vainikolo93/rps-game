@@ -3,8 +3,8 @@
  */
 package com.kahweh.rps.game.state;
 
-import com.kahweh.rps.game.Board;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
@@ -32,7 +32,7 @@ public class StateIdle extends AbstractState {
 
 		game.setRed(red);
 		game.setBlack(black);
-		Board b = game.getBoard();
+		IBoard b = game.getBoard();
 		b.cleanBoard();
 		game.setState(game.getStateNewCreate());
 		try {
