@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kahweh.rps.ai.AIPlayerFactory;
+import com.kahweh.rps.game.Board55;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
@@ -109,6 +110,11 @@ public class RockPaperScissors extends Activity {
     		//New Game
     		if (game == null || game.getState() instanceof StateIdle) {
     			game = new Game();
+    			if (game.getBoard() instanceof Board55) {
+    				boardView.setBackgroundResource(R.drawable.board5_5_320_480);
+    			} else {
+    				boardView.setBackgroundResource(R.drawable.board320_480);
+    			}
     			player = new LocalPlayer(this);
     			boardView.setPlayer(player);
     			showDialog(DIALOG_COLOR_SELECT);
