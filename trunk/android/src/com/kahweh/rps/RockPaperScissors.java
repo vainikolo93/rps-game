@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -336,5 +335,9 @@ public class RockPaperScissors extends Activity {
 		} else {
 			showDialog(DIALOG_LOSE);
 		}
+	}
+	
+	public Game getGame() {
+		return this.game;
 	}
 }

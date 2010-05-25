@@ -113,7 +113,7 @@ public class BoardView extends View {
 				if (player == null) return false;
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
-					ChessPiece p = Board67.translatePosition(player.getColor(), e.getX(), e.getY());
+					ChessPiece p = rps.getGame().getBoard().translatePosition(player.getColor(), e.getX(), e.getY());
 					if (Config.DEBUG) {
 						Log.d("BoardView", p.toString());
 					}

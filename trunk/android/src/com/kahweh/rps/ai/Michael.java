@@ -115,16 +115,16 @@ class Michael implements IPlayer {
 		// TODO Auto-generated method stub
 		ChessPiece p = null, n = null;
 
-		for (int i = 0; i < Board67.BOARD_HEIGHT; i++) {
-			for (int j = 0; j < Board67.BOARD_WIDTH; j++) {
+		for (int i = 0; i < board.getBoardHeight(); i++) {
+			for (int j = 0; j < board.getBoardWidth(); j++) {
 				p = board.getChessPiece(i, j);
 				if (getColor() == IPlayer.BLACK && p.isBlack() && p.isMovable()) {
 					//TODO
 					for (int k = 0; k < 4; k++) {
 						n = board.getNeighborChessPiece(p, k);
 						if (n != null && (n.isBlank() || n.isRed())) {
-							j = Board67.BOARD_WIDTH;
-							i = Board67.BOARD_HEIGHT;
+							j = board.getBoardWidth();
+							i = board.getBoardHeight();
 							break;
 						}
 					}
@@ -134,8 +134,8 @@ class Michael implements IPlayer {
 					for (int k = 0; k < 4; k++) {
 						n = board.getNeighborChessPiece(p, k);
 						if (n != null && (n.isBlank() || n.isBlack())) {
-							j = Board67.BOARD_WIDTH;
-							i = Board67.BOARD_HEIGHT;
+							j = board.getBoardWidth();
+							i = board.getBoardHeight();
 							break;
 						}
 					}
