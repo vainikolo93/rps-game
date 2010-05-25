@@ -29,10 +29,18 @@ public abstract class AbstractBoard implements IBoard {
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
 	 */
-	@Override
 	public void cleanBoard() {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < boardHeight; i++) {
+			for (int j = 0; j < boardWidth; j++) {
+				if (i == 0 || i == 1) {
+					board[i][j] = ChessPiece.BLACK_UNKNOW;
+				} else if (i == boardHeight - 1 || i == boardHeight -2) {
+					board[i][j] = ChessPiece.RED_UNKNOW;
+				} else {
+					board[i][j] = ChessPiece.BLANK;
+				}
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -59,7 +67,7 @@ public abstract class AbstractBoard implements IBoard {
 	@Override
 	public int[][] getBoard() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.board;
 	}
 
 	/* (non-Javadoc)

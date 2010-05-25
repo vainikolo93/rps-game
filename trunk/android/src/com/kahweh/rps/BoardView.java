@@ -207,9 +207,9 @@ public class BoardView extends View {
 		int ii, jj;
 		Paint paint = new Paint();
 		for (int i = 0; i < b.length; i++) {
-			y = i * 50 + 3;
+			y = i * board.getGridHeight() + board.getBoardMargin();
 			for (int j=0; j < b[i].length; j++) {
-				x = j * 44 + 3;
+				x = j * board.getGridWidth() + board.getBoardMargin();
 				if (player.isBlack()) {
 					ii = board.getBoardHeight() - i - 1;
 					jj = board.getBoardWidth() - j - 1;

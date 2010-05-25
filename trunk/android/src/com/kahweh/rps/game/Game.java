@@ -81,7 +81,8 @@ public class Game {
 	}
 
 	public Game() {
-		board = new  Board67();
+//		board = new Board67();
+		board = new Board55();
 
 		stateNewCreate = new StateNewCreate(this);
 		stateRedReady = new StateRedReady(this);

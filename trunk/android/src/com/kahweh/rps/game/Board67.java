@@ -59,23 +59,6 @@ public class Board67 extends AbstractBoard {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
-	 */
-	public void cleanBoard() {
-		for (int i = 0; i < boardHeight; i++) {
-			for (int j = 0; j < boardWidth; j++) {
-				if (i == 0 || i == 1) {
-					board[i][j] = ChessPiece.BLACK_UNKNOW;
-				} else if (i == boardHeight - 1 || i == boardHeight -2) {
-					board[i][j] = ChessPiece.RED_UNKNOW;
-				} else {
-					board[i][j] = ChessPiece.BLANK;
-				}
-			}
-		}
-	}
-
-	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#initBoard()
 	 */
 	public boolean initBoard() {
