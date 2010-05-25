@@ -4,20 +4,22 @@ import java.util.Random;
 
 import com.kahweh.rps.game.player.IPlayer;
 
-public class Board67 implements IBoard {
-	private static final int GRID_WIDTH = 44;
-	private static final int GRID_HEIGHT = 50;
-	private static final int BOARD_MARGIN = 3;
-	private static final int BOARD_HEIGHT = 6;
-	private static final int BOARD_WIDTH = 7;
-	private static final int BOARD_ABS_HEIGHT = 306;
-	private static final int BOARD_ABS_WIDTH = 314;
+public class Board67 extends AbstractBoard {
 
-	private int[][] board = new int[BOARD_HEIGHT][BOARD_WIDTH];
-	private Random rand = new Random(System.currentTimeMillis());
-
-	private int black_count;
-	private int red_count;
+	/**
+	 * Constructor.
+	 */
+	public Board67() {
+		this.gridHeight = 50;
+		this.gridWidth = 44;
+		this.boardMargin = 3;
+		this.boardHeight = 6;
+		this.boardWidth = 7;
+		this.boardAbsHeight = 306;
+		this.boardAbsWidth = 314;
+		
+		this.board = new int[6][7];
+	}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#getBlack_count()
@@ -32,8 +34,6 @@ public class Board67 implements IBoard {
 	public int getRed_count() {
 		return red_count;
 	}
-
-	public Board67() {}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#getBoard()
@@ -62,11 +62,11 @@ public class Board67 implements IBoard {
 	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
 	 */
 	public void cleanBoard() {
-		for (int i = 0; i < BOARD_HEIGHT; i++) {
-			for (int j = 0; j < BOARD_WIDTH; j++) {
+		for (int i = 0; i < boardHeight; i++) {
+			for (int j = 0; j < boardWidth; j++) {
 				if (i == 0 || i == 1) {
 					board[i][j] = ChessPiece.BLACK_UNKNOW;
-				} else if (i == BOARD_HEIGHT - 1 || i == BOARD_HEIGHT -2) {
+				} else if (i == boardHeight - 1 || i == boardHeight -2) {
 					board[i][j] = ChessPiece.RED_UNKNOW;
 				} else {
 					board[i][j] = ChessPiece.BLANK;
@@ -82,8 +82,8 @@ public class Board67 implements IBoard {
 		int rock = 4, paper = 4, scissors = 4;
 		black_count = red_count = 14;
 		//init the red pieces
-		for (int i = 4; i < BOARD_HEIGHT; i++) {
-			for (int j = 0; j < BOARD_WIDTH; j++) {
+		for (int i = 4; i < boardHeight; i++) {
+			for (int j = 0; j < boardWidth; j++) {
 				if (board[i][j] == ChessPiece.RED_UNKNOW) {
 					while (true) {
 						int r = rand.nextInt(3);
@@ -114,7 +114,7 @@ public class Board67 implements IBoard {
 		paper = 4;
 		scissors = 4;
 		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < BOARD_WIDTH; j++) {
+			for (int j = 0; j < boardWidth; j++) {
 				if (board[i][j] == ChessPiece.BLACK_UNKNOW) {
 					while (true) {
 						int r = rand.nextInt(3);
@@ -225,8 +225,8 @@ public class Board67 implements IBoard {
 		}
 	}
 
-	public static boolean verifyMove(ChessPiece s, ChessPiece d) {
-		if (!ChessPiece.verifyPiece(s) || !ChessPiece.verifyPiece(d)) return false;
+	public static boolean verifyMove(IBoard board, ChessPiece s, ChessPiece d) {
+		if (!ChessPiece.verifyPiece(s, board) || !ChessPiece.verifyPiece(d, board)) return false;
 		if (ChessPiece.sameColor(s, d)) return false;
 		if (Math.abs(s.getRow() - d.getRow()) 
 				+ Math.abs(s.getColumn() - d.getColumn()) != 1) return false;
@@ -239,8 +239,8 @@ public class Board67 implements IBoard {
 	public IBoard cloneBoard(int color) {
 		IBoard b = (IBoard)this.clone();
 		if (color == IPlayer.RED) {
-			for (int i = 0; i < BOARD_HEIGHT; i++) {
-				for (int j = 0; j < BOARD_WIDTH; j++) {
+			for (int i = 0; i < boardHeight; i++) {
+				for (int j = 0; j < boardWidth; j++) {
 					ChessPiece p = new ChessPiece(board[i][j], i, j);
 					if (p.isBlack() && !p.isOpen()) {
 						p.setType(ChessPiece.BLACK_UNKNOW);
@@ -249,8 +249,8 @@ public class Board67 implements IBoard {
 				}
 			}
 		} else {
-			for (int i = 0; i < BOARD_HEIGHT; i++) {
-				for (int j = 0; j < BOARD_WIDTH; j++) {
+			for (int i = 0; i < boardHeight; i++) {
+				for (int j = 0; j < boardWidth; j++) {
 					ChessPiece p = new ChessPiece(board[i][j], i, j);
 					if (p.isRed() && !p.isOpen()) {
 						p.setType(ChessPiece.RED_UNKNOW);
@@ -273,7 +273,7 @@ public class Board67 implements IBoard {
 			n = getChessPiece(p.getRow() - 1, p.getColumn());
 			break;
 		case IBoard.DOWN:
-			if (p.getRow() + 1 >= Board67.BOARD_HEIGHT) return null;
+			if (p.getRow() + 1 >= boardHeight) return null;
 			n = getChessPiece(p.getRow() + 1, p.getColumn());
 			break;
 		case IBoard.LEFT:
@@ -281,7 +281,7 @@ public class Board67 implements IBoard {
 			n = getChessPiece(p.getRow(), p.getColumn() - 1);
 			break;
 		case IBoard.RIGHT:
-			if (p.getColumn() + 1 >= Board67.BOARD_WIDTH) return null;
+			if (p.getColumn() + 1 >= boardWidth) return null;
 			n = getChessPiece(p.getRow(), p.getColumn() + 1);
 			break;
 		}
@@ -295,8 +295,8 @@ public class Board67 implements IBoard {
 	@Override
 	public Object clone() {
 		Board67 c = new Board67();
-		for (int i = 0; i < BOARD_HEIGHT; i++) {
-			for (int j = 0; j < BOARD_WIDTH; j++) {
+		for (int i = 0; i < boardHeight; i++) {
+			for (int j = 0; j < boardWidth; j++) {
 				c.board[i][j] = board[i][j];
 			}
 		}
@@ -306,20 +306,20 @@ public class Board67 implements IBoard {
 		return c;
 	}
 
-	public static ChessPiece translatePosition(int color, float x, float y) {
-		if (x > BOARD_ABS_WIDTH || x < 0) return null;
-		if (y > BOARD_ABS_HEIGHT || y < 0) return null;
+	public ChessPiece translatePosition(int color, float x, float y) {
+		if (x > boardAbsWidth || x < 0) return null;
+		if (y > boardAbsHeight || y < 0) return null;
 
 		int ix = (int)x;
 		int iy = (int)y;
-		ix = (ix - BOARD_MARGIN) / GRID_WIDTH;
-		iy = (iy - BOARD_MARGIN) / GRID_HEIGHT;
-		if (ix >= BOARD_WIDTH) ix = BOARD_WIDTH - 1;
-		if (iy >= BOARD_HEIGHT) iy = BOARD_HEIGHT - 1;
+		ix = (ix - boardMargin) / gridWidth;
+		iy = (iy - boardMargin) / gridHeight;
+		if (ix >= boardWidth) ix = boardWidth - 1;
+		if (iy >= boardHeight) iy = boardHeight - 1;
 
 		if (color == IPlayer.BLACK) {
-			ix = BOARD_WIDTH - ix - 1;
-			iy = BOARD_HEIGHT - iy - 1;
+			ix = boardWidth - ix - 1;
+			iy = boardHeight - iy - 1;
 		}
 
 		ChessPiece p = new ChessPiece(ChessPiece.BLANK, iy, ix);
@@ -330,46 +330,11 @@ public class Board67 implements IBoard {
 	 * @see com.kahweh.rps.game.IBoard#openAll()
 	 */
 	public void openAll() {
-		for (int i=0; i<Board67.BOARD_HEIGHT; i++)
-			for (int j=0; j<Board67.BOARD_WIDTH; j++) {
+		for (int i=0; i<boardHeight; i++)
+			for (int j=0; j<boardWidth; j++) {
 				if (!ChessPiece.isBlank(board[i][j])) {
 					board[i][j] = ChessPiece.open(board[i][j]);
 				}
 			}
-	}
-
-	@Override
-	public int getBoardAbsHeight() {
-		return BOARD_ABS_HEIGHT;
-	}
-
-	@Override
-	public int getBoardAbsWidth() {
-		return BOARD_ABS_WIDTH;
-	}
-
-	@Override
-	public int getBoardHeight() {
-		return BOARD_HEIGHT;
-	}
-
-	@Override
-	public int getBoardMargin() {
-		return BOARD_MARGIN;
-	}
-
-	@Override
-	public int getBoardWidth() {
-		return BOARD_WIDTH;
-	}
-
-	@Override
-	public int getGridHeight() {
-		return GRID_HEIGHT;
-	}
-
-	@Override
-	public int getGridWidth() {
-		return GRID_WIDTH;
 	}
 }

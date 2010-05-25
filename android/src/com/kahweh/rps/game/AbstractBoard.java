@@ -3,12 +3,29 @@
  */
 package com.kahweh.rps.game;
 
+import java.util.Random;
+
 /**
  * @author b448
  *
  */
 public abstract class AbstractBoard implements IBoard {
+	
+	protected int gridWidth;
+	protected int gridHeight;
+	protected int boardMargin;
+	protected int boardHeight;
+	protected int boardWidth;
+	protected int boardAbsHeight;
+	protected int boardAbsWidth;
 
+	protected int[][] board;
+
+	protected Random rand = new Random(System.currentTimeMillis());
+	
+	protected int black_count;
+	protected int red_count;
+	
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
 	 */
@@ -50,8 +67,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getBoardAbsHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.boardAbsHeight;
 	}
 
 	/* (non-Javadoc)
@@ -59,8 +75,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getBoardAbsWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.boardAbsWidth;
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +83,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getBoardHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.boardHeight;
 	}
 
 	/* (non-Javadoc)
@@ -77,8 +91,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getBoardMargin() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.boardMargin;
 	}
 
 	/* (non-Javadoc)
@@ -86,8 +99,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getBoardWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.boardWidth;
 	}
 
 	/* (non-Javadoc)
@@ -104,8 +116,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getGridHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.gridHeight;
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +124,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int getGridWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.gridWidth;
 	}
 
 	/* (non-Javadoc)
@@ -170,5 +180,4 @@ public abstract class AbstractBoard implements IBoard {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

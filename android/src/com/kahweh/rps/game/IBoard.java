@@ -27,6 +27,8 @@ public interface IBoard {
 
 	public abstract ChessPiece getNeighborChessPiece(ChessPiece p, int pos);
 
+	public abstract ChessPiece translatePosition(int color, float x, float y);
+
 	/**
 	 * This function used to open all the closed pieces when game was over..  
 	 */
