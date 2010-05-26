@@ -37,6 +37,7 @@ public class RockPaperScissors extends Activity {
 
 	private static final int MENU_NEWGAME_ID = 0;
 	private static final int MENU_ABOUT_ID = 1;
+	private static final int MENU_GAME_SETTING_ID = 2;
 
 	DisplayMetrics dm;
 	private BoardView boardView;
@@ -91,6 +92,7 @@ public class RockPaperScissors extends Activity {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
     	menu.add(Menu.NONE, MENU_NEWGAME_ID, Menu.NONE, getString(R.string.menu_newGame));
     	menu.add(Menu.NONE, MENU_ABOUT_ID, Menu.NONE, getString(R.string.menu_about));
+    	menu.add(Menu.NONE, MENU_GAME_SETTING_ID, Menu.NONE, getString(R.string.menu_setting));
     	return supRetVal;
     }
     
@@ -122,6 +124,9 @@ public class RockPaperScissors extends Activity {
     			//TODO: renew game
     		}
     		return true;
+    	case MENU_GAME_SETTING_ID:
+    		GameSettings.actionSetting(this);
+    		break;
     	case MENU_ABOUT_ID:
     		//About
     		showDialog(DIALOG_ABOUT);
