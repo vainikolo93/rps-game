@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -38,7 +39,7 @@ public class RockPaperScissors extends Activity {
 	private static final int MENU_NEWGAME_ID = 0;
 	private static final int MENU_ABOUT_ID = 1;
 	private static final int MENU_GAME_SETTING_ID = 2;
-
+	
 	DisplayMetrics dm;
 	private BoardView boardView;
 	private Game game;
