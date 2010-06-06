@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sound_off">OFF</string>
+    <string name="sound_on">ON</string>
+    <string name="preference_sound">Sound</string>
     <string name="hello">Hello World, RockPaperScissors!</string>
     <string name="app_name">Rock Paper Scissors</string>
 <string name="menu_newGame">New Game</string>
@@ -10,7 +13,7 @@
 <string name="button_ok">OK</string>
 <string name="menu_about">About</string>
 <string name="dialog_about_title">About Rock-Paper-Scissors</string>
-<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href='mailto:kahweh@gmail.com'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href='http://www.kahweh.com'&gt;http://www.kahweh.com&lt;/a&gt;</string>
+<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href=\'mailto:kahweh@gmail.com\'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href=\'http://www.kahweh.com\'&gt;http://www.kahweh.com&lt;/a&gt;</string>
 <string name="dialog_select_flag_prompt">Please tap on the board to set the position of Flag.</string>
 <string name="dialog_select_flag_title">Place Flag</string>
 <string name="dialog_select_trap_title">Place Trap</string>
@@ -28,4 +31,26 @@
 <string name="dialog_gameover_return">Return</string>
 <string name="dialog_gameover">Game Over</string>
 <string name="menu_setting">Settings</string>
+<string-array name="color_select_values"><item>red</item>
+<item>black</item>
+</string-array>
+<string name="preference_color">Your color</string>
+<string-array name="preference_boardsize_des"><item>5 × 5</item>
+<item>6 × 7</item>
+</string-array>
+<string-array name="preference_boardsize_values"><item>25</item>
+<item>42</item>
+</string-array>
+<string name="preference_board_size">Board Size</string>
+<string-array name="preference_game_level_des"><item>Easy</item>
+<item>Middle</item>
+<item>Hard</item>
+</string-array>
+<string-array name="preference_game_level_values"><item>0</item>
+<item>1</item>
+<item>2</item>
+</string-array>
+<string name="preference_game_level">Game Level</string>
+<string name="preference_player_name">Player Name</string>
+<string name="preference_player_default_name">Player1</string>
 </resources>

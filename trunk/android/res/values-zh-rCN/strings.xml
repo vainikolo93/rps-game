@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="sound_off">关闭</string>
+    <string name="sound_on">开启</string>
+    <string name="preference_sound">声音</string>
     <string name="hello">Hello World, RockPaperScissors!</string>
     <string name="app_name">石头剪子布</string>
 <string name="menu_newGame">新建游戏</string>
@@ -11,7 +14,7 @@
 <string name="menu_about">关于</string>
 <string name="menu_setting">游戏设置</string>
 <string name="dialog_about_title">关于”石头剪子布“</string>
-<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href='mailto:kahweh@gmail.com'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href='http://www.kahweh.com'&gt;http://www.kahweh.com&lt;/a&gt;</string>
+<string name="dialog_about_content">&lt;b&gt;Rock Paper Scissors 0.1.0&lt;/b&gt;&lt;br/&gt;Copyright(c) 2010 Michael LI&lt;br/&gt;Author: Michael LI&lt;br/&gt;Email: &lt;a href=\'mailto:kahweh@gmail.com\'&gt;kahweh@gmail.com&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;Find more games at:&lt;br/&gt;&lt;a href=\'http://www.kahweh.com\'&gt;http://www.kahweh.com&lt;/a&gt;</string>
 <string name="dialog_select_flag_prompt">Please tap on the board to set the position of Flag.</string>
 <string name="dialog_select_flag_title">设定旗子位置</string>
 <string name="dialog_select_trap_title">设定陷阱位置</string>
@@ -28,4 +31,13 @@
 <string name="dialog_gameover_renew">再来一盘</string>
 <string name="dialog_gameover_return">返回</string>
 <string name="dialog_gameover">游戏结束</string>
+<string name="preference_color">你的颜色</string>
+<string name="preference_board_size">棋盘大小</string>
+<string-array name="preference_game_level_des"><item>简单</item>
+<item>中等</item>
+<item>难</item>
+</string-array>
+<string name="preference_game_level">游戏难度</string>
+<string name="preference_player_name">玩家名称</string>
+<string name="preference_player_default_name">玩家1</string>
 </resources>

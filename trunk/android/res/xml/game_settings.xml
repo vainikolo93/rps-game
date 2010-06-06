@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<EditTextPreference android:title="@string/preference_player_name" android:key="local_player_name"></EditTextPreference><ListPreference android:key="localplayer_color" 
+	android:entryValues="@array/color_select_values" android:entries="@array/color_select_strings" android:dialogTitle="@string/dialog_select_color_title" android:title="@string/preference_color"/>
+<ListPreference android:entries="@array/preference_boardsize_des" android:entryValues="@array/preference_boardsize_values" android:title="@string/preference_board_size" android:key="preference_board_size"></ListPreference><ListPreference android:entryValues="@array/preference_game_level_values" android:title="@string/preference_game_level" android:entries="@array/preference_game_level_des" android:key="preference_game_level"></ListPreference><CheckBoxPreference android:title="@string/preference_sound" android:summaryOn="@string/sound_on" android:summaryOff="@string/sound_off" android:key="preference_game_sound"></CheckBoxPreference>
+
+
+
+</PreferenceScreen>
