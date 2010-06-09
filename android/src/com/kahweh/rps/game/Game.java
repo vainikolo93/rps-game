@@ -80,9 +80,13 @@ public class Game {
 		this.winner = winner;
 	}
 
-	public Game() {
-//		board = new Board67();
-		board = new Board55();
+	public Game(int boardSize) {
+		if (boardSize == 25) {
+			board = new Board55();
+		} else {
+			//if is not 5*5, then must be 6*7
+			board = new Board67();
+		}
 
 		stateNewCreate = new StateNewCreate(this);
 		stateRedReady = new StateRedReady(this);
@@ -101,7 +105,7 @@ public class Game {
 
 		state = stateIdle;
 	}
-	
+
 	public IGameState getState() {
 		return state;
 	}

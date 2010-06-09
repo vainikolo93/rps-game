@@ -44,6 +44,7 @@ public class RockPaperScissors extends Activity {
 	private BoardView boardView;
 	private Game game;
 	private LocalPlayer player;
+	private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,8 @@ public class RockPaperScissors extends Activity {
         }
         ((LinearLayout)findViewById(R.id.root)).addView(boardView);
 
+        //get game preferences
+        sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
     }
 
     @Override
@@ -112,10 +115,11 @@ public class RockPaperScissors extends Activity {
     	case MENU_NEWGAME_ID:
     		//New Game
     		if (game == null || game.getState() instanceof StateIdle) {
-    			game = new Game();
+    			game = new Game(sharedPreferences.getInt(GameSettings.BOARD_SIZE, 25));
     			if (game.getBoard() instanceof Board55) {
     				boardView.setBackgroundResource(R.drawable.board5_5_320_480);
     			} else {
+    				//This game has two type of board, if is not 5*5 then must be 6*7
     				boardView.setBackgroundResource(R.drawable.board320_480);
     			}
     			player = new LocalPlayer(this);
