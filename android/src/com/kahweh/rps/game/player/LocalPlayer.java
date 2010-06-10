@@ -204,7 +204,7 @@ public class LocalPlayer implements IPlayer {
 	 * @see com.kahweh.rps.game.IPlayer#setColor(int)
 	 */
 	@Override
-	public void setColor(int color) throws IllegalPlayerStateException {
+	public void setColor(int color) {
 		this.color = color;
 	}
 

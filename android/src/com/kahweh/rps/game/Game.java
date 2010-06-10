@@ -56,32 +56,13 @@ public class Game {
 	private ChessPiece redConfPiece;
 	private ChessPiece blackConfPiece;
 
-	public ChessPiece getRedConfPiece() {
-		return redConfPiece;
-	}
-
-	public void setRedConfPiece(ChessPiece redConfPiece) {
-		this.redConfPiece = redConfPiece;
-	}
-
-	public ChessPiece getBlackConfPiece() {
-		return blackConfPiece;
-	}
-
-	public void setBlackConfPiece(ChessPiece blackConfPiece) {
-		this.blackConfPiece = blackConfPiece;
-	}
-
-	public IPlayer getWinner() {
-		return winner;
-	}
-
-	public void setWinner(IPlayer winner) {
-		this.winner = winner;
-	}
-
-	public Game(int boardSize) {
-		if (boardSize == 25) {
+	/**
+	 * Constructor.
+	 * 
+	 * @param boardSize
+	 */
+	public Game(String boardSize) {
+		if ("25".equals(boardSize)) {
 			board = new Board55();
 		} else {
 			//if is not 5*5, then must be 6*7
@@ -104,6 +85,30 @@ public class Game {
 		stateRedConfBlackReady = new StateRedConfBlackReady(this);
 
 		state = stateIdle;
+	}
+
+	public ChessPiece getRedConfPiece() {
+		return redConfPiece;
+	}
+
+	public void setRedConfPiece(ChessPiece redConfPiece) {
+		this.redConfPiece = redConfPiece;
+	}
+
+	public ChessPiece getBlackConfPiece() {
+		return blackConfPiece;
+	}
+
+	public void setBlackConfPiece(ChessPiece blackConfPiece) {
+		this.blackConfPiece = blackConfPiece;
+	}
+
+	public IPlayer getWinner() {
+		return winner;
+	}
+
+	public void setWinner(IPlayer winner) {
+		this.winner = winner;
 	}
 
 	public IGameState getState() {

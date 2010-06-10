@@ -27,7 +27,6 @@ import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.state.StateIdle;
 
 public class RockPaperScissors extends Activity {
-	public static final int DIALOG_COLOR_SELECT = 1;
 	public static final int DIALOG_FLAG_SELECT = 2;
 	public static final int DIALOG_TRAP_SELECT = 3;
 	private static final int DIALOG_CONFLICT_SELECT1 = 4;
@@ -115,7 +114,7 @@ public class RockPaperScissors extends Activity {
     	case MENU_NEWGAME_ID:
     		//New Game
     		if (game == null || game.getState() instanceof StateIdle) {
-    			game = new Game(sharedPreferences.getInt(GameSettings.BOARD_SIZE, 25));
+    			game = new Game(sharedPreferences.getString(GameSettings.BOARD_SIZE, "25"));
     			if (game.getBoard() instanceof Board55) {
     				boardView.setBackgroundResource(R.drawable.board5_5_320_480);
     			} else {
@@ -123,8 +122,32 @@ public class RockPaperScissors extends Activity {
     				boardView.setBackgroundResource(R.drawable.board320_480);
     			}
     			player = new LocalPlayer(this);
+    			if ("red".equals(sharedPreferences.getString(GameSettings.PLAYER_COLOR, "red"))) {
+    				player.setColor(IPlayer.RED);
+    			} else {
+    				player.setColor(IPlayer.BLACK);
+    			}
     			boardView.setPlayer(player);
-    			showDialog(DIALOG_COLOR_SELECT);
+    			
+    			try {
+					player.colorSet();
+    				if (player.getColor() == IPlayer.RED) {
+    					//User selected red
+    					game.newGame(player, AIPlayerFactory.getAIPlayer());
+    				} else if (player.getColor() == IPlayer.BLACK) {
+    					//User selected black/blue
+    					game.newGame(AIPlayerFactory.getAIPlayer(), player);
+    				}
+    			} catch (IllegalGameStateException e) {
+    				game = null;
+    				Log.w(RockPaperScissors.class.getName(), e);
+    			} catch (IllegalPlayerStateException e) {
+    				game = null;
+    				Log.w(RockPaperScissors.class.getName(), e);
+    			}
+    			boardView.setBoard(game.getBoard());
+    			boardView.invalidate();
+
     		} else {
     			//TODO: renew game
     		}
@@ -205,50 +228,6 @@ public class RockPaperScissors extends Activity {
 					}
 				}
 			}).create();
-    	case DIALOG_COLOR_SELECT:
-    		return new AlertDialog.Builder(RockPaperScissors.this)
-    		.setIcon(R.drawable.dialog_icon_question)
-    		.setTitle(R.string.dialog_select_color_title)
-    		.setSingleChoiceItems(R.array.color_select_strings, 0, new DialogInterface.OnClickListener() {
-    			@Override
-    			public void onClick(DialogInterface dialog, int btn) {
-    				if (btn == 0) {
-    					try {
-							player.setColor(IPlayer.RED);
-						} catch (IllegalPlayerStateException e) {
-							Log.w(RockPaperScissors.class.getSimpleName(), "Red player state error..", e);
-						}
-    				} else if (btn == 1) {
-    					try {
-							player.setColor(IPlayer.BLACK);
-						} catch (IllegalPlayerStateException e) {
-							Log.w(RockPaperScissors.class.getSimpleName(), "Black player state error..", e);
-						}
-    				}
-    			}
-    		}).setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-	    			try {
-						player.colorSet();
-	    				if (player.getColor() == IPlayer.RED) {
-	    					//User selected red
-	    					game.newGame(player, AIPlayerFactory.getAIPlayer());
-	    				} else if (player.getColor() == IPlayer.BLACK) {
-	    					//User selected black/blue
-	    					game.newGame(AIPlayerFactory.getAIPlayer(), player);
-	    				}
-	    			} catch (IllegalGameStateException e) {
-	    				game = null;
-	    				Log.w(RockPaperScissors.class.getName(), e);
-	    			} catch (IllegalPlayerStateException e) {
-	    				game = null;
-	    				Log.w(RockPaperScissors.class.getName(), e);
-	    			}
-	    			boardView.setBoard(game.getBoard());
-	    			boardView.invalidate();
-				}
-			}).create();
     	case DIALOG_FLAG_SELECT:
     		return new AlertDialog.Builder(RockPaperScissors.this)
     		.setIcon(R.drawable.app)
@@ -319,8 +298,6 @@ public class RockPaperScissors extends Activity {
     @Override
     protected void onPrepareDialog(int id, Dialog dlg) {
     	switch (id) {
-    	case DIALOG_COLOR_SELECT:
-    		break;
     	case DIALOG_FLAG_SELECT:
     		break;
     	case DIALOG_TRAP_SELECT:
