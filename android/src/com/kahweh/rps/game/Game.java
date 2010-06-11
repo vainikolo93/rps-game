@@ -56,6 +56,8 @@ public class Game {
 	private ChessPiece redConfPiece;
 	private ChessPiece blackConfPiece;
 
+	private int boardType;
+
 	/**
 	 * Constructor.
 	 * 
@@ -64,9 +66,11 @@ public class Game {
 	public Game(String boardSize) {
 		if ("25".equals(boardSize)) {
 			board = new Board55();
+			this.boardType = IBoard.BOARD55;
 		} else {
 			//if is not 5*5, then must be 6*7
 			board = new Board67();
+			this.boardType = IBoard.BOARD67;
 		}
 
 		stateNewCreate = new StateNewCreate(this);
@@ -85,6 +89,14 @@ public class Game {
 		stateRedConfBlackReady = new StateRedConfBlackReady(this);
 
 		state = stateIdle;
+	}
+
+	public int getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(int boardType) {
+		this.boardType = boardType;
 	}
 
 	public ChessPiece getRedConfPiece() {

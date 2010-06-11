@@ -6,6 +6,9 @@ public interface IBoard {
 	public static final int DOWN = 1;
 	public static final int LEFT = 2;
 	public static final int RIGHT = 3;
+	
+	public static final int BOARD55 = 0;
+	public static final int BOARD67 = 1;
 
 	public abstract int getBlack_count();
 
