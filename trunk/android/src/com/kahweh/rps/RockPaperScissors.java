@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.kahweh.rps.ai.AIPlayerFactory;
 import com.kahweh.rps.game.Board55;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
@@ -115,12 +116,7 @@ public class RockPaperScissors extends Activity {
     		//New Game
     		if (game == null || game.getState() instanceof StateIdle) {
     			game = new Game(sharedPreferences.getString(GameSettings.BOARD_SIZE, "25"));
-    			if (game.getBoard() instanceof Board55) {
-    				boardView.setBackgroundResource(R.drawable.board5_5_320_480);
-    			} else {
-    				//This game has two type of board, if is not 5*5 then must be 6*7
-    				boardView.setBackgroundResource(R.drawable.board320_480);
-    			}
+    			boardView.setBoardType(game.getBoardType());
     			player = new LocalPlayer(this);
     			if ("red".equals(sharedPreferences.getString(GameSettings.PLAYER_COLOR, "red"))) {
     				player.setColor(IPlayer.RED);
@@ -128,7 +124,7 @@ public class RockPaperScissors extends Activity {
     				player.setColor(IPlayer.BLACK);
     			}
     			boardView.setPlayer(player);
-    			
+
     			try {
 					player.colorSet();
     				if (player.getColor() == IPlayer.RED) {

@@ -41,36 +41,38 @@ public class BoardView extends View {
 
 	private ChessPiece activePiece;
 	
-	private final Bitmap bbe;
-	private final Bitmap bbpc;
-	private final Bitmap bbpo;
-	private final Bitmap bbrc;
-	private final Bitmap bbro;
-	private final Bitmap bbsc;
-	private final Bitmap bbso;
-	private final Bitmap bfe;
-	private final Bitmap bfpo;
-	private final Bitmap bfro;
-	private final Bitmap bfso;
-	private final Bitmap bFlag;
-	private final Bitmap rbe;
-	private final Bitmap rbpc;
-	private final Bitmap rbpo;
-	private final Bitmap rbrc;
-	private final Bitmap rbro;
-	private final Bitmap rbsc;
-	private final Bitmap rbso;
-	private final Bitmap rfe;
-	private final Bitmap rfpo;
-	private final Bitmap rfro;
-	private final Bitmap rfso;
-	private final Bitmap rFlag;
-	private final Bitmap trap;
-	private final Bitmap arrow_up;
-	private final Bitmap arrow_down;
-	private final Bitmap arrow_left;
-	private final Bitmap arrow_right;
+	private Bitmap bbe;
+	private Bitmap bbpc;
+	private Bitmap bbpo;
+	private Bitmap bbrc;
+	private Bitmap bbro;
+	private Bitmap bbsc;
+	private Bitmap bbso;
+	private Bitmap bfe;
+	private Bitmap bfpo;
+	private Bitmap bfro;
+	private Bitmap bfso;
+	private Bitmap bFlag;
+	private Bitmap rbe;
+	private Bitmap rbpc;
+	private Bitmap rbpo;
+	private Bitmap rbrc;
+	private Bitmap rbro;
+	private Bitmap rbsc;
+	private Bitmap rbso;
+	private Bitmap rfe;
+	private Bitmap rfpo;
+	private Bitmap rfro;
+	private Bitmap rfso;
+	private Bitmap rFlag;
+	private Bitmap trap;
+	private Bitmap arrow_up;
+	private Bitmap arrow_down;
+	private Bitmap arrow_left;
+	private Bitmap arrow_right;
 
+	private int boardType;
+	
 	public BoardView(RockPaperScissors context) {
 		super(context);
 		this.rps = context;
@@ -79,36 +81,11 @@ public class BoardView extends View {
 		arrow_down = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_down);
 		arrow_left = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_left);
 		arrow_right = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_right);
-		bbe = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_e);
-		bbpc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_c);
-		bbpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_o);
-		bbrc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_c);
-		bbro = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_o);
-		bbsc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_c);
-		bbso = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_o);
-		bfe = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_e);
-		bfpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_p_o);
-		bfro = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_r_o);
-		bfso = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_s_o);
-		bFlag = BitmapFactory.decodeResource(getResources(), R.drawable.b_flag);
-		rbe = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_e);
-		rbpc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_c);
-		rbpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_o);
-		rbrc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_c);
-		rbro = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_o);
-		rbsc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_c);
-		rbso = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_o);
-		rfe = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_e);
-		rfpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_p_o);
-		rfro = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_r_o);
-		rfso = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_s_o);
-		rFlag = BitmapFactory.decodeResource(getResources(), R.drawable.r_flag);
-		trap = BitmapFactory.decodeResource(getResources(), R.drawable.trap);
 
-		SharedPreferences sp = rps.getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
-		final String[] boardSizes = getResources().getStringArray(R.array.preference_boardsize_des);
-		final String[] boardSizes_val = getResources().getStringArray(R.array.preference_boardsize_values);
-		setBackgroundResource(sp.getString(GameSettings.BOARD_SIZE, boardSizes_val[0]).equals(boardSizes_val[0])?R.drawable.board5_5_320_480:R.drawable.board320_480);
+//		SharedPreferences sp = rps.getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
+//		final String[] boardSizes = getResources().getStringArray(R.array.preference_boardsize_des);
+//		final String[] boardSizes_val = getResources().getStringArray(R.array.preference_boardsize_values);
+//		setBackgroundResource(sp.getString(GameSettings.BOARD_SIZE, boardSizes_val[0]).equals(boardSizes_val[0])?R.drawable.board5_5_320_480:R.drawable.board320_480);
 
 		setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -427,4 +404,66 @@ public class BoardView extends View {
 		return board;
 	}
 
+	public void setBoardType(int boardType) {
+		this.boardType = boardType;
+
+		if (boardType == IBoard.BOARD55) {
+			setBackgroundResource(R.drawable.board5_5_320_480);
+			bbe = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_e_l);
+			bbpc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_c_l);
+			bbpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_o_l);
+			bbrc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_c_l);
+			bbro = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_o_l);
+			bbsc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_c_l);
+			bbso = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_o_l);
+			bfe = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_e_l);
+			bfpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_p_o_l);
+			bfro = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_r_o_l);
+			bfso = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_s_o_l);
+			bFlag = BitmapFactory.decodeResource(getResources(), R.drawable.b_flag_l);
+			rbe = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_e_l);
+			rbpc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_c_l);
+			rbpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_o_l);
+			rbrc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_c_l);
+			rbro = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_o_l);
+			rbsc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_c_l);
+			rbso = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_o_l);
+			rfe = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_e_l);
+			rfpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_p_o_l);
+			rfro = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_r_o_l);
+			rfso = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_s_o_l);
+			rFlag = BitmapFactory.decodeResource(getResources(), R.drawable.r_flag_l);
+			trap = BitmapFactory.decodeResource(getResources(), R.drawable.trap_l);
+		} else {
+			//This game has two type of board, if is not 5*5 then must be 6*7
+			setBackgroundResource(R.drawable.board320_480);
+			bbe = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_e);
+			bbpc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_c);
+			bbpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_p_o);
+			bbrc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_c);
+			bbro = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_r_o);
+			bbsc = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_c);
+			bbso = BitmapFactory.decodeResource(getResources(), R.drawable.b_b_s_o);
+			bfe = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_e);
+			bfpo = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_p_o);
+			bfro = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_r_o);
+			bfso = BitmapFactory.decodeResource(getResources(), R.drawable.b_f_s_o);
+			bFlag = BitmapFactory.decodeResource(getResources(), R.drawable.b_flag);
+			rbe = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_e);
+			rbpc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_c);
+			rbpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_p_o);
+			rbrc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_c);
+			rbro = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_r_o);
+			rbsc = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_c);
+			rbso = BitmapFactory.decodeResource(getResources(), R.drawable.r_b_s_o);
+			rfe = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_e);
+			rfpo = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_p_o);
+			rfro = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_r_o);
+			rfso = BitmapFactory.decodeResource(getResources(), R.drawable.r_f_s_o);
+			rFlag = BitmapFactory.decodeResource(getResources(), R.drawable.r_flag);
+			trap = BitmapFactory.decodeResource(getResources(), R.drawable.trap);
+		}
+	}
+
+	
 }
