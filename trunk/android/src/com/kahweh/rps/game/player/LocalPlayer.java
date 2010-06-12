@@ -221,7 +221,7 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			p.setType(ChessPiece.BLACK_FLAG);
 		}
-		if (!Board67.verifyFlag(p)) {
+		if (!game.getBoard().verifyFlag(p)) {
 			rps.showDialog(RockPaperScissors.DIALOG_FLAG_SELECT);
 			return false;
 		}

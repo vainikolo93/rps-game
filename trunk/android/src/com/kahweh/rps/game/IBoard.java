@@ -44,4 +44,14 @@ public interface IBoard {
 	public abstract int getBoardWidth();
 	public abstract int getBoardAbsHeight();
 	public abstract int getBoardAbsWidth();
+	/**
+	 * This function is used to get the number of each type pieces.
+	 * For example, the 5*5 board will have 3 pieces per type. And
+	 * the 6*7 board have 4 pieces per type.
+	 * 
+	 * @return
+	 */
+	public abstract int getPieceNumber();
+
+	boolean verifyFlag(ChessPiece f);
 }

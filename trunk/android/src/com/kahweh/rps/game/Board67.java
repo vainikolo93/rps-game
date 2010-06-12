@@ -17,6 +17,7 @@ public class Board67 extends AbstractBoard {
 		this.boardWidth = 7;
 		this.boardAbsHeight = 306;
 		this.boardAbsWidth = 314;
+		this.pieceNumberPerType = 4;
 		
 		this.board = new int[6][7];
 	}
@@ -43,105 +44,12 @@ public class Board67 extends AbstractBoard {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.kahweh.rps.game.IBoard#setChessPiece(com.kahweh.rps.game.ChessPiece)
-	 */
-	public boolean setChessPiece(ChessPiece p) {
-		if (p == null) return false;
-		board[p.getRow()][p.getColumn()] = p.getType();
-		return true;
-	}
-	
-	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#getChessPiece(int, int)
 	 */
 	public ChessPiece getChessPiece(int row, int column) {
 		return new ChessPiece(board[row][column], row, column);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.kahweh.rps.game.IBoard#initBoard()
-	 */
-	public boolean initBoard() {
-		int rock = 4, paper = 4, scissors = 4;
-		black_count = red_count = 14;
-		//init the red pieces
-		for (int i = 4; i < boardHeight; i++) {
-			for (int j = 0; j < boardWidth; j++) {
-				if (board[i][j] == ChessPiece.RED_UNKNOW) {
-					while (true) {
-						int r = rand.nextInt(3);
-						if (r == 0) {
-							if (rock == 0) continue;
-							rock--;
-							board[i][j] = ChessPiece.RED_ROCK;
-							break;
-						}
-						if (r == 1) {
-							if (paper == 0) continue;
-							paper--;
-							board[i][j] = ChessPiece.RED_PAPER;
-							break;
-						}
-						if (r == 2) {
-							if (scissors == 0) continue;
-							scissors--;
-							board[i][j] = ChessPiece.RED_SCISSORS;
-							break;
-						}
-					}
-				}
-			}
-		}
-		//init the black pieces
-		rock = 4;
-		paper = 4;
-		scissors = 4;
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < boardWidth; j++) {
-				if (board[i][j] == ChessPiece.BLACK_UNKNOW) {
-					while (true) {
-						int r = rand.nextInt(3);
-						if (r == 0) {
-							if (rock == 0) continue;
-							rock--;
-							board[i][j] = ChessPiece.BLACK_ROCK;
-							break;
-						}
-						if (r == 1) {
-							if (paper == 0) continue;
-							paper--;
-							board[i][j] = ChessPiece.BLACK_PAPER;
-							break;
-						}
-						if (r == 2) {
-							if (scissors == 0) continue;
-							scissors--;
-							board[i][j] = ChessPiece.BLACK_SCISSORS;
-							break;
-						}
-					}
-				}
-			}
-		}
-		
-		return true;
-	}
-
-	public static boolean verifyFlag(ChessPiece f) {
-		if (f.isBlack()) {
-			if (f.getType() != ChessPiece.BLACK_FLAG ||
-					f.getRow() > 1 || f.getRow() < 0 || f.getColumn() < 0 || f.getColumn() > 6) {
-				return false;
-			}
-		} else {
-			if (f.getType() != ChessPiece.RED_FLAG ||
-					f.getRow() > 5 || f.getRow() < 4 || f.getColumn() < 0 || f.getColumn() > 6) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	public static boolean verifyTrap(ChessPiece t) {
 		if (t.isBlack()) {
 			if (t.getType() != ChessPiece.BLACK_TRAP ||
@@ -289,35 +197,16 @@ public class Board67 extends AbstractBoard {
 		return c;
 	}
 
-	public ChessPiece translatePosition(int color, float x, float y) {
-		if (x > boardAbsWidth || x < 0) return null;
-		if (y > boardAbsHeight || y < 0) return null;
-
-		int ix = (int)x;
-		int iy = (int)y;
-		ix = (ix - boardMargin) / gridWidth;
-		iy = (iy - boardMargin) / gridHeight;
-		if (ix >= boardWidth) ix = boardWidth - 1;
-		if (iy >= boardHeight) iy = boardHeight - 1;
-
-		if (color == IPlayer.BLACK) {
-			ix = boardWidth - ix - 1;
-			iy = boardHeight - iy - 1;
-		}
-
-		ChessPiece p = new ChessPiece(ChessPiece.BLANK, iy, ix);
-		return p;
-	}
-
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#openAll()
 	 */
 	public void openAll() {
-		for (int i=0; i<boardHeight; i++)
+		for (int i=0; i<boardHeight; i++) {
 			for (int j=0; j<boardWidth; j++) {
 				if (!ChessPiece.isBlank(board[i][j])) {
 					board[i][j] = ChessPiece.open(board[i][j]);
 				}
 			}
+		}
 	}
 }

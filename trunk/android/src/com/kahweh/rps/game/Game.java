@@ -211,6 +211,14 @@ public class Game {
 		this.board = board;
 	}
 
+	/**
+	 * Previous state should be StateIdle or stateFinished.
+	 * 
+	 * @param red
+	 * @param black
+	 * @return
+	 * @throws IllegalGameStateException
+	 */
 	public synchronized boolean newGame(IPlayer red, IPlayer black) throws IllegalGameStateException {
 		state.newGame(red, black);
 		return true;
