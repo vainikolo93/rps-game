@@ -53,5 +53,8 @@ public interface IBoard {
 	 */
 	public abstract int getPieceNumber();
 
-	boolean verifyFlag(ChessPiece f);
+	public boolean verifyFlag(ChessPiece f);
+	public boolean verifyTrap(ChessPiece t);
+	
+	public int getBoardType();
 }

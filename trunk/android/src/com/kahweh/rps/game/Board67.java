@@ -20,6 +20,7 @@ public class Board67 extends AbstractBoard {
 		this.pieceNumberPerType = 4;
 		
 		this.board = new int[6][7];
+		this.boardType = IBoard.BOARD67;
 	}
 
 	/* (non-Javadoc)
@@ -50,41 +51,20 @@ public class Board67 extends AbstractBoard {
 		return new ChessPiece(board[row][column], row, column);
 	}
 
-	public static boolean verifyTrap(ChessPiece t) {
-		if (t.isBlack()) {
-			if (t.getType() != ChessPiece.BLACK_TRAP ||
-					t.getRow() > 1 || t.getRow() < 0 || t.getColumn() < 0 || t.getColumn() > 6) {
-				return false;
-			}
-		} else {
-			if (t.getType() != ChessPiece.RED_TRAP ||
-					t.getRow() > 5 || t.getRow() < 4 || t.getColumn() < 0 || t.getColumn() > 6) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	public static boolean verifyFlagAndTrap(ChessPiece f, ChessPiece t) {
-		if (f.isBlack()) {
-			if (t.getType() != ChessPiece.BLACK_TRAP ||
-					f.getType() != ChessPiece.BLACK_FLAG ||
-					f.getRow() == t.getRow() && f.getColumn() == t.getColumn() ||
-					f.getRow() > 1 || f.getRow() < 0 || f.getColumn() < 0 || f.getColumn() > 6 ||
-					t.getRow() > 1 || t.getRow() < 0 || t.getColumn() < 0 || t.getColumn() > 6) {
-				return false;
-			}
-		} else {
-			if (t.getType() != ChessPiece.RED_TRAP ||
-					f.getType() != ChessPiece.RED_FLAG ||
-					f.getRow() == t.getRow() && f.getColumn() == t.getColumn() ||
-					f.getRow() > 5 || f.getRow() < 4 || f.getColumn() < 0 || f.getColumn() > 6 ||
-					t.getRow() > 5 || t.getRow() < 4 || t.getColumn() < 0 || t.getColumn() > 6) {
-				return false;
-			}
-		}
-		return true;
-	}
+//	public static boolean verifyTrap(ChessPiece t) {
+//		if (t.isBlack()) {
+//			if (t.getType() != ChessPiece.BLACK_TRAP ||
+//					t.getRow() > 1 || t.getRow() < 0 || t.getColumn() < 0 || t.getColumn() > 6) {
+//				return false;
+//			}
+//		} else {
+//			if (t.getType() != ChessPiece.RED_TRAP ||
+//					t.getRow() > 5 || t.getRow() < 4 || t.getColumn() < 0 || t.getColumn() > 6) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#move(com.kahweh.rps.game.ChessPiece, com.kahweh.rps.game.ChessPiece)

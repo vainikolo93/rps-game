@@ -143,7 +143,6 @@ public class RockPaperScissors extends Activity {
     			}
     			boardView.setBoard(game.getBoard());
     			boardView.invalidate();
-
     		} else {
     			//TODO: renew game
     		}

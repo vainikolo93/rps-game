@@ -28,6 +28,7 @@ public abstract class AbstractBoard implements IBoard {
 	
 	protected int black_count;
 	protected int red_count;
+	protected int boardType;
 	
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#cleanBoard()
@@ -218,6 +219,34 @@ public abstract class AbstractBoard implements IBoard {
 	}
 
 	@Override
+	public boolean verifyTrap(ChessPiece t) {
+		if (boardType == IBoard.BOARD55) {
+			return true;
+		}
+
+		if (t.isBlack()) {
+			if (t.getType() != ChessPiece.BLACK_TRAP ||
+					t.getRow() > 1 || 
+					t.getRow() < 0 || 
+					t.getColumn() < 0 || 
+					t.getColumn() >= getBoardWidth() ||
+					board[t.getRow()][t.getColumn()] != ChessPiece.BLACK_UNKNOW) {
+				return false;
+			}
+		} else {
+			if (t.getType() != ChessPiece.RED_FLAG ||
+					t.getRow() >= getBoardHeight() || 
+					t.getRow() < getBoardHeight()-2 || 
+					t.getColumn() < 0 || 
+					t.getColumn() >= getBoardWidth() ||
+					board[t.getRow()][t.getColumn()] != ChessPiece.RED_UNKNOW) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public boolean setChessPiece(ChessPiece p) {
 		if (p == null) return false;
 		if (p.getRow() < 0 || 
@@ -303,8 +332,34 @@ public abstract class AbstractBoard implements IBoard {
 		return true;
 	}
 
+	public boolean verifyFlagAndTrap(ChessPiece f, ChessPiece t) {
+		if (f.isBlack()) {
+			if (t.getType() != ChessPiece.BLACK_TRAP ||
+					f.getType() != ChessPiece.BLACK_FLAG ||
+					f.getRow() == t.getRow() && f.getColumn() == t.getColumn() ||
+					f.getRow() > 1 || f.getRow() < 0 || f.getColumn() < 0 || f.getColumn() > 6 ||
+					t.getRow() > 1 || t.getRow() < 0 || t.getColumn() < 0 || t.getColumn() > 6) {
+				return false;
+			}
+		} else {
+			if (t.getType() != ChessPiece.RED_TRAP ||
+					f.getType() != ChessPiece.RED_FLAG ||
+					f.getRow() == t.getRow() && f.getColumn() == t.getColumn() ||
+					f.getRow() > 5 || f.getRow() < 4 || f.getColumn() < 0 || f.getColumn() > 6 ||
+					t.getRow() > 5 || t.getRow() < 4 || t.getColumn() < 0 || t.getColumn() > 6) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	@Override
 	public int getPieceNumber() {
 		return pieceNumberPerType;
+	}
+
+	@Override
+	public int getBoardType() {
+		return boardType;
 	}
 }
