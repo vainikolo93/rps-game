@@ -24,5 +24,6 @@ public class Board55 extends AbstractBoard {
 		this.boardAbsWidth = 312;
 
 		this.board = new int[5][5];
+		this.boardType = IBoard.BOARD55;
 	}
 }

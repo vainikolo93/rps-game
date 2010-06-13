@@ -26,10 +26,10 @@ public class StateBlackReady extends AbstractState {
 	@Override
 	public boolean placeTrapAndFlag(ChessPiece f, ChessPiece t)
 			throws IllegalGameStateException {
-		if (f.isBlack() || t.isBlack()) {
+		if (f.isBlack() || (t != null && t.isBlack())) {
 			throw new IllegalArgumentException("Now.. Red is ready..");
 		}
-		if (!Board67.verifyFlagAndTrap(f, t)) {
+		if (!game.getBoard().verifyFlag(f) || !game.getBoard().verifyTrap(t)) {
 			throw new IllegalArgumentException();
 		}
 

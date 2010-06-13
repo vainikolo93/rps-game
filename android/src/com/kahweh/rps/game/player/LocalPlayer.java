@@ -242,7 +242,7 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			p.setType(ChessPiece.BLACK_TRAP);
 		}
-		if (!Board67.verifyFlagAndTrap(flag, p)) {
+		if (!game.getBoard().verifyFlag(flag) || !game.getBoard().verifyTrap(p)) {
 			rps.showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
 			return false;
 		}
