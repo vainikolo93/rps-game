@@ -3,7 +3,6 @@
  */
 package com.kahweh.rps;
 
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,23 +10,16 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.IBoard;
-import com.kahweh.rps.game.IllegalGameStateException;
-import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
-import com.kahweh.rps.game.player.StateColorSet;
-import com.kahweh.rps.game.player.StateFlagSet;
-import com.kahweh.rps.game.player.StateMyTurn;
 
 /**
  * @author Michael
  *
  */
 public class BoardView extends View {
-
 	private static String TAG = "com.kahweh.rps.BoardView";
 	
 	private RockPaperScissors rps;
@@ -75,11 +67,6 @@ public class BoardView extends View {
 		arrow_down = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_down);
 		arrow_left = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_left);
 		arrow_right = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_right);
-
-//		SharedPreferences sp = rps.getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
-//		final String[] boardSizes = getResources().getStringArray(R.array.preference_boardsize_des);
-//		final String[] boardSizes_val = getResources().getStringArray(R.array.preference_boardsize_values);
-//		setBackgroundResource(sp.getString(GameSettings.BOARD_SIZE, boardSizes_val[0]).equals(boardSizes_val[0])?R.drawable.board5_5_320_480:R.drawable.board320_480);
 
 		setOnTouchListener(new OnTouchListener() {
 			@Override
