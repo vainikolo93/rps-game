@@ -6,7 +6,6 @@ package com.kahweh.rps.game.state;
 import android.util.Log;
 
 import com.kahweh.rps.Config;
-import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IBoard;
@@ -26,7 +25,7 @@ public class StateRedTurn extends AbstractState {
 	@Override
 	public boolean move(ChessPiece start, ChessPiece dest)
 			throws IllegalGameStateException {
-		if (!Board67.verifyMove(game.getBoard(), start, dest)) {
+		if (!game.getBoard().verifyMove(start, dest)) {
 			throw new IllegalGameStateException("The original and dest pieces are illegal..");
 		}
 		//If start is not red

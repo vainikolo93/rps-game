@@ -26,7 +26,7 @@ public interface IBoard {
 
 	public abstract void move(ChessPiece start, ChessPiece dest);
 
-	public abstract IBoard cloneBoard(int color);
+	public abstract IBoard cloneBoard(int color) throws CloneNotSupportedException;
 
 	public abstract ChessPiece getNeighborChessPiece(ChessPiece p, int pos);
 
@@ -57,4 +57,6 @@ public interface IBoard {
 	public boolean verifyTrap(ChessPiece t);
 	
 	public int getBoardType();
+
+	boolean verifyMove(ChessPiece s, ChessPiece d);
 }

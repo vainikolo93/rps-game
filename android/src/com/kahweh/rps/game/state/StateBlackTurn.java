@@ -26,7 +26,7 @@ public class StateBlackTurn extends AbstractState {
 	@Override
 	public boolean move(ChessPiece start, ChessPiece dest)
 			throws IllegalGameStateException {
-		if (!Board67.verifyMove(game.getBoard(), start, dest)) {
+		if (!game.getBoard().verifyMove(start, dest)) {
 			throw new IllegalGameStateException("The original and dest pieces are illegal..");
 		}
 		//If start is not black

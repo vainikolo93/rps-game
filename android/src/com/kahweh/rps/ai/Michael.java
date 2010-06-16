@@ -112,7 +112,6 @@ class Michael implements IPlayer {
 	@Override
 	public void play() {
 		IBoard board = game.getBoard(this);
-		// TODO Auto-generated method stub
 		ChessPiece p = null, n = null;
 
 		for (int i = 0; i < board.getBoardHeight(); i++) {
@@ -157,14 +156,14 @@ class Michael implements IPlayer {
 	@Override
 	public void chooseFlagAndTrap() {
 		ChessPiece flag , trap;
-		int fc = rand.nextInt(7);
-		int tc = rand.nextInt(7);
+		int fc = rand.nextInt(game.getBoard().getBoardWidth());
+		int tc = rand.nextInt(game.getBoard().getBoardWidth());
 		if (color == BLACK) {
 			flag = new ChessPiece(ChessPiece.BLACK_FLAG, 0, fc);
 			trap = new ChessPiece(ChessPiece.BLACK_TRAP, 1, tc);
 		} else {
-			flag = new ChessPiece(ChessPiece.RED_FLAG, 5, fc);
-			trap = new ChessPiece(ChessPiece.RED_TRAP, 4, tc);
+			flag = new ChessPiece(ChessPiece.RED_FLAG, game.getBoard().getBoardHeight()-1, fc);
+			trap = new ChessPiece(ChessPiece.RED_TRAP, game.getBoard().getBoardHeight()-2, tc);
 		}
 		try {
 			game.placeFlagAndTrap(flag, trap);

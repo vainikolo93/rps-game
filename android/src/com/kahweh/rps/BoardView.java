@@ -27,19 +27,13 @@ import com.kahweh.rps.game.player.StateMyTurn;
  *
  */
 public class BoardView extends View {
+
+	private static String TAG = "com.kahweh.rps.BoardView";
+	
 	private RockPaperScissors rps;
 	private LocalPlayer player;
 	
 	private IBoard board;
-	public ChessPiece getActivePiece() {
-		return activePiece;
-	}
-
-	public void setActivePiece(ChessPiece activePiece) {
-		this.activePiece = activePiece;
-	}
-
-	private ChessPiece activePiece;
 	
 	private Bitmap bbe;
 	private Bitmap bbpc;
@@ -93,82 +87,10 @@ public class BoardView extends View {
 				if (player == null) return false;
 
 				if (MotionEvent.ACTION_DOWN == e.getAction()) {
-					ChessPiece p = rps.getGame().getBoard().translatePosition(player.getColor(), e.getX(), e.getY());
-					if (Config.DEBUG) {
-						Log.d("BoardView", p.toString());
-					}
-					if (player.getState() instanceof StateColorSet) {
-						//Set Flag
-						try {
-							player.setFlag(p);
-						} catch (IllegalPlayerStateException e1) {
-							Log.w(BoardView.class.getSimpleName(), "Wrong player state..", e1);
-						}
-					} else if (player.getState() instanceof StateFlagSet) {
-						//Set Trap
-						try {
-							player.setTrap(p);
-						} catch (IllegalPlayerStateException e1) {
-							Log.w(BoardView.class.getSimpleName(), "Wrong player state..", e1);
-						} catch (IllegalGameStateException e1) {
-							Log.w(BoardView.class.getSimpleName(), "Wrong game state..", e1);
-						}
-					} else if (player.getState() instanceof StateMyTurn) {
-						//Move chesspiece
-						p = board.getChessPiece(p.getRow(), p.getColumn());
-						if (activePiece == null) {
-							//If activePiece is not not set, then try to set
-							if (player.isBlack()) {
-								if (p.isBlack() && p.isMovable()) {
-									activePiece = p;
-									BoardView.this.invalidate();
-								} else {
-									Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_black_piece), Toast.LENGTH_SHORT).show();
-								}
-							} else {
-								if (p.isRed() && p.isMovable()) {
-									activePiece = p;
-									BoardView.this.invalidate();
-								} else {
-									Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_red_piece), Toast.LENGTH_SHORT).show();
-								}
-							}
-						} else {
-							//ActivePiece is set then do MOVE
-							if (player.isBlack()) {
-								if (p.isBlack()) {
-									if (p.isMovable()) {
-										activePiece = p;
-										BoardView.this.invalidate();
-									}
-								} else {
-									if ((Math.abs(p.getRow() - activePiece.getRow()) 
-										+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
-										player.move(activePiece, p);
-									}
-								}
-							} else {
-								//Red player
-								if (p.isRed()) {
-									if (p.isMovable()) {
-										activePiece = p;
-										BoardView.this.invalidate();
-									}
-								} else {
-									if ((Math.abs(p.getRow() - activePiece.getRow()) 
-											+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
-											player.move(activePiece, p);
-										}
-								}
-							}
-						}
-					}
-
-					BoardView.this.invalidate();
-//					Toast.makeText(rps, "Test" + p.getRow() + " " + p.getColumn(), Toast.LENGTH_SHORT).show();
+					player.rawClick(e.getX(), e.getY());
 					return true;
 				}
-				
+
 				return false;
 			}
 		});
@@ -349,14 +271,14 @@ public class BoardView extends View {
 				case ChessPiece.BLANK:
 					break;
 				}
-				if (activePiece != null && 
+				if (player.getActivePiece() != null && 
 						(player.isBlack() && !ChessPiece.isBlack(b[ii][jj]) 
 						 || player.isRed() && !ChessPiece.isRed(b[ii][jj]))) {
 					// Print the arrow prompt
-					int row = player.isBlack()?(board.getBoardHeight() - activePiece.getRow() - 1)
-							:activePiece.getRow();
-					int column = player.isBlack()?(board.getBoardWidth() - activePiece.getColumn() - 1)
-							:activePiece.getColumn();
+					int row = player.isBlack()?(board.getBoardHeight() - player.getActivePiece().getRow() - 1)
+							:player.getActivePiece().getRow();
+					int column = player.isBlack()?(board.getBoardWidth() - player.getActivePiece().getColumn() - 1)
+							:player.getActivePiece().getColumn();
 
 					if (Math.abs(row - i)
 						+ Math.abs(column - j) == 1) {

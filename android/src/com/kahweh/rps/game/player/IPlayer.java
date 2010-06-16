@@ -42,7 +42,7 @@ public interface IPlayer {
 	
 	public int getColor();
 	
-	public boolean setFlag(ChessPiece p) throws IllegalPlayerStateException;
+	public boolean setFlag(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException;
 
 	public boolean setTrap(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException;
 	
