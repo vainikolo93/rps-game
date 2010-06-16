@@ -22,8 +22,26 @@ public class Board55 extends AbstractBoard {
 		this.boardWidth = 5;
 		this.boardAbsHeight = 312;
 		this.boardAbsWidth = 312;
+		this.pieceNumberPerType = 3;
 
 		this.board = new int[5][5];
 		this.boardType = IBoard.BOARD55;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.kahweh.rps.game.IBoard#clone()
+	 */
+	@Override
+	public Object clone() {
+		Board55 c = new Board55();
+		for (int i = 0; i < boardHeight; i++) {
+			for (int j = 0; j < boardWidth; j++) {
+				c.board[i][j] = board[i][j];
+			}
+		}
+		c.black_count = black_count;
+		c.red_count = red_count;
+
+		return c;
 	}
 }

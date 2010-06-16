@@ -8,10 +8,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.kahweh.rps.Config;
+import com.kahweh.rps.R;
 import com.kahweh.rps.RockPaperScissors;
-import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
+import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 
 /**
@@ -19,12 +20,13 @@ import com.kahweh.rps.game.IllegalGameStateException;
  * 
  */
 public class LocalPlayer implements IPlayer {
-
+	private static String TAG = "com.kahweh.rps.game.player.LocalPlayer";
+	
 	private int color;
 	private Game game;
 	private RockPaperScissors rps;
 
-	private ChessPiece flag, trap;
+	private ChessPiece flag;
 
 	private IPlayerState stateNewCreate;
 	private IPlayerState stateColorSet;
@@ -34,6 +36,8 @@ public class LocalPlayer implements IPlayer {
 	private IPlayerState stateOpponentTurn;
 	private IPlayerState stateGameOver;
 	private IPlayerState stateConflict;
+
+	private ChessPiece activePiece;
 
 	public IPlayerState getStateConflict() {
 		return stateConflict;
@@ -86,6 +90,14 @@ public class LocalPlayer implements IPlayer {
 
 	public IPlayerState getStateGameOver() {
 		return stateGameOver;
+	}
+
+	public ChessPiece getActivePiece() {
+		return activePiece;
+	}
+
+	public void setActivePiece(ChessPiece activePiece) {
+		this.activePiece = activePiece;
 	}
 
 	/*
@@ -173,7 +185,7 @@ public class LocalPlayer implements IPlayer {
 	public void metConflict() throws IllegalPlayerStateException {
 		// TODO Auto-generated method stub
 		if (Config.DEBUG) {
-			Log.d("LocalPlayer", "Met confilct...");
+			Log.d(TAG, "Met confilct...");
 		}
 		state.metConflict();
 	}
@@ -183,7 +195,7 @@ public class LocalPlayer implements IPlayer {
 		try {
 			state.play();
 		} catch (IllegalPlayerStateException e) {
-			Log.e(LocalPlayer.class.getSimpleName(), "Wrong..", e);
+			Log.e(TAG, "Wrong..", e);
 		}
 	}
 
@@ -215,7 +227,7 @@ public class LocalPlayer implements IPlayer {
 	}
 
 	@Override
-	public boolean setFlag(ChessPiece p) throws IllegalPlayerStateException {
+	public boolean setFlag(ChessPiece p) throws IllegalPlayerStateException, IllegalGameStateException {
 		if (color == IPlayer.RED) {
 			p.setType(ChessPiece.RED_FLAG);
 		} else {
@@ -227,10 +239,10 @@ public class LocalPlayer implements IPlayer {
 		}
 
 		flag = p;
-		state.setFlag(p);
 		game.getBoard().setChessPiece(p);
 		rps.getBoardView().invalidate();
-		rps.showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
+		state.setFlag(p);
+
 		return true;
 	}
 
@@ -242,7 +254,9 @@ public class LocalPlayer implements IPlayer {
 		} else {
 			p.setType(ChessPiece.BLACK_TRAP);
 		}
-		if (!game.getBoard().verifyFlag(flag) || !game.getBoard().verifyTrap(p)) {
+
+		if ((p.getRow() == flag.getRow() && p.getColumn() == flag.getColumn())
+				|| !game.getBoard().verifyTrap(p)) {
 			rps.showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
 			return false;
 		}
@@ -297,7 +311,7 @@ public class LocalPlayer implements IPlayer {
 	public boolean move(ChessPiece start, ChessPiece dest) {
 		try {
 			state.move(start, dest);
-			rps.getBoardView().setActivePiece(null);
+			activePiece = null;
 			rps.getBoardView().invalidate();
 		} catch (IllegalPlayerStateException e) {
 			Toast.makeText(rps, "Wrong Player State...", Toast.LENGTH_LONG)
@@ -358,5 +372,91 @@ public class LocalPlayer implements IPlayer {
 	public void notifyFinish(IPlayer winner) throws IllegalPlayerStateException {
 		state.finish(winner);
 		rps.showFinishDialog(this == winner?true:false);
+	}
+
+	/**
+	 * This function is used to handle the user click on the BoardView.
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void rawClick(float x, float y) {
+		ChessPiece p = rps.getGame().getBoard().translatePosition(color, x, y);
+
+		if (Config.DEBUG) {
+			Log.d(TAG, "User touched: " + p.toString());
+		}
+
+		if (state instanceof StateColorSet) {
+			//Set Flag
+			try {
+				setFlag(p);
+			} catch (IllegalPlayerStateException e) {
+				Log.w(TAG, "Wrong player state..", e);
+			} catch (IllegalGameStateException e) {
+				Log.w(TAG, "Wrong game state..", e);
+			}
+		} else if (state instanceof StateFlagSet) {
+			//Set Trap
+			try {
+				setTrap(p);
+			} catch (IllegalPlayerStateException e) {
+				Log.w(TAG, "Wrong player state..", e);
+			} catch (IllegalGameStateException e) {
+				Log.w(TAG, "Wrong game state..", e);
+			}
+		} else if (state instanceof StateMyTurn) {
+			//Move chesspiece
+			p = game.getBoard().getChessPiece(p.getRow(), p.getColumn());
+			if (activePiece == null) {
+				//If activePiece is not not set, then try to set
+				if (isBlack()) {
+					if (p.isBlack() && p.isMovable()) {
+						activePiece = p;
+						rps.getBoardView().invalidate();
+					} else {
+						Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_black_piece), Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					if (p.isRed() && p.isMovable()) {
+						activePiece = p;
+						rps.getBoardView().invalidate();
+					} else {
+						Toast.makeText(rps, rps.getString(R.string.toast_prompt_choose_red_piece), Toast.LENGTH_SHORT).show();
+					}
+				}
+			} else {
+				//ActivePiece is set then do MOVE
+				if (isBlack()) {
+					if (p.isBlack()) {
+						if (p.isMovable()) {
+							activePiece = p;
+							rps.getBoardView().invalidate();
+						}
+					} else {
+						if ((Math.abs(p.getRow() - activePiece.getRow()) 
+							+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
+							move(activePiece, p);
+						}
+					}
+				} else {
+					//Red player
+					if (p.isRed()) {
+						if (p.isMovable()) {
+							activePiece = p;
+							rps.getBoardView().invalidate();
+						}
+					} else {
+						if ((Math.abs(p.getRow() - activePiece.getRow()) 
+								+ Math.abs(p.getColumn() - activePiece.getColumn())) == 1) {
+								move(activePiece, p);
+							}
+					}
+				}
+			}
+		}
+
+		rps.getBoardView().invalidate();
+//		Toast.makeText(rps, "Test" + p.getRow() + " " + p.getColumn(), Toast.LENGTH_SHORT).show();
 	}
 }

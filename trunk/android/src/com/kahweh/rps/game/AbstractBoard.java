@@ -50,10 +50,30 @@ public abstract class AbstractBoard implements IBoard {
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#cloneBoard(int)
 	 */
-	@Override
-	public IBoard cloneBoard(int color) {
-		// TODO Auto-generated method stub
-		return null;
+	public IBoard cloneBoard(int color) throws CloneNotSupportedException {
+		IBoard b = (IBoard)clone();
+		if (color == IPlayer.RED) {
+			for (int i = 0; i < boardHeight; i++) {
+				for (int j = 0; j < boardWidth; j++) {
+					ChessPiece p = new ChessPiece(board[i][j], i, j);
+					if (p.isBlack() && !p.isOpen()) {
+						p.setType(ChessPiece.BLACK_UNKNOW);
+						b.setChessPiece(p);
+					}
+				}
+			}
+		} else {
+			for (int i = 0; i < boardHeight; i++) {
+				for (int j = 0; j < boardWidth; j++) {
+					ChessPiece p = new ChessPiece(board[i][j], i, j);
+					if (p.isRed() && !p.isOpen()) {
+						p.setType(ChessPiece.RED_UNKNOW);
+						b.setChessPiece(p);
+					}
+				}
+			}
+		}
+		return b;
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +82,7 @@ public abstract class AbstractBoard implements IBoard {
 	@Override
 	public int getBlack_count() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.black_count;
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +90,6 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public int[][] getBoard() {
-		// TODO Auto-generated method stub
 		return this.board;
 	}
 
@@ -119,8 +138,7 @@ public abstract class AbstractBoard implements IBoard {
 	 */
 	@Override
 	public ChessPiece getChessPiece(int row, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ChessPiece(board[row][column], row, column);
 	}
 
 	/* (non-Javadoc)
@@ -142,10 +160,28 @@ public abstract class AbstractBoard implements IBoard {
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#getNeighborChessPiece(com.kahweh.rps.game.ChessPiece, int)
 	 */
-	@Override
 	public ChessPiece getNeighborChessPiece(ChessPiece p, int pos) {
-		// TODO Auto-generated method stub
-		return null;
+		ChessPiece n = null;
+		switch (pos) {
+		case IBoard.UP:
+			if (p.getRow() - 1 < 0) return null;
+			n = getChessPiece(p.getRow() - 1, p.getColumn());
+			break;
+		case IBoard.DOWN:
+			if (p.getRow() + 1 >= boardHeight) return null;
+			n = getChessPiece(p.getRow() + 1, p.getColumn());
+			break;
+		case IBoard.LEFT:
+			if (p.getColumn() - 1 < 0) return null;
+			n = getChessPiece(p.getRow(), p.getColumn() - 1);
+			break;
+		case IBoard.RIGHT:
+			if (p.getColumn() + 1 >= boardWidth) return null;
+			n = getChessPiece(p.getRow(), p.getColumn() + 1);
+			break;
+		}
+
+		return n;
 	}
 
 	/* (non-Javadoc)
@@ -154,25 +190,50 @@ public abstract class AbstractBoard implements IBoard {
 	@Override
 	public int getRed_count() {
 		// TODO Auto-generated method stub
-		return 0;
+		return red_count;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#move(com.kahweh.rps.game.ChessPiece, com.kahweh.rps.game.ChessPiece)
 	 */
-	@Override
 	public void move(ChessPiece start, ChessPiece dest) {
-		// TODO Auto-generated method stub
-
+		if (start.compareTo(dest) > 0) {
+			if (dest.isBlack()) {
+				black_count--;
+			} else if (dest.isRed()) {
+				red_count--;
+			}
+			if (!dest.isBlank()) {
+				start = start.open();
+			}
+			dest.setType(start.getType());
+			start.setType(ChessPiece.BLANK);
+			setChessPiece(dest);
+			setChessPiece(start);
+		} else {
+			if (start.isBlack()) {
+				black_count--;
+			} else {
+				red_count--;
+			}
+			start.setType(ChessPiece.BLANK);
+			dest = dest.open();
+			setChessPiece(start);
+			setChessPiece(dest);
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.game.IBoard#openAll()
 	 */
-	@Override
 	public void openAll() {
-		// TODO Auto-generated method stub
-
+		for (int i=0; i<boardHeight; i++) {
+			for (int j=0; j<boardWidth; j++) {
+				if (!ChessPiece.isBlank(board[i][j])) {
+					board[i][j] = ChessPiece.open(board[i][j]);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -229,16 +290,16 @@ public abstract class AbstractBoard implements IBoard {
 					t.getRow() > 1 || 
 					t.getRow() < 0 || 
 					t.getColumn() < 0 || 
-					t.getColumn() >= getBoardWidth() ||
+					t.getColumn() >= boardWidth ||
 					board[t.getRow()][t.getColumn()] != ChessPiece.BLACK_UNKNOW) {
 				return false;
 			}
 		} else {
-			if (t.getType() != ChessPiece.RED_FLAG ||
-					t.getRow() >= getBoardHeight() || 
-					t.getRow() < getBoardHeight()-2 || 
+			if (t.getType() != ChessPiece.RED_TRAP ||
+					t.getRow() >= boardHeight ||
+					t.getRow() < boardHeight-2 ||
 					t.getColumn() < 0 || 
-					t.getColumn() >= getBoardWidth() ||
+					t.getColumn() >= boardWidth ||
 					board[t.getRow()][t.getColumn()] != ChessPiece.RED_UNKNOW) {
 				return false;
 			}
@@ -361,5 +422,19 @@ public abstract class AbstractBoard implements IBoard {
 	@Override
 	public int getBoardType() {
 		return boardType;
+	}
+
+	/**
+	 * @param s
+	 * @param d
+	 * @return
+	 */
+	@Override
+	public boolean verifyMove(ChessPiece s, ChessPiece d) {
+		if (!ChessPiece.verifyPiece(s, this) || !ChessPiece.verifyPiece(d, this)) return false;
+		if (ChessPiece.sameColor(s, d)) return false;
+		if (Math.abs(s.getRow() - d.getRow()) 
+				+ Math.abs(s.getColumn() - d.getColumn()) != 1) return false;
+		return true;
 	}
 }

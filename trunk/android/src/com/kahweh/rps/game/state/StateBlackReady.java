@@ -29,14 +29,23 @@ public class StateBlackReady extends AbstractState {
 		if (f.isBlack() || (t != null && t.isBlack())) {
 			throw new IllegalArgumentException("Now.. Red is ready..");
 		}
-		if (!game.getBoard().verifyFlag(f) || !game.getBoard().verifyTrap(t)) {
+
+		if (!game.getBoard().verifyFlag(f)) {
 			throw new IllegalArgumentException();
 		}
 
 		IBoard b = game.getBoard();
 		b.setChessPiece(f);
-		b.setChessPiece(t);
+		
+		if (game.getBoardType() == IBoard.BOARD67) {
+			if (!game.getBoard().verifyTrap(t)) {
+				throw new IllegalArgumentException();
+			}
+			b.setChessPiece(t);
+		}
+
 		b.initBoard();
+
 		try {
 			game.getRed().boardInitialized();
 			game.getBlack().boardInitialized();

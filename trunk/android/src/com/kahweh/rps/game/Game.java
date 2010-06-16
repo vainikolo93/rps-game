@@ -29,6 +29,8 @@ import com.kahweh.rps.game.state.StateRedTurnConflict;
  *
  */
 public class Game {
+	private static String TAG = "com.kahweh.rps.game.Game";
+
 	private IPlayer black;
 	private IPlayer red;
 
@@ -236,7 +238,7 @@ public class Game {
 			red.metConflict();
 			black.metConflict();
 		} catch (IllegalPlayerStateException e) {
-			Log.e("Game", "Wrong player state...", e);
+			Log.e(TAG, "Wrong player state...", e);
 		}
 	}
 
@@ -266,7 +268,7 @@ public class Game {
 		}
 
 		if (Config.DEBUG) {
-			Log.d("Game", "Moving from '" + start.toString() + "' to '" + dest.toString() + "'");
+			Log.d(TAG, "Moving from '" + start.toString() + "' to '" + dest.toString() + "'");
 		}
 		state.move(start, dest);
 		getRed().boardUpdated();
@@ -308,11 +310,21 @@ public class Game {
 
 	public IBoard getBoard(IPlayer p) {
 		if (p == red) {
-			return board.cloneBoard(IPlayer.RED);
+			try {
+				return board.cloneBoard(IPlayer.RED);
+			} catch (CloneNotSupportedException e) {
+				Log.w(TAG, "");
+				return null;
+			}
 		}
 
 		if (p == black) {
-			return board.cloneBoard(IPlayer.BLACK);
+			try {
+				return board.cloneBoard(IPlayer.BLACK);
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
 
 		return null;
