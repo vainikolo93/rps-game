@@ -54,13 +54,15 @@ public class RockPaperScissors extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.home);
 
         //create boardView
         if (boardView == null) {
         	boardView = new BoardView(this);
         }
-        ((LinearLayout)findViewById(R.id.root)).addView(boardView);
+
+
+//        ((LinearLayout)findViewById(R.id.root)).addView(boardView);
 
         //get game preferences
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);

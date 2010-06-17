@@ -53,4 +53,8 @@
 <string name="preference_game_level">Game Level</string>
 <string name="preference_player_name">Player Name</string>
 <string name="preference_player_default_name">Player1</string>
+<string name="str_btn_start">New Game</string>
+<string name="str_btn_preference">Options</string>
+<string name="str_btn_help">Help</string>
+<string name="str_btn_about">About</string>
 </resources>
