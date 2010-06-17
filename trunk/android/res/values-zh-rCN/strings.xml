@@ -40,4 +40,8 @@
 <string name="preference_game_level">游戏难度</string>
 <string name="preference_player_name">玩家名称</string>
 <string name="preference_player_default_name">玩家1</string>
+<string name="str_btn_start">开始游戏</string>
+<string name="str_btn_preference">游戏设置</string>
+<string name="str_btn_help">帮助</string>
+<string name="str_btn_about">关于</string>
 </resources>
