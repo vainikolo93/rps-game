@@ -12,15 +12,15 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.kahweh.rps.ai.AIPlayerFactory;
-import com.kahweh.rps.game.Board55;
 import com.kahweh.rps.game.Game;
-import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
@@ -41,6 +41,12 @@ public class RockPaperScissors extends Activity {
 	private static final int MENU_GAME_SETTING_ID = 2;
 	
 	DisplayMetrics dm;
+	
+    private Button btn_start;
+    private Button btn_preference;
+    private Button btn_help;
+    private Button btn_about;
+	
 	private BoardView boardView;
 	private Game game;
 	private LocalPlayer player;
@@ -54,21 +60,104 @@ public class RockPaperScissors extends Activity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.home);
-
-        //create boardView
-        if (boardView == null) {
-        	boardView = new BoardView(this);
-        }
-
-
+        //init the Main Menu view
+        initHome();
+        
 //        ((LinearLayout)findViewById(R.id.root)).addView(boardView);
 
         //get game preferences
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
     }
 
-    @Override
+    /**
+     * This function is used to initialize the Home view(main menu) of RPS game.
+     */
+    private void initHome() {
+        setContentView(R.layout.home);
+
+        if (btn_start == null) {
+        	btn_start = (Button)findViewById(R.id.btn_start);
+            btn_start.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				RockPaperScissors.this.newGame();
+    			}
+            });
+        }
+
+        if (btn_preference == null) {
+        	btn_preference = (Button)findViewById(R.id.btn_preference);
+            btn_preference.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				GameSettings.actionSetting(RockPaperScissors.this);
+    			}
+            });
+        }
+
+        if (btn_help == null) {
+        	btn_help = (Button)findViewById(R.id.btn_help);
+            btn_help.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				// TODO Auto-generated method stub
+    			}
+            });
+        }
+
+        if (btn_about == null) {
+        	btn_about = (Button)findViewById(R.id.btn_about);
+            btn_about.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    	    		showDialog(DIALOG_ABOUT);
+    			}
+            });
+        }
+    }
+
+    protected void newGame() {
+		if (game == null || game.getState() instanceof StateIdle) {
+	        //set boardView
+			setContentView(R.layout.main);
+			boardView = (BoardView)findViewById(R.id.board_view);
+
+			game = new Game(sharedPreferences.getString(GameSettings.BOARD_SIZE, "25"));
+			boardView.setBoardType(game.getBoardType());
+			player = new LocalPlayer(this);
+			if ("red".equals(sharedPreferences.getString(GameSettings.PLAYER_COLOR, "red"))) {
+				player.setColor(IPlayer.RED);
+			} else {
+				player.setColor(IPlayer.BLACK);
+			}
+			boardView.setPlayer(player);
+
+			try {
+				player.colorSet();
+				if (player.getColor() == IPlayer.RED) {
+					//User selected red
+					game.newGame(player, AIPlayerFactory.getAIPlayer());
+				} else if (player.getColor() == IPlayer.BLACK) {
+					//User selected black/blue
+					game.newGame(AIPlayerFactory.getAIPlayer(), player);
+				}
+			} catch (IllegalGameStateException e) {
+				game = null;
+				Log.w(RockPaperScissors.class.getName(), e);
+			} catch (IllegalPlayerStateException e) {
+				game = null;
+				Log.w(RockPaperScissors.class.getName(), e);
+			}
+			boardView.setBoard(game.getBoard());
+			boardView.invalidate();
+		} else {
+			//TODO: renew game
+		}
+
+		return;
+	}
+
+	@Override
     public void onStart() {
     	super.onStart();
     }
@@ -116,38 +205,7 @@ public class RockPaperScissors extends Activity {
     	switch (item.getItemId()) {
     	case MENU_NEWGAME_ID:
     		//New Game
-    		if (game == null || game.getState() instanceof StateIdle) {
-    			game = new Game(sharedPreferences.getString(GameSettings.BOARD_SIZE, "25"));
-    			boardView.setBoardType(game.getBoardType());
-    			player = new LocalPlayer(this);
-    			if ("red".equals(sharedPreferences.getString(GameSettings.PLAYER_COLOR, "red"))) {
-    				player.setColor(IPlayer.RED);
-    			} else {
-    				player.setColor(IPlayer.BLACK);
-    			}
-    			boardView.setPlayer(player);
-
-    			try {
-					player.colorSet();
-    				if (player.getColor() == IPlayer.RED) {
-    					//User selected red
-    					game.newGame(player, AIPlayerFactory.getAIPlayer());
-    				} else if (player.getColor() == IPlayer.BLACK) {
-    					//User selected black/blue
-    					game.newGame(AIPlayerFactory.getAIPlayer(), player);
-    				}
-    			} catch (IllegalGameStateException e) {
-    				game = null;
-    				Log.w(RockPaperScissors.class.getName(), e);
-    			} catch (IllegalPlayerStateException e) {
-    				game = null;
-    				Log.w(RockPaperScissors.class.getName(), e);
-    			}
-    			boardView.setBoard(game.getBoard());
-    			boardView.invalidate();
-    		} else {
-    			//TODO: renew game
-    		}
+    		newGame();
     		return true;
     	case MENU_GAME_SETTING_ID:
     		GameSettings.actionSetting(this);

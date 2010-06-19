@@ -6,4 +6,31 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+    <TextView
+        android:id="@+id/non_local_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:editable="false"
+        android:textSize="16pt"
+        android:text="Player1"
+        android:layout_marginTop="10px">
+    </TextView>
+    <com.kahweh.rps.BoardView
+        android:id="@+id/board_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10px">
+    </com.kahweh.rps.BoardView>
+    <TextView
+        android:id="@+id/local_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:editable="false"
+        android:textSize="16pt"
+        android:text="Player2"
+        android:layout_marginTop="10px">
+    </TextView>
 </LinearLayout>

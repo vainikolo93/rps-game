@@ -3,10 +3,12 @@
  */
 package com.kahweh.rps;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,10 +60,19 @@ public class BoardView extends View {
 	private Bitmap arrow_right;
 
 	private int boardType;
-	
-	public BoardView(RockPaperScissors context) {
-		super(context);
-		this.rps = context;
+
+	public BoardView(Context context) {
+		this(context, null);
+	}
+
+    public BoardView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public BoardView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+
+		this.rps = (RockPaperScissors)context;
 
 		arrow_up = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_up);
 		arrow_down = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_down);
@@ -81,7 +92,7 @@ public class BoardView extends View {
 				return false;
 			}
 		});
-	}
+    }
 
 	@Override
 	protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
