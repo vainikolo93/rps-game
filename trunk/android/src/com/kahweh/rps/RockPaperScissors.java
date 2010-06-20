@@ -309,12 +309,12 @@ public class RockPaperScissors extends Activity {
     		.setNeutralButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					//TODO
+					initHome();
 				}
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					//TODO
+					newGame();
 				}
 			}).create();
     	case DIALOG_LOSE:
@@ -325,12 +325,12 @@ public class RockPaperScissors extends Activity {
     		.setNeutralButton(R.string.dialog_gameover_return, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					//TODO
+					initHome();
 				}
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					//TODO
+					newGame();
 				}
 			}).create();
     	case DIALOG_ABOUT:
