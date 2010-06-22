@@ -8,8 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.kahweh.rps.Config;
+import com.kahweh.rps.GameActivity;
 import com.kahweh.rps.R;
-import com.kahweh.rps.RockPaperScissors;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IBoard;
@@ -24,7 +24,7 @@ public class LocalPlayer implements IPlayer {
 	
 	private int color;
 	private Game game;
-	private RockPaperScissors rps;
+	private GameActivity rps;
 
 	private ChessPiece flag;
 
@@ -45,7 +45,7 @@ public class LocalPlayer implements IPlayer {
 
 	private IPlayerState state;
 
-	public LocalPlayer(RockPaperScissors rps) {
+	public LocalPlayer(GameActivity rps) {
 		this.setRps(rps);
 
 		this.stateNewCreate = new StateNewCreate(this);
@@ -201,7 +201,7 @@ public class LocalPlayer implements IPlayer {
 
 	@Override
 	public void chooseFlagAndTrap() throws IllegalPlayerStateException {
-		rps.showDialog(RockPaperScissors.DIALOG_FLAG_SELECT);
+		rps.showDialog(GameActivity.DIALOG_FLAG_SELECT);
 	}
 
 	@Override
@@ -234,7 +234,7 @@ public class LocalPlayer implements IPlayer {
 			p.setType(ChessPiece.BLACK_FLAG);
 		}
 		if (!game.getBoard().verifyFlag(p)) {
-			rps.showDialog(RockPaperScissors.DIALOG_FLAG_SELECT);
+			rps.showDialog(GameActivity.DIALOG_FLAG_SELECT);
 			return false;
 		}
 
@@ -257,7 +257,7 @@ public class LocalPlayer implements IPlayer {
 
 		if ((p.getRow() == flag.getRow() && p.getColumn() == flag.getColumn())
 				|| !game.getBoard().verifyTrap(p)) {
-			rps.showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
+			rps.showDialog(GameActivity.DIALOG_TRAP_SELECT);
 			return false;
 		}
 
@@ -266,11 +266,11 @@ public class LocalPlayer implements IPlayer {
 		return true;
 	}
 
-	public void setRps(RockPaperScissors rps) {
+	public void setRps(GameActivity rps) {
 		this.rps = rps;
 	}
 
-	public RockPaperScissors getRps() {
+	public GameActivity getRps() {
 		return rps;
 	}
 

@@ -3,7 +3,7 @@
  */
 package com.kahweh.rps.game.player;
 
-import com.kahweh.rps.RockPaperScissors;
+import com.kahweh.rps.HomeActivity;
 import com.kahweh.rps.game.ChessPiece;
 
 /**

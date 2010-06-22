@@ -3,7 +3,7 @@
  */
 package com.kahweh.rps.game.player;
 
-import com.kahweh.rps.RockPaperScissors;
+import com.kahweh.rps.GameActivity;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
@@ -30,7 +30,7 @@ public class StateColorSet extends AbstractPlayerState {
 				throw new IllegalPlayerStateException(e);
 			}
     	} else {
-			player.getRps().showDialog(RockPaperScissors.DIALOG_TRAP_SELECT);
+			player.getRps().showDialog(GameActivity.DIALOG_TRAP_SELECT);
     	}
     }
 }
