@@ -24,7 +24,7 @@ import com.kahweh.rps.game.player.LocalPlayer;
 public class BoardView extends View {
 	private static String TAG = "com.kahweh.rps.BoardView";
 	
-	private RockPaperScissors rps;
+	private GameActivity rps;
 	private LocalPlayer player;
 	
 	private IBoard board;
@@ -72,7 +72,7 @@ public class BoardView extends View {
     public BoardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-		this.rps = (RockPaperScissors)context;
+		this.rps = (GameActivity)context;
 
 		arrow_up = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_up);
 		arrow_down = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_down);

@@ -6,7 +6,7 @@ package com.kahweh.rps.game.player;
 import android.util.Log;
 
 import com.kahweh.rps.Config;
-import com.kahweh.rps.RockPaperScissors;
+import com.kahweh.rps.HomeActivity;
 
 /**
  * @author b448
