@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:stretchColumns="2">
+  <TableRow>
+    <ImageView android:src="@drawable/app"
+      android:layout_column="1"/>
+    <LinearLayout>
+      <TextView/>
+      <TextView/>
+    </LinearLayout>
+  </TableRow>
+  <TableRow>
+  </TableRow>
+  <TableRow>
+  </TableRow>
+</TableLayout>

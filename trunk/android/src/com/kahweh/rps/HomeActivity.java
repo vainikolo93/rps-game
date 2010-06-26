@@ -92,7 +92,7 @@ public class HomeActivity extends Activity {
             btn_help.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View v) {
-    				// TODO Auto-generated method stub
+    				HelpActivity.actionHelp(HomeActivity.this);
     			}
             });
         }

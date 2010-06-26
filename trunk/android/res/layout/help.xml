@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content">
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+  <WebView
+    android:id="@+id/help_web"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    android:padding="3dip">
+    <Button
+      android:id="@+id/btn_help_about"
+      android:layout_width="wrap_content"
+      android:layout_height="48dip"
+      android:layout_gravity="left"
+      android:text="@string/str_btn_about"
+      android:textSize="14dip" />
+    <TextView
+      android:layout_width="0dip"
+      android:layout_height="wrap_content"
+      android:layout_weight="1" />
+    <Button
+      android:id="@+id/btn_help_ok"
+      android:layout_width="wrap_content"
+      android:layout_height="48dip"
+      android:layout_gravity="right"
+      android:text="@string/button_ok"
+      android:textSize="14dip" />
+  </LinearLayout>
 </LinearLayout>
