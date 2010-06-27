@@ -25,4 +25,6 @@ public interface IGameState {
 	public void quitGame(IPlayer badGuy);
 	
 	public void gameOver(IPlayer winner);
+
+	public void renew();
 }

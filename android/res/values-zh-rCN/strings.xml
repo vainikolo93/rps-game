@@ -44,4 +44,8 @@
 <string name="str_btn_preference">游戏设置</string>
 <string name="str_btn_help">帮助</string>
 <string name="str_btn_about">关于</string>
+<string name="about_ahthor">作者:</string>
+<string name="about_michael">卡威</string>
+<string name="about_version">版本:</string>
+<string name="about_support">支持:</string>
 </resources>

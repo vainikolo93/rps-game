@@ -5,15 +5,84 @@
   android:layout_height="wrap_content"
   android:stretchColumns="2">
   <TableRow>
-    <ImageView android:src="@drawable/app"
+    <ImageView android:src="@drawable/app_icon"
+      android:scaleType="matrix"
       android:layout_column="1"/>
-    <LinearLayout>
-      <TextView/>
-      <TextView/>
+    <LinearLayout android:layout_column="2"
+         android:orientation="vertical"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content">
+      <TextView android:textSize="30sp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/app_name"/>
+      <TextView android:textSize="15sp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/about_copyright_msg"/>
     </LinearLayout>
   </TableRow>
+
+  <View android:layout_height="2dip" />
+    
   <TableRow>
+    <TextView
+      android:paddingLeft="10dip"
+      android:paddingRight="10dip"
+      android:layout_column="1"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="@string/about_ahthor"
+      android:textSize="20sp" />
+    <LinearLayout
+      android:layout_column="2"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:orientation="vertical">
+      <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/about_michael"
+        android:textSize="20sp" />
+      <TextView android:autoLink="email"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="kahweh@gmail.com"
+        android:textSize="18sp" />
+    </LinearLayout>
   </TableRow>
+
+  <View android:layout_height="2dip" />
+
   <TableRow>
+    <TextView android:paddingLeft="10dip"
+      android:paddingRight="10dip"
+      android:layout_column="1"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="@string/about_version"
+      android:textSize="20sp" />
+    <TextView
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="@string/version"
+      android:textSize="20sp" />
+  </TableRow>
+
+  <View android:layout_height="2dip" />
+
+  <TableRow>
+    <TextView android:paddingLeft="10dip"
+      android:paddingRight="10dip"
+      android:layout_column="1"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="@string/about_support"
+      android:textSize="20sp" />
+    <TextView android:autoLink="web" 
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:text="www.kahweh.com/rps"
+      android:textSize="18sp" />
   </TableRow>
 </TableLayout>

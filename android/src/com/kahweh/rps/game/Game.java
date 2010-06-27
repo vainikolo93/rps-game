@@ -329,4 +329,8 @@ public class Game {
 
 		return null;
 	}
+
+	public void renew() {
+		state.renew();
+	}
 }
