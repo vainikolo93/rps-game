@@ -4,8 +4,10 @@
 package com.kahweh.rps;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
@@ -30,9 +32,6 @@ public class HelpActivity extends Activity {
 			public void onClick(View v) {
 				about();
 			}
-
-			private void about() {
-			}
         });
         
         findViewById(R.id.btn_help_ok).setOnClickListener(new OnClickListener() {
@@ -46,5 +45,21 @@ public class HelpActivity extends Activity {
     public static void actionHelp(Activity from) {
     	Intent intent = new Intent(from, HelpActivity.class);
     	from.startActivity(intent);
+    }
+
+    /**
+     * Shows the "about" dialog.
+     * 
+     * TODO: Add a menu option for showing the same thing.
+     */
+    public void about() {
+      LayoutInflater li = LayoutInflater.from(this);
+      View view = li.inflate(R.layout.about, null);
+      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setView(view);
+      builder.setPositiveButton(R.string.button_ok, null);
+      builder.setIcon(R.drawable.app);
+      AlertDialog dialog = builder.create();
+      dialog.show();
     }
 }

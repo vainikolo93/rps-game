@@ -83,4 +83,8 @@ public abstract class AbstractState implements IGameState {
 			Log.e("AbstractState", "Wrong player state..", e);
 		}
 	}
+	
+	public void renew() {
+		game.setState(game.getStateIdle());
+	}
 }

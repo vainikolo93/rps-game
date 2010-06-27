@@ -200,6 +200,7 @@ public class GameActivity extends Activity {
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					game.renew();
 					newGame();
 				}
 			}).create();
@@ -216,6 +217,7 @@ public class GameActivity extends Activity {
 			}).setPositiveButton(R.string.dialog_gameover_renew, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
+					game.renew();
 					newGame();
 				}
 			}).create();

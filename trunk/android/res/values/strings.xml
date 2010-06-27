@@ -57,4 +57,10 @@
 <string name="str_btn_preference">Options</string>
 <string name="str_btn_help">Help</string>
 <string name="str_btn_about">About</string>
+<string name="about_ahthor">Author:</string>
+<string name="about_michael">Michael LI</string>
+<string name="about_version">Version:</string>
+<string name="about_support">Support:</string>
+<string name="version">0.9</string>
+<string name="about_copyright_msg">Copyright 2010 Michael LI</string>
 </resources>
