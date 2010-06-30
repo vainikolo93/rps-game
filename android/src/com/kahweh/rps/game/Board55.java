@@ -44,4 +44,16 @@ public class Board55 extends AbstractBoard {
 
 		return c;
 	}
+
+	@Override
+	public boolean blackOver() {
+		if (getBlack_count() == 1) return true;
+		return false;
+	}
+
+	@Override
+	public boolean redOver() {
+		if (getRed_count() == 1) return true;
+		return false;
+	}
 }
