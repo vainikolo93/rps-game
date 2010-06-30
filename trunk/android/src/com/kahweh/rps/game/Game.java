@@ -274,9 +274,9 @@ public class Game {
 		getRed().boardUpdated();
 		getBlack().boardUpdated();
 
-		if (board.getBlack_count() == 2) {
+		if (board.blackOver()) {
 			state.gameOver(getRed());
-		} else if (board.getRed_count() == 2) {
+		} else if (board.redOver()) {
 			state.gameOver(getBlack());
 		}
 	}

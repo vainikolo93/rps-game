@@ -59,4 +59,8 @@ public interface IBoard {
 	public int getBoardType();
 
 	boolean verifyMove(ChessPiece s, ChessPiece d);
+
+	public abstract boolean blackOver();
+
+	public abstract boolean redOver();
 }
