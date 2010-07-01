@@ -6,9 +6,9 @@ package com.kahweh.rps.ai;
 import java.util.Random;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.util.Log;
 
-import com.kahweh.rps.game.Board67;
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IBoard;
@@ -20,10 +20,11 @@ import com.kahweh.rps.game.player.IllegalPlayerStateException;
  * @author Michael
  *
  */
-class Michael implements IPlayer {
+class Michael implements IPlayer, IEngine.DecisionMadeCallback{
 	private Random rand = new Random(System.currentTimeMillis());
 	private int color = IPlayer.IDLE;
 	private Game game;
+	private Handler mHandler;
 
 	@Override
 	public String getEmail() {
@@ -114,6 +115,10 @@ class Michael implements IPlayer {
 		IBoard board = game.getBoard(this);
 		ChessPiece p = null, n = null;
 
+		mHandler = new Handler() {
+			
+		};
+		
 		for (int i = 0; i < board.getBoardHeight(); i++) {
 			for (int j = 0; j < board.getBoardWidth(); j++) {
 				p = board.getChessPiece(i, j);
@@ -223,4 +228,13 @@ class Michael implements IPlayer {
 
 	@Override
 	public void notifyFinish(IPlayer winner) throws IllegalPlayerStateException {}
+
+	/**
+	 * This is callback function for the AI engine. 
+	 */
+	@Override
+	public void engineMove(ChessPiece from, ChessPiece to) {
+		// TODO Auto-generated method stub
+		
+	}
 }
