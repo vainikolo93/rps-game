@@ -12,7 +12,7 @@ import com.kahweh.rps.game.IllegalGameStateException;
  */
 public interface IEngine {
     public interface DecisionMadeCallback {
-    	public void move(ChessPiece from, ChessPiece to);
+    	public void engineMove(ChessPiece from, ChessPiece to);
     }
 
     public void getNextMove(int color, DecisionMadeCallback callback)
