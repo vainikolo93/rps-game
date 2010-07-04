@@ -258,6 +258,10 @@ public class Game {
 		state.makeChoice(p);
 	}
 
+	public synchronized void move(MoveAction mv) throws IllegalGameStateException {
+		this.move(mv.getFrom(), mv.getTo());
+	}
+
 	public synchronized void move(ChessPiece start, ChessPiece dest) throws IllegalGameStateException {
 		if (start == null || dest == null) {
 			throw new IllegalGameStateException();

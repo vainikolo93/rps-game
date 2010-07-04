@@ -10,6 +10,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kahweh.rps.ai.AIPlayerFactory;
 import com.kahweh.rps.game.Game;
@@ -102,7 +104,7 @@ public class HomeActivity extends Activity {
             btn_about.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View v) {
-    	    		showDialog(DIALOG_ABOUT);
+    				HelpActivity.about(HomeActivity.this);
     			}
             });
         }
@@ -132,7 +134,25 @@ public class HomeActivity extends Activity {
     public void onRestart() {
     	super.onRestart();
     }
-    
+
+    private long last_backey_time = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				long current = System.currentTimeMillis();
+				if (current - last_backey_time > 3000) {
+					last_backey_time = current;
+					Toast.makeText(this, R.string.toast_press_again, Toast.LENGTH_SHORT).show();
+					return true;
+				}
+				break;
+            default:
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
@@ -161,8 +181,7 @@ public class HomeActivity extends Activity {
     		GameSettings.actionSetting(this);
     		break;
     	case MENU_ABOUT_ID:
-    		//About
-    		showDialog(DIALOG_ABOUT);
+    		HelpActivity.about(this);
     		break;
     	}
     	return false;
@@ -175,19 +194,8 @@ public class HomeActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch (id) {
-    	case DIALOG_ABOUT:
-    		TextView view = new TextView(HomeActivity.this);
-    		view.setText(Html.fromHtml(getString(R.string.dialog_about_content)));
-    		view.setMovementMethod(LinkMovementMethod.getInstance());
-
-    		return new AlertDialog.Builder(HomeActivity.this)
-    		.setIcon(R.drawable.dialog_icon_info)
-    		.setTitle(R.string.dialog_about_title)
-    		.setView(view)
-    		.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {}
-			}).create();
+    		default:
+    			break;
     	}
     	return null;
     }
