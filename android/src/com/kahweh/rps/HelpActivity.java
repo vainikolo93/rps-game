@@ -5,6 +5,7 @@ package com.kahweh.rps;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +31,7 @@ public class HelpActivity extends Activity {
         findViewById(R.id.btn_help_about).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				about();
+				about(HelpActivity.this);
 			}
         });
         
@@ -52,10 +53,10 @@ public class HelpActivity extends Activity {
      * 
      * TODO: Add a menu option for showing the same thing.
      */
-    public void about() {
-      LayoutInflater li = LayoutInflater.from(this);
+    public static void about(Context ctx) {
+      LayoutInflater li = LayoutInflater.from(ctx);
       View view = li.inflate(R.layout.about, null);
-      AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
       builder.setView(view);
       builder.setPositiveButton(R.string.button_ok, null);
       builder.setIcon(R.drawable.app);

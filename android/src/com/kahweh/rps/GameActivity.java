@@ -3,6 +3,19 @@
  */
 package com.kahweh.rps;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
+
 import com.kahweh.rps.ai.AIPlayerFactory;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IllegalGameStateException;
@@ -11,26 +24,13 @@ import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.state.StateIdle;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
-
 /**
  * @author michael
  *
  */
 public class GameActivity extends Activity {
-
+	public static final String TAG = "com.kahweh.rps.GameActivity";
+	
 	public static final int DIALOG_FLAG_SELECT = 2;
 	public static final int DIALOG_TRAP_SELECT = 3;
 	private static final int DIALOG_CONFLICT_SELECT1 = 4;
@@ -55,6 +55,25 @@ public class GameActivity extends Activity {
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
         
         newGame();
+    }
+
+    private long last_backey_time = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	switch (keyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				//User press the BACK key twice in 3 seconds, then the real BACK action occurs.
+				long current = System.currentTimeMillis();
+				if (current - last_backey_time > 3000) {
+					last_backey_time = current;
+					Toast.makeText(this, R.string.toast_press_again, Toast.LENGTH_SHORT).show();
+					return true;
+				}
+				break;
+            default:
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 	/**

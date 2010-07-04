@@ -48,4 +48,5 @@
 <string name="about_michael">卡威</string>
 <string name="about_version">版本:</string>
 <string name="about_support">支持:</string>
+<string name="toast_press_again">再按一次回退键退出</string>
 </resources>

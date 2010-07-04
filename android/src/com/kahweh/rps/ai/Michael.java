@@ -7,12 +7,14 @@ import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.kahweh.rps.game.ChessPiece;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
+import com.kahweh.rps.game.MoveAction;
 import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 
@@ -21,10 +23,45 @@ import com.kahweh.rps.game.player.IllegalPlayerStateException;
  *
  */
 class Michael implements IPlayer, IEngine.DecisionMadeCallback{
+	private static String TAG = "com.kahweh.rps.ai.Michael";
+
+	private static final int CONCEDE= 1;
+	private static final int MOVEDECISION_MADE = 2;
+
 	private Random rand = new Random(System.currentTimeMillis());
 	private int color = IPlayer.IDLE;
 	private Game game;
 	private Handler mHandler;
+
+	/**
+	 * Constructor. 
+	 */
+	public Michael() {
+		//This handler is used by AI engine to post the AI decision to Main thread
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+					case MOVEDECISION_MADE:
+						try {
+							game.move((MoveAction)msg.obj);
+						} catch (IllegalGameStateException e) {
+							Log.e(TAG, "Current game state cannot perform MOVE action.", e);
+						}
+						break;
+					case CONCEDE:
+						try {
+							game.concede(Michael.this);
+						} catch (IllegalGameStateException e) {
+							Log.e(TAG, "Current game state cannot perform CONCEDE action.", e);
+						}
+						break;
+					default:
+						break;
+				}
+			}
+		};
+	}
 
 	@Override
 	public String getEmail() {
@@ -112,13 +149,16 @@ class Michael implements IPlayer, IEngine.DecisionMadeCallback{
 
 	@Override
 	public void play() {
+		randomMove();
+	}
+
+	/**
+	 * Random move.
+	 */
+	private void randomMove() {
 		IBoard board = game.getBoard(this);
 		ChessPiece p = null, n = null;
 
-		mHandler = new Handler() {
-			
-		};
-		
 		for (int i = 0; i < board.getBoardHeight(); i++) {
 			for (int j = 0; j < board.getBoardWidth(); j++) {
 				p = board.getChessPiece(i, j);
@@ -157,7 +197,7 @@ class Michael implements IPlayer, IEngine.DecisionMadeCallback{
 			Log.w("AI Michael", e);
 		}
 	}
-
+	
 	@Override
 	public void chooseFlagAndTrap() {
 		ChessPiece flag , trap;
