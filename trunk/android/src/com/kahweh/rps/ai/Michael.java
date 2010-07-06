@@ -150,6 +150,7 @@ class Michael implements IPlayer, IEngine.DecisionMadeCallback{
 	@Override
 	public void play() {
 		randomMove();
+		
 	}
 
 	/**

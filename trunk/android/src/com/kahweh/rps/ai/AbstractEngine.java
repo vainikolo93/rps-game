@@ -23,9 +23,10 @@ public abstract class AbstractEngine implements IEngine {
 		this.decisionCallback = decisionCallback;
 	}
 
-	protected AbstractEngine(IBoard board, int dLevel) {
+	protected AbstractEngine(IBoard board, int dLevel, IEngine.DecisionMadeCallback callback) {
 		this.board = board;
 		this.difficultyLevel = dLevel;
+		this.decisionCallback = callback;
 	}
 
 	/* (non-Javadoc)
