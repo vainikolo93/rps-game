@@ -33,4 +33,10 @@ public class MoveAction {
 	public void setTo(ChessPiece to) {
 		this.to = to;
 	}
+
+	public boolean isValid() {
+		if (from == null || to == null) return false;
+
+		return true;
+	}
 }
