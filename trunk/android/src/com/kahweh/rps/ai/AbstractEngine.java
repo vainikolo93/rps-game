@@ -5,6 +5,7 @@ package com.kahweh.rps.ai;
 
 import com.kahweh.rps.game.IBoard;
 import com.kahweh.rps.game.IllegalGameStateException;
+import com.kahweh.rps.game.MoveAction;
 
 /**
  * @author Michael
@@ -13,31 +14,19 @@ import com.kahweh.rps.game.IllegalGameStateException;
 public abstract class AbstractEngine implements IEngine {
 	protected IBoard board;
 	protected int difficultyLevel;
-	DecisionMadeCallback decisionCallback;
 
-	public DecisionMadeCallback getDecisionCallback() {
-		return decisionCallback;
-	}
-
-	public void setDecisionCallback(DecisionMadeCallback decisionCallback) {
-		this.decisionCallback = decisionCallback;
-	}
-
-	protected AbstractEngine(IBoard board, int dLevel, IEngine.DecisionMadeCallback callback) {
+	protected AbstractEngine(IBoard board, int dLevel) {
 		this.board = board;
 		this.difficultyLevel = dLevel;
-		this.decisionCallback = callback;
 	}
 
 	/* (non-Javadoc)
 	 * @see com.kahweh.rps.ai.IEngine#getNextMove(com.kahweh.rps.game.IBoard, int, com.kahweh.rps.ai.IEngine.DecisionMadeCallback)
 	 */
 	@Override
-	public void getNextMove(int color, DecisionMadeCallback callback)
+	public MoveAction getNextMove(int color)
 	        throws IllegalGameStateException {
-		this.decisionCallback = callback;
-		
-		
+		throw new IllegalGameStateException("Method of Abstract class..");
 	}
 
 	public IBoard getBoard() {
