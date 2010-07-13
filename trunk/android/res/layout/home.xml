@@ -19,6 +19,13 @@
             android:layout_marginTop="4px">
     </Button>
     <Button android:layout_gravity="center" 
+            android:text="@string/str_btn_bt" 
+            android:id="@+id/btn_bt" 
+            android:layout_width="200px" 
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4px">
+    </Button>
+    <Button android:layout_gravity="center" 
             android:text="@string/str_btn_preference" 
             android:id="@+id/btn_preference" 
             android:layout_width="200px" 

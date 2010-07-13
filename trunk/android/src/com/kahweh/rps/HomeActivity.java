@@ -39,6 +39,7 @@ public class HomeActivity extends Activity {
 	DisplayMetrics dm;
 
     private Button btn_start;
+    private Button btn_bt;
     private Button btn_preference;
     private Button btn_help;
     private Button btn_about;
@@ -75,6 +76,16 @@ public class HomeActivity extends Activity {
     			@Override
     			public void onClick(View v) {
     				GameActivity.actionGame(HomeActivity.this);
+    			}
+            });
+        }
+
+        if (btn_bt == null) {
+        	btn_bt = (Button)findViewById(R.id.btn_bt);
+            btn_bt.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				BtActivity.actionGame(HomeActivity.this);
     			}
             });
         }
