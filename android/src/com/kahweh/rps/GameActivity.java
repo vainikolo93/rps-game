@@ -76,16 +76,6 @@ public class GameActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-	/**
-	 * Display and edit game settings.
-	 * @param from
-	 * @param accountId
-	 */
-	public static void actionGame(Activity from) {
-        Intent i = new Intent(from, GameActivity.class);
-        from.startActivity(i);
-	}
-	
     protected void newGame() {
 		if (game == null || game.getState() instanceof StateIdle) {
 	        //set boardView
@@ -283,5 +273,14 @@ public class GameActivity extends Activity {
 
 	public BoardView getBoardView() {
 		return boardView;
+	}
+
+	/**
+	 * Show game activity.
+	 * @param from
+	 */
+	public static void actionGame(Activity from) {
+        Intent i = new Intent(from, GameActivity.class);
+        from.startActivity(i);
 	}
 }
