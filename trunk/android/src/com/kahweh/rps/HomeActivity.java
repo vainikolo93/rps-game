@@ -31,6 +31,7 @@ import com.kahweh.rps.game.state.StateIdle;
 
 public class HomeActivity extends Activity {
 	public static final int DIALOG_ABOUT = 1000;
+	public static final int DIALOG_SELECT_NET = 1001;
 
 	private static final int MENU_NEWGAME_ID = 0;
 	private static final int MENU_ABOUT_ID = 1;
@@ -81,11 +82,12 @@ public class HomeActivity extends Activity {
         }
 
         if (btn_bt == null) {
-        	btn_bt = (Button)findViewById(R.id.btn_bt);
+        	btn_bt = (Button)findViewById(R.id.btn_remote);
             btn_bt.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View v) {
-    				BtActivity.actionGame(HomeActivity.this);
+    				HomeActivity.this.showDialog(DIALOG_SELECT_NET);
+//    				BtActivity.actionGame(HomeActivity.this);
     			}
             });
         }
@@ -204,17 +206,35 @@ public class HomeActivity extends Activity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
+    	Dialog dlg = null;
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	final String[] list = new String[] {"test1", "test2"};
     	switch (id) {
+    		case DIALOG_SELECT_NET:
+    			dlg = builder.setTitle(R.string.dialog_connection_method_title)
+    			.setItems(R.array.dialog_connection_method, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(HomeActivity.this, list[which], Toast.LENGTH_LONG).show();
+					}
+				})
+    			.setNegativeButton(R.string.dialog_connection_method_cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				}).create();
+    			break;
     		default:
     			break;
     	}
-    	return null;
+    	return dlg;
     }
 
     @Override
     protected void onPrepareDialog(int id, Dialog dlg) {
     	switch (id) {
-    	case DIALOG_ABOUT:
+    	case DIALOG_SELECT_NET:
     		break;
     	}
     }

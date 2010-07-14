@@ -37,11 +37,14 @@
 <item>中等</item>
 <item>难</item>
 </string-array>
+<string-array name="dialog_connection_method"><item>使用互联网</item>
+<item>使用蓝牙</item>
+</string-array>
 <string name="preference_game_level">游戏难度</string>
 <string name="preference_player_name">玩家名称</string>
 <string name="preference_player_default_name">玩家1</string>
-<string name="str_btn_start">开始游戏</string>
-<string name="str_btn_bt">蓝牙对战</string>
+<string name="str_btn_start">单人游戏</string>
+<string name="str_btn_remote">对战游戏</string>
 <string name="str_btn_preference">游戏设置</string>
 <string name="str_btn_help">帮助</string>
 <string name="str_btn_about">关于</string>
@@ -51,4 +54,6 @@
 <string name="about_support">支持:</string>
 <string name="toast_press_again">再按一次回退键退出</string>
 <string name="toast_no_bt_device">找不到蓝牙设备..</string>
+<string name="dialog_connection_method_title">联接方式:</string>
+<string name="dialog_connection_method_cancel">取消</string>
 </resources>
