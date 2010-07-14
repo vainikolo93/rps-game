@@ -14,6 +14,7 @@
     <activity android:name="GameActivity" android:screenOrientation="portrait"></activity>
     <activity android:name="HelpActivity"></activity>
     <activity android:name="BtActivity" android:screenOrientation="portrait"></activity>
+    <activity android:name="NetActivity" android:screenOrientation="portrait"></activity>
 </application>
 
 

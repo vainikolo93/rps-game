@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kahweh.rps.bt;
+package com.kahweh.rps.remote.bt;
 
 import android.graphics.Bitmap;
 

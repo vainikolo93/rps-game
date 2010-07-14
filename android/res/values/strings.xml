@@ -50,11 +50,14 @@
 <item>1</item>
 <item>2</item>
 </string-array>
+<string-array name="dialog_connection_method"><item>Through Internet</item>
+<item>Through Bluetooth</item>
+</string-array>
 <string name="preference_game_level">Game Level</string>
 <string name="preference_player_name">Player Name</string>
 <string name="preference_player_default_name">Player1</string>
-<string name="str_btn_start">New Game</string>
-<string name="str_btn_bt">BlueTooth Game</string>
+<string name="str_btn_start">Single Game</string>
+<string name="str_btn_remote">Peer Game</string>
 <string name="str_btn_preference">Options</string>
 <string name="str_btn_help">Help</string>
 <string name="str_btn_about">About</string>
@@ -66,4 +69,6 @@
 <string name="about_copyright_msg">Copyright 2010 Michael LI</string>
 <string name="toast_press_again">Press once more to exit</string>
 <string name="toast_no_bt_device">Bluetooth is not available..</string>
+<string name="dialog_connection_method_title">Connecting Method:</string>
+<string name="dialog_connection_method_cancel">Go Back</string>
 </resources>
