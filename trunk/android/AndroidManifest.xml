@@ -9,12 +9,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-</activity>
-    <activity android:name="GameSettings"></activity>
-    <activity android:name="GameActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name="HelpActivity"></activity>
-    <activity android:name="BtActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name="NetActivity" android:screenOrientation="portrait"></activity>
+      </activity>
+      <activity android:name="GameSettings"></activity>
+      <activity android:name="GameActivity" android:screenOrientation="portrait"></activity>
+      <activity android:name="HelpActivity"></activity>
+      <activity android:name="BtActivity" 
+        android:screenOrientation="portrait"
+        android:label="@string/str_bt_label" 
+        android:theme="@android:style/Theme.Dialog">
+      </activity>
+      <activity android:name="NetActivity" android:screenOrientation="portrait"></activity>
 </application>
 
 
