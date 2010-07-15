@@ -30,6 +30,8 @@ import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.state.StateIdle;
 
 public class HomeActivity extends Activity {
+	private static String TAG = "com.kahweh.rps.HomeActivity";
+
 	public static final int DIALOG_ABOUT = 1000;
 	public static final int DIALOG_SELECT_NET = 1001;
 
@@ -54,6 +56,10 @@ public class HomeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Config.DEBUG) {
+        	Log.d(TAG, "In HomeAction, starting Game of RPS...");
+        }
+        
         //Full Screen show
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -208,14 +214,27 @@ public class HomeActivity extends Activity {
     protected Dialog onCreateDialog(int id) {
     	Dialog dlg = null;
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	final String[] list = new String[] {"test1", "test2"};
     	switch (id) {
     		case DIALOG_SELECT_NET:
     			dlg = builder.setTitle(R.string.dialog_connection_method_title)
-    			.setItems(R.array.dialog_connection_method, new DialogInterface.OnClickListener() {
+    			.setSingleChoiceItems(R.array.dialog_connection_method, 0, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(HomeActivity.this, list[which], Toast.LENGTH_LONG).show();
+						switch (which) {
+							case 0:
+								//Use the Internet for the connection
+								NetActivity.actionGame(HomeActivity.this);
+								dialog.dismiss();
+								break;
+							case 1:
+								//Use Bluetooth for the connection
+								BtActivity.actionGame(HomeActivity.this);
+								dialog.dismiss();
+								break;
+							default:
+								Toast.makeText(HomeActivity.this, "Go to HELL!", Toast.LENGTH_LONG).show();
+								break;
+						}
 					}
 				})
     			.setNegativeButton(R.string.dialog_connection_method_cancel, new DialogInterface.OnClickListener() {
