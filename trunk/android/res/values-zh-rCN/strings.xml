@@ -56,7 +56,10 @@
 <string name="toast_no_bt_device">找不到蓝牙设备..</string>
 <string name="dialog_connection_method_title">联接方式:</string>
 <string name="dialog_connection_method_cancel">取消</string>
+<string name="str_bt_paired_devicelist_title">配对成功的游戏</string>
 <string name="str_bt_devicelist_title">搜寻到的游戏</string>
 <string name="str_bt_scandevice_btn">开始搜索游戏</string>
 <string name="str_bt_label">选择一个游戏</string>
+<string name="bt_scanning_title">正在扫描..</string>
+<string name="bt_not_enabled_leaving">蓝牙设备没有启动..</string>
 </resources>
