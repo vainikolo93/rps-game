@@ -71,7 +71,10 @@
 <string name="toast_no_bt_device">Bluetooth is not available..</string>
 <string name="dialog_connection_method_title">Connecting Method:</string>
 <string name="dialog_connection_method_cancel">Go Back</string>
-<string name="str_bt_devicelist_title">Available Games</string>
+<string name="str_bt_paired_devicelist_title">Paired Devices</string>
+<string name="str_bt_devicelist_title">Available Devices</string>
 <string name="str_bt_scandevice_btn">Scan for Games</string>
 <string name="str_bt_label">Select a game:</string>
+<string name="bt_scanning_title">Scanning...</string>
+<string name="bt_not_enabled_leaving">Bluetooth was not enabled..</string>
 </resources>
