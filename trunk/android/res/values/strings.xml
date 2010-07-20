@@ -59,7 +59,7 @@
 <string name="str_btn_start">Single Game</string>
 <string name="str_btn_remote">Peer Game</string>
 <string name="str_btn_preference">Options</string>
-<string name="str_btn_help">Help</string>
+<string name="str_btn_help">Help &amp; About</string>
 <string name="str_btn_about">About</string>
 <string name="about_ahthor">Author:</string>
 <string name="about_michael">Michael LI</string>

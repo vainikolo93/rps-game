@@ -46,7 +46,7 @@
 <string name="str_btn_start">单人游戏</string>
 <string name="str_btn_remote">对战游戏</string>
 <string name="str_btn_preference">游戏设置</string>
-<string name="str_btn_help">帮助</string>
+<string name="str_btn_help">帮助&amp;关于</string>
 <string name="str_btn_about">关于本游戏</string>
 <string name="about_ahthor">作者:</string>
 <string name="about_michael">卡威</string>
