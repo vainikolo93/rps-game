@@ -77,4 +77,6 @@
 <string name="str_bt_label">Select a game:</string>
 <string name="bt_scanning_title">Scanning...</string>
 <string name="bt_not_enabled_leaving">Bluetooth was not enabled..</string>
+<string name="bt_none_paired">No device has been paired</string>
+<string name="bt_device_name">Rock-Paper-Scissors</string>
 </resources>
