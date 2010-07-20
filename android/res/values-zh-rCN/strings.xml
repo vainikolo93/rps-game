@@ -62,4 +62,5 @@
 <string name="str_bt_label">选择一个游戏</string>
 <string name="bt_scanning_title">正在扫描..</string>
 <string name="bt_not_enabled_leaving">蓝牙设备没有启动..</string>
+<string name="bt_none_paired">没有配对成功的设备</string>
 </resources>
