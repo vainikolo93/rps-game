@@ -45,7 +45,6 @@ public class HomeActivity extends Activity {
     private Button btn_bt;
     private Button btn_preference;
     private Button btn_help;
-    private Button btn_about;
 	
 	private BoardView boardView;
 	private Game game;
@@ -118,15 +117,6 @@ public class HomeActivity extends Activity {
             });
         }
 
-        if (btn_about == null) {
-        	btn_about = (Button)findViewById(R.id.btn_about);
-            btn_about.setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				HelpActivity.about(HomeActivity.this);
-    			}
-            });
-        }
     }
 
 	@Override
