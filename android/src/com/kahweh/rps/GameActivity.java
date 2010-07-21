@@ -53,7 +53,7 @@ public class GameActivity extends Activity {
 
         //get game preferences
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
-        
+
         newGame();
     }
 
