@@ -38,6 +38,13 @@ public class GameActivity extends Activity {
 	public static final int DIALOG_WIN = 6;
 	public static final int DIALOG_LOSE = 7;
 
+	public static final String GAME_TYPE = "com.kahweh.rps.GameActivity.GAME_TYPE";
+	public static final String BT_REMOTE_ADDR = "com.kahweh.rps.GameActivity.BT_REMOTE_ADDR";
+	
+	public static final int SINGLE_GAME = 0;
+	public static final int BT_GAME = 1;
+	public static final int NET_GAME = 2;
+	
 	private BoardView boardView;
 	private Game game;
 	private LocalPlayer player;
@@ -54,7 +61,25 @@ public class GameActivity extends Activity {
         //get game preferences
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
 
-        newGame();
+        Intent intent = getIntent();
+        
+        int gameType = intent.getIntExtra(GAME_TYPE, SINGLE_GAME);
+        
+        switch (gameType) {
+        	case SINGLE_GAME:
+                newGame();
+        		break;
+        	case BT_GAME:
+        		String remoteAddr = intent.getStringExtra(BT_REMOTE_ADDR);
+        		
+        		//TODO
+        		break;
+        	case NET_GAME:
+        		//TODO
+        		break;
+       		default:
+       			break;
+        }
     }
 
     private long last_backey_time = 0;

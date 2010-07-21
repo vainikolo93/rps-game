@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,16 +17,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kahweh.rps.ai.AIPlayerFactory;
 import com.kahweh.rps.game.Game;
-import com.kahweh.rps.game.IllegalGameStateException;
-import com.kahweh.rps.game.player.IPlayer;
-import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
-import com.kahweh.rps.game.state.StateIdle;
 
 public class HomeActivity extends Activity {
 	private static String TAG = "com.kahweh.rps.HomeActivity";
@@ -81,7 +74,10 @@ public class HomeActivity extends Activity {
             btn_start.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View v) {
-    				GameActivity.actionGame(HomeActivity.this);
+//    				GameActivity.actionGame(HomeActivity.this);
+    				Intent intent = new Intent(HomeActivity.this, GameActivity.class);
+    				intent.putExtra(GameActivity.GAME_TYPE, GameActivity.SINGLE_GAME);
+    				HomeActivity.this.startActivity(intent);
     			}
             });
         }
