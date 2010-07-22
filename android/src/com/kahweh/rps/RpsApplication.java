@@ -3,6 +3,7 @@
  */
 package com.kahweh.rps;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Application;
@@ -64,7 +65,7 @@ public class RpsApplication extends Application {
 	public BtCommunicateService getBtService() {
 		return btService;
 	}
-	
+
 	/**
 	 * This function is used to get the Identification String of game.
 	 * 
@@ -82,13 +83,29 @@ public class RpsApplication extends Application {
 	 * @param vString
 	 * @return
 	 */
-	public int parseVersionCodeFromIdString(String vString) {
-		//TODO
-		return 0;
+	public int parseVersionCodeFromIdString(String vString) throws IllegalArgumentException {
+		Pattern p = Pattern.compile("\\[" + getResources().getText(R.string.app_id_string) + ":r(\\d+)\\]");
+
+		Matcher m = p.matcher(vString);
+		
+		if (m.find()) {
+			String strVer = m.group(1);
+			return Integer.parseInt(strVer);
+		}
+		
+		throw new IllegalArgumentException("Cannot parse Identification String: " + vString);
 	}
 	
-	public boolean checkIdString(String idString) {
-		Pattern p = Pattern.compile();
-		return true;
+	/**
+	 * This function is used to check whether a BT device name represent
+	 * a RPS game.
+	 * 
+	 * @param idString
+	 * @return
+	 */
+	public boolean isIdString(String idString) {
+		Pattern p = Pattern.compile("\\[" + getResources().getText(R.string.app_id_string) + ":r(\\d+)\\]");
+		
+		return p.matcher(idString).find();
 	}
 }
