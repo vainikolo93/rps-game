@@ -46,6 +46,10 @@ public class BtActivity extends Activity {
     private String mBtOldName;
 
     private RpsApplication rpsApp;
+
+    //TODO 
+    private Thread mAcceptThread;
+    private Thread mConnectThread;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -199,7 +203,8 @@ public class BtActivity extends Activity {
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				//Find new Device
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+				if (device.getBondState() != BluetoothDevice.BOND_BONDED 
+						&& rpsApp.isIdString(device.getName())) {
 					mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
@@ -219,6 +224,8 @@ public class BtActivity extends Activity {
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
+
+            //TODO Start the connection ACTION
 		}
 	};
 
