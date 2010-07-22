@@ -5,6 +5,7 @@
     <string name="preference_sound">Sound</string>
     <string name="hello">Hello World, RockPaperScissors!</string>
     <string name="app_name">Rock Paper Scissors</string>
+    <string name="app_id_string">RPS</string>
 <string name="menu_newGame">New Game</string>
 <string name="dialog_select_color_title">Please select color:</string>
 <string-array name="color_select_strings"><item>Red</item>
@@ -78,6 +79,5 @@
 <string name="bt_scanning_title">Scanning...</string>
 <string name="bt_not_enabled_leaving">Bluetooth was not enabled..</string>
 <string name="bt_none_paired">No device has been paired</string>
-<string name="bt_device_name">Rock-Paper-Scissors</string>
 <string name="bt_uuid">f39b6f8e-25ce-4069-99c6-0c9f94066546</string>
 </resources>

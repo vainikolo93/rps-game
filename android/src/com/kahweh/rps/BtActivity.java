@@ -44,11 +44,16 @@ public class BtActivity extends Activity {
     private SharedPreferences mSharedPreferences;
     
     private String mBtOldName;
+
+    private RpsApplication rpsApp;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		//Get the RpsApplication object
+		rpsApp = (RpsApplication)getApplication();
+		
 		//To show the indeterminate progress icon in the title bar
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
@@ -245,13 +250,17 @@ public class BtActivity extends Activity {
 		Intent i = new Intent(from, BtActivity.class);
 		from.startActivity(i);
 	}
-	
+
 	/**
 	 * Set local BT device name.
+	 * 
+	 * For example: [RPS:r100]Rock Paper Scissors - Michael
 	 */
 	private void setBtAdapterName() {
 		mBtOldName = mBtAdapter.getName();
-		mBtAdapter.setName(getResources().getText(R.string.bt_device_name).toString() 
-							+ " : " + mSharedPreferences.getString(GameSettings.PLAYER_NAME, "Player1"));
+		String newName = rpsApp.getAppIdentificationString() 
+        					+ getResources().getText(R.string.app_name) + " - "
+        					+ mSharedPreferences.getString(GameSettings.PLAYER_NAME, "Player1");
+		mBtAdapter.setName(newName);
 	}
 }
