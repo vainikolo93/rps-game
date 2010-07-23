@@ -3,17 +3,23 @@
  */
 package com.kahweh.rps;
 
+import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -35,9 +41,12 @@ public class BtActivity extends Activity {
 
 	private static final int REQUEST_ENABLE_BT = 1;
 
-    // Local Bluetooth adapter
-    private BluetoothAdapter mBtAdapter = null;
-    
+	public static final int CONNECTING_REQUEST_RECEIVED = 0;
+	
+    //Local Bluetooth adapter
+    private BluetoothAdapter mBtAdapter;
+
+    //Array adapter of paired and new devices
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
@@ -47,17 +56,21 @@ public class BtActivity extends Activity {
 
     private RpsApplication rpsApp;
 
-    //TODO 
-    private Thread mAcceptThread;
+    //Connecting request handler thread
+    private AcceptThread mAcceptThread;
+    //Connecting thread
     private Thread mConnectThread;
     
+    private Handler mHandler;
+
+    private UUID uuid;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		//Get the RpsApplication object
 		rpsApp = (RpsApplication)getApplication();
-		
+
 		//To show the indeterminate progress icon in the title bar
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
@@ -110,11 +123,31 @@ public class BtActivity extends Activity {
 			}
 		});
 
+		//Register BT devcie found and discovery finish intent		
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		registerReceiver(mReceiver, filter);
-		
+
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		registerReceiver(mReceiver, filter);
+
+		//Define and create the local handler
+		mHandler = new Handler() {
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+					case CONNECTING_REQUEST_RECEIVED:
+						//TODO 
+						break;
+					default:
+						break;
+				}
+			}
+		};
+		
+		//Load the UUID resource
+		uuid = UUID.fromString(getResources().getText(R.string.bt_uuid).toString());
+		
+		//Create the remote device connecting request accept thread
+		mAcceptThread = new AcceptThread();
 	}
 
 	@Override
@@ -141,6 +174,9 @@ public class BtActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		//TODO
+		mAcceptThread.start();
 	}
 
 	@Override
@@ -243,7 +279,7 @@ public class BtActivity extends Activity {
 
 		setProgressBarIndeterminateVisibility(true);
 		setTitle(R.string.bt_scanning_title);
-		
+
 		//Start devices discovery with a async way
 		mBtAdapter.startDiscovery();
 	}
@@ -269,5 +305,55 @@ public class BtActivity extends Activity {
         					+ getResources().getText(R.string.app_name) + " - "
         					+ mSharedPreferences.getString(GameSettings.PLAYER_NAME, "Player1");
 		mBtAdapter.setName(newName);
+	}
+	
+	/**
+	 * This thread class is used to accept the remote connecting request.
+	 * 
+	 * @author Michael
+	 *
+	 */
+	class AcceptThread extends Thread {
+
+		private BluetoothServerSocket mServerSocket;
+
+		public AcceptThread() {
+			super();
+
+			try {
+				mServerSocket = mBtAdapter.listenUsingRfcommWithServiceRecord(mBtAdapter.getName(), uuid);
+			} catch (IOException e) {
+				Log.e(TAG, "Cannot create the server side listening Socket", e);
+				Toast.makeText(BtActivity.this, R.string.bt_listener_socket_error, Toast.LENGTH_SHORT);
+			}
+		}
+
+		@Override
+		public void run() {
+			if (Config.DEBUG) {
+				Log.d(TAG, "Start the server side listening action..");
+			}
+
+			BluetoothSocket socket = null;
+			
+			while (true) {
+				//TODO
+				break;
+			}
+			
+			if (Config.DEBUG) {
+				Log.d(TAG, "End the server side listening action..");
+			}
+		}
+		
+		public void cancel() {
+			if (mServerSocket != null) {
+				try {
+					mServerSocket.close();
+				} catch (IOException e) {
+					Log.e(TAG, "Cannot close the server side listening Socket", e);
+				}
+			}
+		}
 	}
 }
