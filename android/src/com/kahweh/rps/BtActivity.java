@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
+import com.kahweh.rps.remote.bt.BtCommunicateService;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -172,7 +174,7 @@ public class BtActivity extends Activity {
 				}
 			}
 		};
-		
+
 		//Load the UUID resource
 		uuid = UUID.fromString(getResources().getText(R.string.bt_uuid).toString());
 	}
@@ -246,7 +248,7 @@ public class BtActivity extends Activity {
         		.setPositiveButton(R.string.bt_btn_accept_remote, new DialogInterface.OnClickListener() {
     				@Override
     				public void onClick(DialogInterface dialog, int which) {
-    					
+    					startGame(BtCommunicateService.SERVER_MODE);
     				}
     			})
     			.setNegativeButton(R.string.bt_btn_refuse_remote, null)
@@ -400,6 +402,20 @@ public class BtActivity extends Activity {
 		mAcceptThread.start();
 
 		listening = true;
+	}
+
+	/**
+	 * @param mode
+	 */
+	private synchronized void startGame(int mode) {
+		if (mSocket == null) {
+			Log.w(TAG, "");
+			Toast.makeText(this, R.string.bt_connection_lost, Toast.LENGTH_SHORT);
+			return;
+		}
+
+		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
+
 	}
 
 	/**
