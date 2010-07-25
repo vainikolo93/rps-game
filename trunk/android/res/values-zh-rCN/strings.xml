@@ -67,4 +67,5 @@
 <string name="bt_btn_accept_remote">接受</string>
 <string name="bt_btn_refuse_remote">拒绝</string>
 <string name="bt_prompt_confirm_remote_connection">有一个玩家(###)希望通过蓝牙与你进行游戏，接受 或者 拒绝？</string>
+<string name="bt_connection_lost">连接中断...</string>
 </resources>
