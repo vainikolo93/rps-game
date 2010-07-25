@@ -35,9 +35,6 @@ public class RpsApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		//Load the default preferences
-        PreferenceManager.setDefaultValues(this, R.xml.game_settings, false);
-
         //Get application's version code
 		try {
 			PackageInfo info = getPackageManager().getPackageInfo("com.kahweh.rps", 0);
@@ -47,6 +44,8 @@ public class RpsApplication extends Application {
 			Log.e(TAG, "Cannot find pacakage of com.kahweh.rps", e);
 		}
 
+		//Load the default preferences
+        PreferenceManager.setDefaultValues(this, GameSettings.SETTINGS_NAME, 0, R.xml.game_settings, false);
 	}
 
 	@Override
