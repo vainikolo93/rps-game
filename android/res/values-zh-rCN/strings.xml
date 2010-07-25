@@ -64,4 +64,7 @@
 <string name="bt_not_enabled_leaving">蓝牙设备没有启动..</string>
 <string name="bt_none_paired">没有配对成功的设备</string>
 <string name="bt_listener_socket_error">无法创建监听套接字..</string>
+<string name="bt_btn_accept_remote">接受</string>
+<string name="bt_btn_refuse_remote">拒绝</string>
+<string name="bt_prompt_confirm_remote_connection">有一个玩家(###)希望通过蓝牙与你进行游戏，接受 或者 拒绝？</string>
 </resources>

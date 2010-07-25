@@ -8,12 +8,15 @@ import java.util.Set;
 import java.util.UUID;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -39,9 +42,15 @@ import android.widget.AdapterView.OnItemClickListener;
 public class BtActivity extends Activity {
 	private static String TAG = "com.kahweh.rps.BtActivity";
 
+	//Define the BT relative intent Action ID
 	private static final int REQUEST_ENABLE_BT = 1;
+	private static final int REQUEST_ENABLE_BT_DISCOVERABLE = 2;
 
+	//Define the local handler Message ID
 	public static final int CONNECTING_REQUEST_RECEIVED = 0;
+
+	//Define the local Dialog Box ID
+	public static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
 	
     //Local Bluetooth adapter
     private BluetoothAdapter mBtAdapter;
@@ -64,6 +73,23 @@ public class BtActivity extends Activity {
     private Handler mHandler;
 
     private UUID uuid;
+
+    private boolean scanning = false;
+    private boolean listening = false;
+    private boolean connecting = false;
+    private boolean connected = false;
+
+//    private int mConnectState;
+//    
+//    private static final int STATE_IDLE = 0;
+//    private static final int STATE_SCANNING = 1;
+//    private static final int STATE_SCANNING_LISTENING = 2;
+//    private static final int STATE_LISTENING = 3;
+//    private static final int STATE_CONNECTING = 4;
+//    private static final int STATE_CONNECTED = 5;
+
+    private BluetoothSocket mSocket;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -126,8 +152,11 @@ public class BtActivity extends Activity {
 		//Register BT devcie found and discovery finish intent		
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		registerReceiver(mReceiver, filter);
-
+		//Discovery finish intent
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		registerReceiver(mReceiver, filter);
+		
+		filter = new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
 		registerReceiver(mReceiver, filter);
 
 		//Define and create the local handler
@@ -135,7 +164,8 @@ public class BtActivity extends Activity {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 					case CONNECTING_REQUEST_RECEIVED:
-						//TODO 
+						mSocket = (BluetoothSocket)msg.obj;
+						showDialog(CONNECTING_REQUEST_RECEIVED);
 						break;
 					default:
 						break;
@@ -145,9 +175,6 @@ public class BtActivity extends Activity {
 		
 		//Load the UUID resource
 		uuid = UUID.fromString(getResources().getText(R.string.bt_uuid).toString());
-		
-		//Create the remote device connecting request accept thread
-		mAcceptThread = new AcceptThread();
 	}
 
 	@Override
@@ -175,8 +202,14 @@ public class BtActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		//TODO
-		mAcceptThread.start();
+		//Make local BT device discoverable
+		if (mBtAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+			//Local BT device is not discoverable, ask user to enable it
+			requestBtDiscoverable();
+		} else if (!connected && !connecting) { 
+			//Local BT device is discoverable, start the accept Thread
+			kickOffAcceptThread();
+		}
 	}
 
 	@Override
@@ -203,7 +236,41 @@ public class BtActivity extends Activity {
 		//Unregister broaddcast receiver
 		unregisterReceiver(mReceiver);
 	}
-	
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+    	switch (id) {
+    		case DLG_CONFIRM_REMOTE_CONNECTION :
+    			return new AlertDialog.Builder(this)
+        		.setIcon(R.drawable.dialog_icon_question)
+        		.setPositiveButton(R.string.bt_btn_accept_remote, new DialogInterface.OnClickListener() {
+    				@Override
+    				public void onClick(DialogInterface dialog, int which) {
+    					
+    				}
+    			})
+    			.setNegativeButton(R.string.bt_btn_refuse_remote, null)
+    			.create();
+    	}
+    	return null;
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dlg) {
+    	switch (id) {
+    	case DLG_CONFIRM_REMOTE_CONNECTION :
+    		String msg = getResources().getText(R.string.bt_prompt_confirm_remote_connection).toString();
+    		if (mSocket != null) {
+    			String s = mSocket.getRemoteDevice().getName() + " - " + mSocket.getRemoteDevice().getAddress();
+    			msg = msg.replace("###", s);
+    		} else {
+    			Log.e(TAG, "The mSocket cannot be NULL..");
+    		}
+    		((AlertDialog)dlg).setMessage(msg);
+    		break;
+    	}
+    }
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -213,7 +280,7 @@ public class BtActivity extends Activity {
 		}
 
 		switch (requestCode) {
-			case REQUEST_ENABLE_BT:
+			case REQUEST_ENABLE_BT :
 				if (resultCode == Activity.RESULT_OK) {
 					//User enabled BT
 					setBtAdapterName();
@@ -224,6 +291,17 @@ public class BtActivity extends Activity {
 					}
 					Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
 					finish();
+				}
+				break;
+			case REQUEST_ENABLE_BT_DISCOVERABLE :
+				if (resultCode == Activity.RESULT_OK) {
+					//User enabled BT discoverable
+					kickOffAcceptThread();
+				} else {
+					//User disabled BT discoverable
+					if (Config.DEBUG) {
+						Log.d(TAG, "User did not enable the BT discovery..");
+					}
 				}
 				break;
 			default:
@@ -244,10 +322,17 @@ public class BtActivity extends Activity {
 					mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-				//The discovery action finished
+				//The discovery SCAN action finished
 				setProgressBarIndeterminateVisibility(false);
 				setTitle(R.string.str_bt_label);
-			} else {
+				scanning = false;
+			} else if (BluetoothAdapter.ACTION_SCAN_MODE_CHANGED.equals(action)) {
+				//Check if the discoverable state is timeout
+				if (intent.getIntExtra(BluetoothAdapter.EXTRA_SCAN_MODE, -1) 
+						!= BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+					listening = false;
+					requestBtDiscoverable();
+				}
 			}
 		}
 	};
@@ -265,16 +350,12 @@ public class BtActivity extends Activity {
 		}
 	};
 
+	/**
+	 * This function is used to start the scan action. 
+	 */
 	private void doDiscovery() {
 		if (Config.DEBUG) {
 			Log.d(TAG, "Starting BT devices discovery...");
-		}
-
-		//Make local BT device discoverable
-		if (mBtAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-			Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-			startActivity(intent);
 		}
 
 		setProgressBarIndeterminateVisibility(true);
@@ -282,6 +363,56 @@ public class BtActivity extends Activity {
 
 		//Start devices discovery with a async way
 		mBtAdapter.startDiscovery();
+
+		scanning = true;
+	}
+
+	/**
+	 * This function is used to sent the discoverable request intent.
+	 */
+	private void requestBtDiscoverable() {
+		Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+		intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+		startActivityForResult(intent, REQUEST_ENABLE_BT_DISCOVERABLE);
+	}
+	
+	/**
+	 * This function is used to create and start the Accept Thread.
+	 */
+	private void kickOffAcceptThread() {
+		if (mBtAdapter == null) {
+			Log.e(TAG, "BT Adapter is null, cannot start accept listening thread..");
+			return;
+		}
+
+		if (mBtAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+			Log.w(TAG, "The Bt device is not discoverable, so cannot start accept listening thread..");
+			return;
+		}
+
+		if (connecting || connected) {
+			Log.w(TAG, "State ERROR, now is STATE_CONNECTED or " +
+					"STATE_CONNECTING, cannot kick off Accept Thread..");
+			return;
+		}
+		
+		mAcceptThread = new AcceptThread();
+		mAcceptThread.start();
+
+		listening = true;
+	}
+
+	/**
+	 * This function is used to make the connection to the remote game.
+	 * @param socket
+	 * @param remoteDevice
+	 */
+	private synchronized void makeConnection(BluetoothSocket socket, BluetoothDevice remoteDevice) {
+		if (connecting || connected) {
+			Log.w(TAG, "Is in connecting or connected state..");
+			return;
+		}
+		//TODO
 	}
 
 	/**
@@ -306,19 +437,45 @@ public class BtActivity extends Activity {
         					+ mSharedPreferences.getString(GameSettings.PLAYER_NAME, "Player1");
 		mBtAdapter.setName(newName);
 	}
-	
+
 	/**
-	 * This thread class is used to accept the remote connecting request.
+	 * This thread is used to connect to a remote game as client.
+	 * 
+	 * @author michael
+	 *
+	 */
+	class ConnectThread extends Thread {
+
+		public ConnectThread() {
+			
+		}
+		
+		@Override
+		public void run() {
+			
+		}
+		
+		public void cancel() {
+			
+		}
+	}
+
+	/**
+	 * This thread is used to accept the remote connecting request.
 	 * 
 	 * @author Michael
 	 *
 	 */
 	class AcceptThread extends Thread {
 
+		private boolean running;
+
 		private BluetoothServerSocket mServerSocket;
 
 		public AcceptThread() {
 			super();
+
+			running = false;
 
 			try {
 				mServerSocket = mBtAdapter.listenUsingRfcommWithServiceRecord(mBtAdapter.getName(), uuid);
@@ -334,19 +491,45 @@ public class BtActivity extends Activity {
 				Log.d(TAG, "Start the server side listening action..");
 			}
 
+			setName("Accept Listening Thread");
+
+			running = true;
+
 			BluetoothSocket socket = null;
-			
-			while (true) {
-				//TODO
-				break;
+
+			while (!connecting && !connected) {
+				try {
+					socket = mServerSocket.accept();
+				} catch (IOException e) {
+					Log.e(TAG, "Accept client socket error..", e);
+					break;
+				}
+
+				if (socket != null) {
+					synchronized (BtActivity.this) {
+						if (!connecting && !connected) {
+							connecting = true;
+							mHandler.obtainMessage(CONNECTING_REQUEST_RECEIVED, socket);
+							try {
+								mServerSocket.close();
+							} catch (IOException e) {
+								Log.e(TAG, "Cannot close server socket..", e);
+							}
+						}
+					}
+				}
 			}
-			
+
+			running = false;
+
 			if (Config.DEBUG) {
 				Log.d(TAG, "End the server side listening action..");
 			}
 		}
-		
+
 		public void cancel() {
+			running = false;
+
 			if (mServerSocket != null) {
 				try {
 					mServerSocket.close();
@@ -354,6 +537,10 @@ public class BtActivity extends Activity {
 					Log.e(TAG, "Cannot close the server side listening Socket", e);
 				}
 			}
+		}
+
+		public boolean isRunning() {
+			return running;
 		}
 	}
 }

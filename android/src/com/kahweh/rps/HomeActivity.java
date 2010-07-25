@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -58,9 +59,6 @@ public class HomeActivity extends Activity {
 
         //init the Main Menu view
         initHome();
-
-        //get game preferences
-        sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
     }
 
     /**
@@ -118,6 +116,9 @@ public class HomeActivity extends Activity {
 	@Override
     public void onStart() {
     	super.onStart();
+
+    	//get game preferences
+        sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
     }
     
     @Override

@@ -32,12 +32,15 @@ public class GameSettings extends PreferenceActivity {
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+
+		//Load preference from XML resource
+		addPreferencesFromResource(R.xml.game_settings);
 		
 		//Tell activity where to read/write the preferences
 		PreferenceManager pm = getPreferenceManager();
 		pm.setSharedPreferencesName(SETTINGS_NAME);
 		pm.setSharedPreferencesMode(0);
-		
+
 		//Get the shared preferences Obj.
 		SharedPreferences sp = getSharedPreferences(SETTINGS_NAME, 0);
 

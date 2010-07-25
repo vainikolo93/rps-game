@@ -81,4 +81,7 @@
 <string name="bt_none_paired">No device has been paired</string>
 <string name="bt_uuid">f39b6f8e-25ce-4069-99c6-0c9f94066546</string>
 <string name="bt_listener_socket_error">Cannot create the listening Socket..</string>
+<string name="bt_btn_accept_remote">Accept</string>
+<string name="bt_btn_refuse_remote">Refuse</string>
+<string name="bt_prompt_confirm_remote_connection">A remote player (###) want play with you, Accept or Refuse?</string>
 </resources>
