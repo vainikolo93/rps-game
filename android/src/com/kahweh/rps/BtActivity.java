@@ -53,6 +53,7 @@ public class BtActivity extends Activity {
 
 	//Define the local Dialog Box ID
 	public static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
+	public static final int DLG_CONNECTING_PROGRESS = 1;
 	
     //Local Bluetooth adapter
     private BluetoothAdapter mBtAdapter;
@@ -70,7 +71,7 @@ public class BtActivity extends Activity {
     //Connecting request handler thread
     private AcceptThread mAcceptThread;
     //Connecting thread
-    private Thread mConnectThread;
+    private ConnectThread mConnectThread;
     
     private Handler mHandler;
 
@@ -165,9 +166,12 @@ public class BtActivity extends Activity {
 		mHandler = new Handler() {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-					case CONNECTING_REQUEST_RECEIVED:
+					case CONNECTING_REQUEST_RECEIVED :
 						mSocket = (BluetoothSocket)msg.obj;
 						showDialog(CONNECTING_REQUEST_RECEIVED);
+						break;
+					case DLG_CONNECTING_PROGRESS :
+						//TODO
 						break;
 					default:
 						break;
@@ -348,7 +352,15 @@ public class BtActivity extends Activity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 
-            //TODO Start the connection ACTION
+            BluetoothDevice device = null;
+            if (mBtAdapter.checkBluetoothAddress(address)) {
+            	device = mBtAdapter.getRemoteDevice(address);
+            } else {
+            	Log.w(TAG, "Not a valid MAC address: " + address);
+            	Toast.makeText(BtActivity.this, "Wrong BT MAC address : " + address, Toast.LENGTH_SHORT).show();
+            }
+
+            mConnectThread = new ConnectThread(device);
 		}
 	};
 
@@ -409,13 +421,14 @@ public class BtActivity extends Activity {
 	 */
 	private synchronized void startGame(int mode) {
 		if (mSocket == null) {
-			Log.w(TAG, "");
-			Toast.makeText(this, R.string.bt_connection_lost, Toast.LENGTH_SHORT);
+			Log.w(TAG, "mSocket is NULL, cannot start game..");
+			Toast.makeText(this, R.string.bt_connection_lost, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
 		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
 
+		//TODO
 	}
 
 	/**
@@ -462,17 +475,49 @@ public class BtActivity extends Activity {
 	 */
 	class ConnectThread extends Thread {
 
-		public ConnectThread() {
+		BluetoothDevice mDevice;
+		BluetoothSocket mLocalSocket;
+
+		public ConnectThread(BluetoothDevice device) {
+			this.mDevice = device;
 			
+			try {
+				mLocalSocket = mDevice.createRfcommSocketToServiceRecord(uuid);
+			} catch (IOException e) {
+				Log.e(TAG, "Cannot create socket to : " + mDevice.getAddress());
+				Toast.makeText(BtActivity.this, "Cannot Create connection to : " + mDevice.getAddress(), Toast.LENGTH_SHORT).show();
+				mLocalSocket = null;
+			}
 		}
-		
+
 		@Override
 		public void run() {
-			
+			mBtAdapter.cancelDiscovery();
+
+			try {
+				mLocalSocket.connect();
+			} catch (IOException e) {
+				Log.w(TAG, "Cannot establish connection through socket..");
+				Toast.makeText(BtActivity.this, "Cannot establish connection through socket..", Toast.LENGTH_SHORT).show();
+
+				try {
+					mLocalSocket.close();
+				} catch (IOException e1) {
+					Log.e(TAG, "Close socket error..", e1);
+				}
+			}
+
+			mSocket = mLocalSocket;
+			startGame(BtCommunicateService.CLIENT_MODE);
+
 		}
-		
+
 		public void cancel() {
-			
+			try {
+				mLocalSocket.close();
+			} catch (IOException e) {
+				Log.e(TAG, "Close socket error..", e);
+			}
 		}
 	}
 
@@ -497,7 +542,7 @@ public class BtActivity extends Activity {
 				mServerSocket = mBtAdapter.listenUsingRfcommWithServiceRecord(mBtAdapter.getName(), uuid);
 			} catch (IOException e) {
 				Log.e(TAG, "Cannot create the server side listening Socket", e);
-				Toast.makeText(BtActivity.this, R.string.bt_listener_socket_error, Toast.LENGTH_SHORT);
+				Toast.makeText(BtActivity.this, R.string.bt_listener_socket_error, Toast.LENGTH_SHORT).show();
 			}
 		}
 
