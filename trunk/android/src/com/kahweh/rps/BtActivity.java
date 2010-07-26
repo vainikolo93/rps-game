@@ -12,6 +12,7 @@ import com.kahweh.rps.remote.bt.BtCommunicateService;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -50,6 +51,8 @@ public class BtActivity extends Activity {
 
 	//Define the local handler Message ID
 	public static final int CONNECTING_REQUEST_RECEIVED = 0;
+	public static final int SHOW_PROGRESS_DIALOG = 1;
+	public static final int DISMISS_PROGRESS_DIALOG =2;
 
 	//Define the local Dialog Box ID
 	public static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
@@ -81,15 +84,6 @@ public class BtActivity extends Activity {
     private boolean listening = false;
     private boolean connecting = false;
     private boolean connected = false;
-
-//    private int mConnectState;
-//    
-//    private static final int STATE_IDLE = 0;
-//    private static final int STATE_SCANNING = 1;
-//    private static final int STATE_SCANNING_LISTENING = 2;
-//    private static final int STATE_LISTENING = 3;
-//    private static final int STATE_CONNECTING = 4;
-//    private static final int STATE_CONNECTED = 5;
 
     private BluetoothSocket mSocket;
     
@@ -170,9 +164,11 @@ public class BtActivity extends Activity {
 						mSocket = (BluetoothSocket)msg.obj;
 						showDialog(CONNECTING_REQUEST_RECEIVED);
 						break;
-					case DLG_CONNECTING_PROGRESS :
-						//TODO
+					case SHOW_PROGRESS_DIALOG :
+						showDialog(DLG_CONNECTING_PROGRESS);
 						break;
+					case DISMISS_PROGRESS_DIALOG :
+						dismissDialog(DLG_CONNECTING_PROGRESS);
 					default:
 						break;
 				}
@@ -257,6 +253,8 @@ public class BtActivity extends Activity {
     			})
     			.setNegativeButton(R.string.bt_btn_refuse_remote, null)
     			.create();
+    		case DLG_CONNECTING_PROGRESS :
+    			return ProgressDialog.show(this, "", "");
     	}
     	return null;
     }
@@ -273,6 +271,9 @@ public class BtActivity extends Activity {
     			Log.e(TAG, "The mSocket cannot be NULL..");
     		}
     		((AlertDialog)dlg).setMessage(msg);
+    		break;
+    	case DLG_CONNECTING_PROGRESS :
+    		((ProgressDialog)dlg).setMessage("Connecting...");
     		break;
     	}
     }
@@ -347,6 +348,7 @@ public class BtActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
 			mBtAdapter.cancelDiscovery();
+			scanning = false;
 
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
@@ -360,7 +362,7 @@ public class BtActivity extends Activity {
             	Toast.makeText(BtActivity.this, "Wrong BT MAC address : " + address, Toast.LENGTH_SHORT).show();
             }
 
-            mConnectThread = new ConnectThread(device);
+            mConnectThread = new ConnectThread(device, mHandler);
 		}
 	};
 
@@ -428,20 +430,7 @@ public class BtActivity extends Activity {
 
 		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
 
-		//TODO
-	}
-
-	/**
-	 * This function is used to make the connection to the remote game.
-	 * @param socket
-	 * @param remoteDevice
-	 */
-	private synchronized void makeConnection(BluetoothSocket socket, BluetoothDevice remoteDevice) {
-		if (connecting || connected) {
-			Log.w(TAG, "Is in connecting or connected state..");
-			return;
-		}
-		//TODO
+		
 	}
 
 	/**
@@ -477,9 +466,11 @@ public class BtActivity extends Activity {
 
 		BluetoothDevice mDevice;
 		BluetoothSocket mLocalSocket;
+		Handler mHandler;
 
-		public ConnectThread(BluetoothDevice device) {
+		public ConnectThread(BluetoothDevice device, Handler handler) {
 			this.mDevice = device;
+			this.mHandler = handler;
 			
 			try {
 				mLocalSocket = mDevice.createRfcommSocketToServiceRecord(uuid);
@@ -494,6 +485,9 @@ public class BtActivity extends Activity {
 		public void run() {
 			mBtAdapter.cancelDiscovery();
 
+			mHandler.sendEmptyMessage(SHOW_PROGRESS_DIALOG);
+			connecting = true;
+			
 			try {
 				mLocalSocket.connect();
 			} catch (IOException e) {
@@ -510,6 +504,8 @@ public class BtActivity extends Activity {
 			mSocket = mLocalSocket;
 			startGame(BtCommunicateService.CLIENT_MODE);
 
+			mHandler.sendEmptyMessage(DISMISS_PROGRESS_DIALOG);
+			connecting = false;
 		}
 
 		public void cancel() {
@@ -529,14 +525,10 @@ public class BtActivity extends Activity {
 	 */
 	class AcceptThread extends Thread {
 
-		private boolean running;
-
 		private BluetoothServerSocket mServerSocket;
 
 		public AcceptThread() {
 			super();
-
-			running = false;
 
 			try {
 				mServerSocket = mBtAdapter.listenUsingRfcommWithServiceRecord(mBtAdapter.getName(), uuid);
@@ -554,7 +546,7 @@ public class BtActivity extends Activity {
 
 			setName("Accept Listening Thread");
 
-			running = true;
+			listening = true;
 
 			BluetoothSocket socket = null;
 
@@ -581,7 +573,7 @@ public class BtActivity extends Activity {
 				}
 			}
 
-			running = false;
+			listening = false;
 
 			if (Config.DEBUG) {
 				Log.d(TAG, "End the server side listening action..");
@@ -589,8 +581,6 @@ public class BtActivity extends Activity {
 		}
 
 		public void cancel() {
-			running = false;
-
 			if (mServerSocket != null) {
 				try {
 					mServerSocket.close();
@@ -598,10 +588,6 @@ public class BtActivity extends Activity {
 					Log.e(TAG, "Cannot close the server side listening Socket", e);
 				}
 			}
-		}
-
-		public boolean isRunning() {
-			return running;
 		}
 	}
 }
