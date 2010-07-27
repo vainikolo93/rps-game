@@ -3,16 +3,18 @@
  */
 package com.kahweh.rps.remote.bt;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.bluetooth.BluetoothSocket;
+import android.os.Handler;
 
 /**
  * @author Michael
  *
  */
-public class BtCommunicateService extends Thread {
+public class BtCommunicateService {
 	public static final int SERVER_MODE = 0;
 	public static final int CLIENT_MODE = 1;
 	
@@ -21,6 +23,10 @@ public class BtCommunicateService extends Thread {
 	private BluetoothSocket mSocket;
 	private InputStream in;
 	private OutputStream out;
+	
+	private Handler mHandler;
+	
+	private DaemonThread mThread;
 
 	/**
 	 * @param socket
@@ -31,12 +37,32 @@ public class BtCommunicateService extends Thread {
 		this.mConnectMode = connectMode;
 	}
 
-	@Override
-	public void run() {
-		//TODO
+	/**
+	 * Used to start the service loop..
+	 */
+	public void start(Handler handler) {
+		mHandler = handler;
+		mThread = new DaemonThread();
+		mThread.start();
 	}
 
 	public int getConnectMode() {
 		return mConnectMode;
+	}
+
+	/**
+	 * This thread used to communicate with the peer device.
+	 */
+	class DaemonThread extends Thread {
+		
+		public DaemonThread() {}
+
+		@Override
+		public void run() {
+		}
+		
+		public void cancel() {
+			
+		}
 	}
 }

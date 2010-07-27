@@ -159,8 +159,14 @@ public class GameActivity extends Activity {
      */
     private void newBtGame() {
 		mBtService = rpsApp.getBtService();
-
 		
+		mBtService.start(this);
+
+		if (mBtService.getConnectMode() == BtCommunicateService.CLIENT_MODE) {
+			
+		} else {
+			
+		}
 		// TODO Auto-generated method stub
 	}
 
