@@ -23,6 +23,7 @@ import com.kahweh.rps.game.player.IPlayer;
 import com.kahweh.rps.game.player.IllegalPlayerStateException;
 import com.kahweh.rps.game.player.LocalPlayer;
 import com.kahweh.rps.game.state.StateIdle;
+import com.kahweh.rps.remote.bt.BtCommunicateService;
 
 /**
  * @author michael
@@ -31,6 +32,7 @@ import com.kahweh.rps.game.state.StateIdle;
 public class GameActivity extends Activity {
 	public static final String TAG = "com.kahweh.rps.GameActivity";
 	
+	//Difine the ID of dialogs
 	public static final int DIALOG_FLAG_SELECT = 2;
 	public static final int DIALOG_TRAP_SELECT = 3;
 	private static final int DIALOG_CONFLICT_SELECT1 = 4;
@@ -41,6 +43,7 @@ public class GameActivity extends Activity {
 	public static final String GAME_TYPE = "com.kahweh.rps.GameActivity.GAME_TYPE";
 	public static final String BT_REMOTE_ADDR = "com.kahweh.rps.GameActivity.BT_REMOTE_ADDR";
 	
+	//Define the constant variables for GAME_TYPE
 	public static final int SINGLE_GAME = 0;
 	public static final int BT_GAME = 1;
 	public static final int NET_GAME = 2;
@@ -49,7 +52,11 @@ public class GameActivity extends Activity {
 	private Game game;
 	private LocalPlayer player;
 	private SharedPreferences sharedPreferences;
+	
+	private RpsApplication rpsApp;
 
+	private BtCommunicateService mBtService;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +67,11 @@ public class GameActivity extends Activity {
 
         //get game preferences
         sharedPreferences = getSharedPreferences(GameSettings.SETTINGS_NAME, 0);
+        
+        //get RpsApplication reference
+        rpsApp = (RpsApplication)getApplication();
 
         Intent intent = getIntent();
-        
         int gameType = intent.getIntExtra(GAME_TYPE, SINGLE_GAME);
         
         switch (gameType) {
@@ -70,11 +79,11 @@ public class GameActivity extends Activity {
                 newGame();
         		break;
         	case BT_GAME:
-        		String remoteAddr = intent.getStringExtra(BT_REMOTE_ADDR);
-        		
+        		newBtGame();
         		//TODO
         		break;
         	case NET_GAME:
+        		newNetGame();
         		//TODO
         		break;
        		default:
@@ -82,7 +91,7 @@ public class GameActivity extends Activity {
         }
     }
 
-    private long last_backey_time = 0;
+	private long last_backey_time = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	switch (keyCode) {
@@ -101,6 +110,9 @@ public class GameActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 
+     */
     protected void newGame() {
 		if (game == null || game.getState() instanceof StateIdle) {
 	        //set boardView
@@ -142,6 +154,23 @@ public class GameActivity extends Activity {
 		return;
 	}
 
+    /**
+     * This function is used to create a Bluetooth game.
+     */
+    private void newBtGame() {
+		mBtService = rpsApp.getBtService();
+
+		
+		// TODO Auto-generated method stub
+	}
+
+    /**
+     * Used to create a internet game.
+     */
+    private void newNetGame() {
+    	//TODO
+    }
+    
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch (id) {

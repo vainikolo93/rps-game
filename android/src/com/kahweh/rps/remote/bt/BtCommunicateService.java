@@ -17,6 +17,7 @@ public class BtCommunicateService extends Thread {
 	public static final int CLIENT_MODE = 1;
 	
 	private int mConnectMode;
+
 	private BluetoothSocket mSocket;
 	private InputStream in;
 	private OutputStream out;
@@ -35,5 +36,7 @@ public class BtCommunicateService extends Thread {
 		//TODO
 	}
 
-	
+	public int getConnectMode() {
+		return mConnectMode;
+	}
 }

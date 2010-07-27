@@ -11,6 +11,9 @@
 <item>蓝方</item>
 </string-array>
 <string name="button_ok">确定</string>
+<string name="button_cancel">取消</string>
+<string name="button_yes">是</string>
+<string name="button_no">否</string>
 <string name="menu_about">关于</string>
 <string name="menu_setting">游戏设置</string>
 <string name="dialog_about_title">关于”石头剪子布“</string>

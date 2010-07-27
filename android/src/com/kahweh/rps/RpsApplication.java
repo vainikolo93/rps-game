@@ -7,6 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -58,9 +60,6 @@ public class RpsApplication extends Application {
 		super.onTerminate();
 	}
 
-	public void setBtService(BtCommunicateService service) {
-		btService = service;
-	}
 	public BtCommunicateService getBtService() {
 		return btService;
 	}
@@ -106,5 +105,17 @@ public class RpsApplication extends Application {
 		Pattern p = Pattern.compile("\\[" + getResources().getText(R.string.app_id_string) + ":r(\\d+)\\]");
 		
 		return p.matcher(idString).find();
+	}
+
+	/**
+	 * @param btActivity
+	 * @param service
+	 */
+	public void startBtGame(Context from, BtCommunicateService service) {
+		btService = service;
+
+		Intent intent= new Intent(from, GameActivity.class);
+		intent.putExtra(GameActivity.GAME_TYPE, GameActivity.BT_GAME);
+		startActivity(intent);
 	}
 }

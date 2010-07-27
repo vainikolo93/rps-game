@@ -52,7 +52,8 @@ public class BtActivity extends Activity {
 	//Define the local handler Message ID
 	public static final int CONNECTING_REQUEST_RECEIVED = 0;
 	public static final int SHOW_PROGRESS_DIALOG = 1;
-	public static final int DISMISS_PROGRESS_DIALOG =2;
+	public static final int DISMISS_PROGRESS_DIALOG = 2;
+	public static final int CANCEL_CONNECTING = 3;
 
 	//Define the local Dialog Box ID
 	public static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
@@ -169,6 +170,10 @@ public class BtActivity extends Activity {
 						break;
 					case DISMISS_PROGRESS_DIALOG :
 						dismissDialog(DLG_CONNECTING_PROGRESS);
+						break;
+					case CANCEL_CONNECTING :
+						mConnectThread.cancel();
+						break;
 					default:
 						break;
 				}
@@ -274,6 +279,9 @@ public class BtActivity extends Activity {
     		break;
     	case DLG_CONNECTING_PROGRESS :
     		((ProgressDialog)dlg).setMessage("Connecting...");
+    		((ProgressDialog)dlg).setButton(Dialog.BUTTON_NEGATIVE, 
+    										getResources().getText(R.string.button_cancel).toString(), 
+    										mHandler.obtainMessage(CANCEL_CONNECTING));
     		break;
     	}
     }
@@ -430,7 +438,7 @@ public class BtActivity extends Activity {
 
 		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
 
-		
+		rpsApp.startBtGame(this, service);
 	}
 
 	/**
