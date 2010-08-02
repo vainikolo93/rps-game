@@ -60,21 +60,7 @@ public class Game {
 
 	private int boardType;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param boardSize
-	 */
-	public Game(String boardSize) {
-		if ("25".equals(boardSize)) {
-			board = new Board55();
-			this.boardType = IBoard.BOARD55;
-		} else {
-			//if is not 5*5, then must be 6*7
-			board = new Board67();
-			this.boardType = IBoard.BOARD67;
-		}
-
+	public Game() {
 		stateNewCreate = new StateNewCreate(this);
 		stateRedReady = new StateRedReady(this);
 		stateBlackReady = new StateBlackReady(this);
@@ -91,6 +77,24 @@ public class Game {
 		stateRedConfBlackReady = new StateRedConfBlackReady(this);
 
 		state = stateIdle;
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param boardSize
+	 */
+	public Game(String boardSize) {
+		this();
+
+		if ("25".equals(boardSize)) {
+			board = new Board55();
+			boardType = IBoard.BOARD55;
+		} else {
+			//if is not 5*5, then must be 6*7
+			board = new Board67();
+			boardType = IBoard.BOARD67;
+		}
 	}
 
 	public int getBoardType() {
