@@ -215,7 +215,7 @@ public class HomeActivity extends Activity {
 								break;
 							case 1:
 								//Use Bluetooth for the connection
-								BtActivity.actionGame(HomeActivity.this);
+								BtActivity.actionBtActivity(HomeActivity.this);
 								dialog.dismiss();
 								break;
 							default:

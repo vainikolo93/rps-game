@@ -47,9 +47,8 @@ public class BtCommunicateService extends AbstractCommunicateService {
 	/**
 	 * Used to start the service loop..
 	 */
-	public void start(Handler handler, Game game) {
+	public void start(Handler handler) {
 		mHandler = handler;
-		mGame = game;
 
 		mThread = new DaemonThread();
 		mThread.start();

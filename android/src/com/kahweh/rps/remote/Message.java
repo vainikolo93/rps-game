@@ -8,7 +8,7 @@ package com.kahweh.rps.remote;
  * 
  * The message format:
  * 
- * <message gamename="" version="" time="" length="" player-id="" action="" param-num="">
+ * <msg game="" ver="" time="" length="" player-id="" action="" param-num="">
  *     <param sequence="0" type="int">
  *     1
  *     </param>
@@ -19,7 +19,7 @@ package com.kahweh.rps.remote;
  *     true
  *     </param>
  *         ......
- * </message>
+ * </msg>
  * 
  * @author michael
  *
