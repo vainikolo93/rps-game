@@ -437,6 +437,7 @@ public class BtActivity extends Activity {
 		}
 
 		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
+		service.start(handler);
 
 		rpsApp.startBtGame(this, service);
 	}
@@ -446,7 +447,7 @@ public class BtActivity extends Activity {
 	 * 
 	 * @param from
 	 */
-	public static void actionGame(HomeActivity from) {
+	public static void actionBtActivity(HomeActivity from) {
 		Intent i = new Intent(from, BtActivity.class);
 		from.startActivity(i);
 	}
