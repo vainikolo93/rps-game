@@ -6,10 +6,13 @@ package com.kahweh.rps;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -39,14 +42,19 @@ public class GameActivity extends Activity {
 	private static final int DIALOG_CONFLICT_SELECT2 = 5;
 	public static final int DIALOG_WIN = 6;
 	public static final int DIALOG_LOSE = 7;
+	public static final int DIALOG_WAITING = 8;
 
 	public static final String GAME_TYPE = "com.kahweh.rps.GameActivity.GAME_TYPE";
 	public static final String BT_REMOTE_ADDR = "com.kahweh.rps.GameActivity.BT_REMOTE_ADDR";
 	
-	//Define the constant variables for GAME_TYPE
+	//define the constant variables for GAME_TYPE
 	public static final int SINGLE_GAME = 0;
 	public static final int BT_GAME = 1;
 	public static final int NET_GAME = 2;
+
+	//define the handler message id
+	public static final int MSG_SHAKEHAND = 0;
+	public static final int MSG_SHAKEHAND_OVER = 1;
 	
 	private BoardView boardView;
 	private Game game;
@@ -56,7 +64,9 @@ public class GameActivity extends Activity {
 	private RpsApplication rpsApp;
 
 	private BtCommunicateService mBtService;
-	
+
+	private Handler mHandler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +81,22 @@ public class GameActivity extends Activity {
         //get RpsApplication reference
         rpsApp = (RpsApplication)getApplication();
 
+        //define the handler, maybe does NOT need this handler
+        mHandler = new Handler() {
+        	@Override
+        	public void handleMessage(Message msg) {
+        		switch (msg.what) {
+        			case MSG_SHAKEHAND :
+        				showDialog(DIALOG_WAITING);
+        				break;
+        			case MSG_SHAKEHAND_OVER :
+        				dismissDialog(DIALOG_WAITING);
+        				break;
+        		}
+        	}
+        };
+
+        //fetch the game type (single, BT or net...)
         Intent intent = getIntent();
         int gameType = intent.getIntExtra(GAME_TYPE, SINGLE_GAME);
         
@@ -158,15 +184,11 @@ public class GameActivity extends Activity {
      * This function is used to create a Bluetooth game.
      */
     private void newBtGame() {
-		mBtService = rpsApp.getBtService();
-		
-		mBtService.start(this);
+    	game = new Game();
 
-		if (mBtService.getConnectMode() == BtCommunicateService.CLIENT_MODE) {
-			
-		} else {
-			
-		}
+		mBtService = rpsApp.getBtService();
+		mBtService.start(mHandler, game);
+
 		// TODO Auto-generated method stub
 	}
 
@@ -176,7 +198,7 @@ public class GameActivity extends Activity {
     private void newNetGame() {
     	//TODO
     }
-    
+
     @Override
     protected Dialog onCreateDialog(int id) {
     	switch (id) {
@@ -290,6 +312,8 @@ public class GameActivity extends Activity {
 					newGame();
 				}
 			}).create();
+    	case DIALOG_WAITING:
+            return ProgressDialog.show(this, "", "");
     	}
     	return null;
     }
@@ -297,9 +321,8 @@ public class GameActivity extends Activity {
     @Override
     protected void onPrepareDialog(int id, Dialog dlg) {
     	switch (id) {
-    	case DIALOG_FLAG_SELECT:
-    		break;
-    	case DIALOG_TRAP_SELECT:
+    	case DIALOG_WAITING :
+    		((ProgressDialog)dlg).setMessage(getResources().getText(R.string.shake_hands_msg).toString());
     		break;
     	}
     }

@@ -86,4 +86,5 @@
 <string name="bt_btn_refuse_remote">Refuse</string>
 <string name="bt_prompt_confirm_remote_connection">A remote player (###) want play with you, Accept or Refuse?</string>
 <string name="bt_connection_lost">Connection lost...</string>
+<string name="shake_hands_msg">Shake hands with peer player...</string>
 </resources>

@@ -35,7 +35,7 @@ public class AbstractAiPlayer implements IPlayer {
 	protected Handler mHandler;
 
 	protected AbstractAiPlayer() {
-		mHandler= new Handler() {
+		mHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
