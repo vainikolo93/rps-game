@@ -111,6 +111,26 @@ public class GameActivity extends Activity {
         }
     }
 
+    @Override
+    public void onResume() {
+    	//TODO
+    }
+    
+    @Override
+    public void onPause() {
+    	//TODO
+    }
+    
+    @Override
+    public void onStop() {
+    	//TODO
+    }
+    
+    @Override
+    public void onDestroy() {
+    	//TODO
+    }
+
 	private long last_backey_time = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
