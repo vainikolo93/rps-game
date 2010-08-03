@@ -50,15 +50,16 @@ public class BtActivity extends Activity {
 	private static final int REQUEST_ENABLE_BT_DISCOVERABLE = 2;
 
 	//Define the local handler Message ID
-	public static final int CONNECTING_REQUEST_RECEIVED = 0;
-	public static final int SHOW_PROGRESS_DIALOG = 1;
-	public static final int DISMISS_PROGRESS_DIALOG = 2;
-	public static final int CANCEL_CONNECTING = 3;
-
-	//Define the local Dialog Box ID
-	public static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
-	public static final int DLG_CONNECTING_PROGRESS = 1;
+	private static final int CONNECTING_REQUEST_RECEIVED = 0;
+	private static final int SHOW_PROGRESS_DIALOG = 1;
+	private static final int DISMISS_PROGRESS_DIALOG = 2;
+	private static final int CANCEL_CONNECTING = 3;
 	
+	//Define the local Dialog Box ID
+	private static final int DLG_CONFIRM_REMOTE_CONNECTION = 0;
+	private static final int DLG_CONNECTING_PROGRESS = 1;
+	private static final int DLG_SHAEKHAND_PROGRESS = 2;
+
     //Local Bluetooth adapter
     private BluetoothAdapter mBtAdapter;
 
@@ -174,6 +175,14 @@ public class BtActivity extends Activity {
 					case CANCEL_CONNECTING :
 						mConnectThread.cancel();
 						break;
+					case RpsApplication.MSG_SHAKEHANDS :
+						showDialog(DLG_SHAEKHAND_PROGRESS);
+						break;
+					case RpsApplication.MSG_SHAKEHANDS_OVER :
+						dismissDialog(DLG_SHAEKHAND_PROGRESS);
+						break;
+					case RpsApplication.MSG_SHAKEHANDS_ERROR :
+						dismissDialog(DLG_SHAEKHAND_PROGRESS);
 					default:
 						break;
 				}
@@ -260,6 +269,8 @@ public class BtActivity extends Activity {
     			.create();
     		case DLG_CONNECTING_PROGRESS :
     			return ProgressDialog.show(this, "", "");
+    		case DLG_SHAEKHAND_PROGRESS :
+    			return ProgressDialog.show(this, "", "");
     	}
     	return null;
     }
@@ -283,6 +294,8 @@ public class BtActivity extends Activity {
     										getResources().getText(R.string.button_cancel).toString(), 
     										mHandler.obtainMessage(CANCEL_CONNECTING));
     		break;
+    	case DLG_SHAEKHAND_PROGRESS :
+    		((ProgressDialog)dlg).setMessage(getResources().getText(R.string.shake_hands_msg).toString());
     	}
     }
 
@@ -436,8 +449,8 @@ public class BtActivity extends Activity {
 			return;
 		}
 
-		BtCommunicateService service = new BtCommunicateService(mSocket, mode);
-		service.start(handler);
+		BtCommunicateService service = new BtCommunicateService(mSocket, mode, mHandler);
+		service.shakeHands();
 
 		rpsApp.startBtGame(this, service);
 	}

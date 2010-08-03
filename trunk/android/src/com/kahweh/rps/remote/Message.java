@@ -37,6 +37,7 @@ public class Message {
 	public static final int CONFLICT_DECISION = 7;
 	public static final int CONCEDE = 8;
 	public static final int QUIT = 9;
+	public static final int ECHO = 99;
 
 	private String gameName;
 	private String gameVersion;
@@ -117,6 +118,8 @@ public class Message {
 			return "concede";
 		case QUIT :
 			return "quit";
+		case ECHO :
+			return "echo";
 		default :
 			return "wrong action";
 		}
