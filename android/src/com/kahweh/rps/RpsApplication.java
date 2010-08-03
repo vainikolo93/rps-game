@@ -23,6 +23,11 @@ import com.kahweh.rps.remote.bt.BtCommunicateService;
  */
 public class RpsApplication extends Application {
 	private static final String TAG = "com.kahweh.rps.RpsApplication";
+
+	//Public messages ID
+	public static final int MSG_SHAKEHANDS = 1000;
+	public static final int MSG_SHAKEHANDS_OVER = 1001;
+	public static final int MSG_SHAKEHANDS_ERROR = 1002;
 	
 	//Bt Communication service
 	private BtCommunicateService btService;

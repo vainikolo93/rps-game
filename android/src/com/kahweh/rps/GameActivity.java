@@ -6,7 +6,6 @@ package com.kahweh.rps;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,7 +41,6 @@ public class GameActivity extends Activity {
 	private static final int DIALOG_CONFLICT_SELECT2 = 5;
 	public static final int DIALOG_WIN = 6;
 	public static final int DIALOG_LOSE = 7;
-	public static final int DIALOG_WAITING = 8;
 
 	public static final String GAME_TYPE = "com.kahweh.rps.GameActivity.GAME_TYPE";
 	public static final String BT_REMOTE_ADDR = "com.kahweh.rps.GameActivity.BT_REMOTE_ADDR";
@@ -53,8 +51,7 @@ public class GameActivity extends Activity {
 	public static final int NET_GAME = 2;
 
 	//define the handler message id
-	public static final int MSG_SHAKEHAND = 0;
-	public static final int MSG_SHAKEHAND_OVER = 1;
+	public static final int MSG_DEMO = 0;
 	
 	private BoardView boardView;
 	private Game game;
@@ -86,11 +83,8 @@ public class GameActivity extends Activity {
         	@Override
         	public void handleMessage(Message msg) {
         		switch (msg.what) {
-        			case MSG_SHAKEHAND :
-        				showDialog(DIALOG_WAITING);
-        				break;
-        			case MSG_SHAKEHAND_OVER :
-        				dismissDialog(DIALOG_WAITING);
+        			case MSG_DEMO :
+        				//TODO
         				break;
         		}
         	}
@@ -187,7 +181,7 @@ public class GameActivity extends Activity {
     	game = new Game();
 
 		mBtService = rpsApp.getBtService();
-		mBtService.start(mHandler, game);
+//		mBtService.start(mHandler, game);
 
 		// TODO Auto-generated method stub
 	}
@@ -312,20 +306,12 @@ public class GameActivity extends Activity {
 					newGame();
 				}
 			}).create();
-    	case DIALOG_WAITING:
-            return ProgressDialog.show(this, "", "");
     	}
     	return null;
     }
 
     @Override
-    protected void onPrepareDialog(int id, Dialog dlg) {
-    	switch (id) {
-    	case DIALOG_WAITING :
-    		((ProgressDialog)dlg).setMessage(getResources().getText(R.string.shake_hands_msg).toString());
-    		break;
-    	}
-    }
+    protected void onPrepareDialog(int id, Dialog dlg) {}
 
     private boolean nextConfDialog = true;
     /**

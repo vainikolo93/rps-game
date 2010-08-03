@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
-import com.kahweh.rps.GameActivity;
+import com.kahweh.rps.RpsApplication;
 import com.kahweh.rps.game.Game;
 import com.kahweh.rps.remote.AbstractCommunicateService;
 
@@ -23,7 +23,7 @@ import com.kahweh.rps.remote.AbstractCommunicateService;
 public class BtCommunicateService extends AbstractCommunicateService {
 	public static final int SERVER_MODE = 0;
 	public static final int CLIENT_MODE = 1;
-	
+
 	private int mConnectMode;
 
 	private BluetoothSocket mSocket;
@@ -39,9 +39,10 @@ public class BtCommunicateService extends AbstractCommunicateService {
 	 * @param socket
 	 * @param connectType
 	 */
-	public BtCommunicateService(BluetoothSocket socket, int connectMode) {
+	public BtCommunicateService(BluetoothSocket socket, int connectMode, Handler handler) {
 		this.mSocket = socket;
 		this.mConnectMode = connectMode;
+		this.mHandler = handler;
 	}
 
 	/**
@@ -53,7 +54,7 @@ public class BtCommunicateService extends AbstractCommunicateService {
 		mThread = new DaemonThread();
 		mThread.start();
 
-		mHandler.sendEmptyMessage(GameActivity.MSG_SHAKEHAND);
+		mHandler.sendEmptyMessage(RpsApplication.MSG_SHAKEHANDS);
 
 		shakeHands();
 	}
@@ -61,7 +62,7 @@ public class BtCommunicateService extends AbstractCommunicateService {
 	/**
 	 * All the shake-hands processes goes here..
 	 */
-	private void shakeHands() {
+	public void shakeHands() {
 		if (this.mConnectMode == CLIENT_MODE) {
 		} else {
 		}
@@ -85,5 +86,13 @@ public class BtCommunicateService extends AbstractCommunicateService {
 		public void cancel() {
 
 		}
+	}
+
+	/**
+	 * All the shake-hands processes goes here..
+	 */
+	public void shakeHands(Handler mHandler2) {
+		// TODO Auto-generated method stub
+		
 	}
 }
