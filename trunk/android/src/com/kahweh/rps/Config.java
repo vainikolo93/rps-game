@@ -4,7 +4,7 @@
 package com.kahweh.rps;
 
 /**
- * @author b448
+ * @author Michael
  *
  */
 public class Config {
