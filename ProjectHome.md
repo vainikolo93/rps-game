@@ -1,0 +1,1 @@
+It's a Rock-paper-scissors game. Hosted on Android, Iphone and WM.
